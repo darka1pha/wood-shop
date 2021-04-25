@@ -10,8 +10,10 @@ class MyDocument extends Document {
 		return (
 			<Html>
 				<Head>
+					<meta charSet="utf-8" />
+					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 					<title>
-						This is a test
+						Wood Shop
 					</title>
 				</Head>
 				<body>
