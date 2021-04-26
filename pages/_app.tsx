@@ -1,8 +1,9 @@
-import '../styles/globals.css'
-import { ChakraProvider } from "@chakra-ui/react"
-import { theme } from '../theme/index'
-import Head from 'next/head'
-import Navbar from '../components/Navbar'
+import "../styles/globals.css";
+import { ChakraProvider } from "@chakra-ui/react";
+import Head from "next/head";
+
+import { theme } from "../theme/index";
+import { Navbar } from "../components";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -17,7 +18,7 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </ChakraProvider>
     </>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;
