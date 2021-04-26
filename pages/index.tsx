@@ -1,6 +1,6 @@
-import { Flex } from '@chakra-ui/layout'
+import { Box, Flex } from '@chakra-ui/layout'
 import Head from 'next/head'
-
+import GridTest from '../components/gridTest'
 export default function Home() {
   return (
     <div lang="fa">
@@ -9,13 +9,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Flex
-          h="100vh"
+        <Box
+          justifyContent="center"
+          alignItems="center"
+          p="2rem"
+          minH="100vh"
           w="100%"
-          fontFamily="iranSans"
         >
-          این یک تست است
-        </Flex>
+          <GridTest/>
+        </Box>
       </main>
     </div>
   )

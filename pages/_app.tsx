@@ -1,7 +1,8 @@
 import '../styles/globals.css'
-import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from '../theme/index'
 import Head from 'next/head'
+import Navbar from '../components/Navbar'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -12,6 +13,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="viewport-fit=cover" />
       </Head>
       <ChakraProvider theme={theme}>
+        <Navbar />
         <Component {...pageProps} />
       </ChakraProvider>
     </>
