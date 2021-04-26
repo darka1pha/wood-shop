@@ -8,16 +8,35 @@ class MyDocument extends Document {
 
 	render() {
 		return (
-			<Html lang="fa,en">
+			<Html lang="fa">
 				<Head>
-					<meta charSet="utf-8" />
-					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/ir_sans.ttf"
+						type="font/tff"
+						crossOrigin="anonymous"
+					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/ir_sans.woff"
+						type="font/tff"
+						crossOrigin="anonymous"
+					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/ir_sans.woff2"
+						type="font/tff"
+						crossOrigin="anonymous"
+					/>
 				</Head>
 				<body>
 					<Main />
 					<NextScript />
 				</body>
-			</Html> 
+			</Html>
 		)
 	}
 }
