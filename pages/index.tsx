@@ -1,6 +1,5 @@
 import { Box, Flex } from '@chakra-ui/layout'
 import Head from 'next/head'
-import GridTest from '../components/gridTest'
 export default function Home() {
   return (
     <div lang="fa">
@@ -16,7 +15,6 @@ export default function Home() {
           minH="100vh"
           w="100%"
         >
-          <GridTest/>
         </Box>
       </main>
     </div>

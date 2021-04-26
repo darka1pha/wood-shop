@@ -1,29 +1,91 @@
-import { Flex, Text } from "@chakra-ui/layout";
+import {
+  Flex,
+  Button,
+  Icon,
+  Box,
+  IconButton,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  InputRightElement,
+} from "@chakra-ui/react";
+import { FiUser, FiShoppingCart, FiSearch } from "react-icons/fi";
+
+import Text from "./Text";
 
 const Navbar = () => {
-    return (
-        <Flex
-            h="180px"
-            p="20px 120px"
-            bgColor="primary"
-            w="100%"
-            flexDir="column"
+  return (
+    <Flex
+      bgColor="primary"
+      direction="row-reverse"
+      pt="4"
+      pb="4"
+      pr="6"
+      pl="6"
+      justify="space-between"
+    >
+      <Text variant="heading4" color="white">
+        مصنوعات چوبی فرحبخش
+      </Text>
+      <Box flex={1} mr="8" ml="8" dir="rtl">
+        <InputGroup alignItems="center">
+          <InputLeftElement
+            alignItems="center"
+            pointerEvents="none"
+            children={undefined}
+          />
+          <Input
+            bg="white"
+            placeholder="جستجو"
+            color="black"
+            fontFamily="VazirMedium"
+            mr="2"
+            _focus={{
+              borderColor: "transparent",
+            }}
+          />
+          <InputRightElement alignItems="center">
+            <IconButton
+              aria-label="Search"
+              icon={<Icon as={FiSearch} color="black" />}
+              onClick={() => alert("Search")}
+            />
+          </InputRightElement>
+        </InputGroup>
+      </Box>
+      <Box>
+        <IconButton
+          aria-label="Shoping Cart"
+          icon={<Icon as={FiShoppingCart} color="white" fontSize={22} />}
+          variant="ghost"
+          mr="8"
+          _hover={{
+            bg: "transparent",
+          }}
+          _active={{
+            bg: "transparent",
+          }}
+          onClick={() => alert("Shoping Cart")}
+        />
+        <Button
+          rightIcon={<Icon as={FiUser} fontSize={22} />}
+          color="white"
+          variant="outline"
+          _hover={{
+            bg: "transparent",
+          }}
+          _active={{
+            bg: "transparent",
+          }}
+          onClick={() => alert("User Profile")}
         >
-            <Flex
-              w="100%"
-              dir="rtl"
-              color="white"
-            >
-                <Text
-                    fontFamily="iranSans"
-                    fontSize="h1"
-                >
-                    فروشگاه محصولات چوبی فرحبخش
-                </Text>
-            </Flex>
-
-        </Flex>
-    );
-}
+          <Text variant="normalLight" mr="2">
+            حساب کاربری
+          </Text>
+        </Button>
+      </Box>
+    </Flex>
+  );
+};
 
 export default Navbar;

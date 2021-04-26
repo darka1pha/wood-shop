@@ -15,9 +15,38 @@ a {
 
 @font-face {
   font-family: "iranSans";
-  src: local("ir_sans"),
-    url(../public/fonts/ir_sans.ttf) format("ttf"),
+  src: local("ir_sans"), url(../public/fonts/ir_sans.ttf) format("ttf"),
     url(../public/fonts/ir_sans.woff2) format("woff2"),
     url(../public/fonts/ir_sans.woff) format("woff");
   font-display: swap;
+}
+
+@font-face {
+  font-family: "Vazir";
+  src: url(../public/fonts/Vazir-FD.ttf);
+}
+
+@font-face {
+  font-family: "VazirBlack";
+  src: url(../public/fonts/Vazir-Black-FD.ttf);
+}
+
+@font-face {
+  font-family: "VazirBold";
+  src: url(../public/fonts/Vazir-Bold-FD.ttf);
+}
+
+@font-face {
+  font-family: "VazirLight";
+  src: url(../public/fonts/Vazir-Light-FD.ttf);
+}
+
+@font-face {
+  font-family: "VazirMedium";
+  src: url(../public/fonts/Vazir-Medium-FD.ttf);
+}
+
+@font-face {
+  font-family: "VazirThin";
+  src: url(../public/fonts/Vazir-Thin-FD.ttf);
 }
