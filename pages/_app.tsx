@@ -3,7 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 
 import { theme } from "../theme/index";
-import { Navbar } from "../components";
+import { Navbar, Menu } from "../components";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <ChakraProvider theme={theme}>
         <Navbar />
+        <Menu />
         <Component {...pageProps} />
       </ChakraProvider>
     </>

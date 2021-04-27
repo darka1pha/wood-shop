@@ -18,10 +18,7 @@ const Navbar = () => {
     <Flex
       bgColor="primary"
       direction="row-reverse"
-      pt="4"
-      pb="4"
-      pr="6"
-      pl="6"
+      p={["4", "6", "4", "6"]}
       justify="space-between"
     >
       <Text variant="heading4" color="white">
@@ -64,6 +61,9 @@ const Navbar = () => {
           }}
           _active={{
             bg: "transparent",
+          }}
+          _focus={{
+            outline: "none"
           }}
           onClick={() => alert("Shoping Cart")}
         />
