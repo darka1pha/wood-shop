@@ -5,7 +5,10 @@ const Menu = () => {
 	return (
 		<Flex
 			bgColor="primary"
-			p={["4", "6", "4", "6"]}
+			pt="6"
+			pl="4"
+			pb="6"
+			pr="4"
 			direction="row-reverse"
 		>
 			<MenuItem text="صندلی" />

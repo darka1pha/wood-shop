@@ -18,10 +18,9 @@ const MenuItem = ({ text }: MenuItem) => {
 			color="white"
 			direction="row-reverse"
 			alignItems="center"
-			borderLeft="0.5px solid #FFFFFF "
-			justifyContent="center"
+			borderLeft="0.5px solid #FFFFFF"
+			justifyContent="flex-start"
 			cursor="pointer"
-			minW="120px"
 		>
 
 			<Icon

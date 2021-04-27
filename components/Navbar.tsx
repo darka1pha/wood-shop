@@ -18,7 +18,10 @@ const Navbar = () => {
     <Flex
       bgColor="primary"
       direction="row-reverse"
-      p={["4", "6", "4", "6"]}
+      pt="6"
+      pl="4"
+      pb="6"
+      pr="4"
       justify="space-between"
     >
       <Text variant="heading4" color="white">
