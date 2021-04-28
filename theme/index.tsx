@@ -6,46 +6,69 @@ export const theme = extendTheme({
     rust: "#A44200",
     bloodRed: "#69140E",
     dark: "#3C1518",
+    bgColor: "#F2F2F2"
   },
 });
 
 export const TextVariants = {
   heading1: {
-    fontFamily: "VazirBold",
+    fontFamily: "iranSans",
+    fontWeight: "bold",
     fontSize: 48,
     color: "black",
   },
   heading2: {
-    fontFamily: "VazirBold",
+    fontFamily: "iranSans",
+    fontWeight: "bold",
     fontSize: 40,
     color: "black",
   },
   heading3: {
-    fontFamily: "VazirBold",
+    fontFamily: "iranSans",
+    fontWeight: "bold",
     fontSize: 32,
     color: "black",
   },
   heading4: {
-    fontFamily: "VazirBold",
+    fontFamily: "iranSans",
+    fontWeight: "bold",
     fontSize: 24,
     color: "black",
   },
   heading5: {
-    fontFamily: "VazirBold",
+    fontFamily: "iranSans",
+    fontWeight: "bold",
     fontSize: 16,
     color: "black",
   },
   heading6: {
-    fontFamily: "VazirBold",
+    fontFamily: "iranSans",
+    fontWeight: "bold",
     fontSize: 8,
     color: "black",
   },
   normal: {
-    fontFamily: "Vazir",
+    fontFamily: "iranSans",
+    fontWeight: "400",
     fontSize: 12,
     color: "white",
   },
-  normalMedium: { fontFamily: "VazirMedium", fontSize: 12, color: "white" },
-  normalThin: { fontFamily: "VazirThin", fontSize: 12, color: "white" },
-  normalLight: { fontFamily: "VazirLight", fontSize: 12, color: "white" },
+  normalMedium: {
+    fontFamily: "iranSans",
+    fontWeight: "500",
+    fontSize: 12,
+    color: "white"
+  },
+  normalThin: {
+    fontFamily: "iranSans",
+    fontWeight: "100",
+    fontSize: 12,
+    color: "white"
+  },
+  normalLight: {
+    fontFamily: "iranSans",
+    fontWeight: "300",
+    fontSize: 12,
+    color: "white"
+  },
 };

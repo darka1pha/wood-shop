@@ -1,8 +1,7 @@
 import {
+	Button,
 	Flex,
 	Icon,
-	IconButton,
-
 } from "@chakra-ui/react";
 import { BiChair } from "react-icons/bi";
 import Text from "./Text";
@@ -13,14 +12,26 @@ interface MenuItem {
 
 const MenuItem = ({ text }: MenuItem) => {
 	return (
-		<Flex
+		<Button
 			p="0 1rem"
 			color="white"
-			direction="row-reverse"
+			dir="rtl"
+			border="none"
+			display="flex"
+			borderRadius="0"
 			alignItems="center"
 			borderLeft="0.5px solid #FFFFFF"
 			justifyContent="flex-start"
-			cursor="pointer"
+			_hover={{
+				bg: "transparent",
+			}}
+			_active={{
+				bg: "transparent",
+			}}
+			_focus={{
+				outline: "none"
+			}}
+			variant="ghost"
 		>
 
 			<Icon
@@ -33,7 +44,7 @@ const MenuItem = ({ text }: MenuItem) => {
 			>
 				{text}
 			</Text>
-		</Flex>
+		</Button>
 	);
 }
 

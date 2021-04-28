@@ -1,52 +1,67 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
+}
+
+*:focus {
+	outline: 0;
+	outline: none;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 @font-face {
-  font-family: "iranSans";
-  src: local("ir_sans"), url(../public/fonts/ir_sans.ttf) format("ttf"),
-    url(../public/fonts/ir_sans.woff2) format("woff2"),
-    url(../public/fonts/ir_sans.woff) format("woff");
-  font-display: swap;
+	font-family: "iranSans";
+	src: local("ir_sans"), url(../public/fonts/ir_sans.ttf) format("ttf"),
+		url(../public/fonts/ir_sans.woff2) format("woff2"),
+		url(../public/fonts/ir_sans.woff) format("woff");
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "Vazir";
-  src: url(../public/fonts/Vazir-FD.ttf);
+	font-family: "Vazir";
+	src: url(../public/fonts/Vazir-FD.ttf);
 }
 
 @font-face {
-  font-family: "VazirBlack";
-  src: url(../public/fonts/Vazir-Black-FD.ttf);
+	font-family: "VazirBlack";
+	src: url(../public/fonts/Vazir-Black-FD.ttf);
 }
 
 @font-face {
-  font-family: "VazirBold";
-  src: url(../public/fonts/Vazir-Bold-FD.ttf);
+	font-family: "VazirBold";
+	src: url(../public/fonts/Vazir-Bold-FD.ttf);
 }
 
 @font-face {
-  font-family: "VazirLight";
-  src: url(../public/fonts/Vazir-Light-FD.ttf);
+	font-family: "VazirLight";
+	src: url(../public/fonts/Vazir-Light-FD.ttf);
 }
 
 @font-face {
-  font-family: "VazirMedium";
-  src: url(../public/fonts/Vazir-Medium-FD.ttf);
+	font-family: "VazirMedium";
+	src: url(../public/fonts/Vazir-Medium-FD.ttf);
 }
 
 @font-face {
-  font-family: "VazirThin";
-  src: url(../public/fonts/Vazir-Thin-FD.ttf);
+	font-family: "VazirThin";
+	src: url(../public/fonts/Vazir-Thin-FD.ttf);
 }
+
+.slider {
+	height: 360px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 2rem;
+}
+
+

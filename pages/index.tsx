@@ -1,22 +1,20 @@
-import { Box, Flex } from '@chakra-ui/layout'
+import { Flex } from '@chakra-ui/layout'
 import Head from 'next/head'
+import { Carousel } from '../components'
 export default function Home() {
   return (
-    <div lang="fa">
+    <Flex
+      flexDir="column"
+      as="div"
+      lang="fa"
+      bgColor="bgColor"
+      minH="100vh"
+    >
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Box
-          justifyContent="center"
-          alignItems="center"
-          p="2rem"
-          minH="100vh"
-          w="100%"
-        >
-        </Box>
-      </main>
-    </div>
+        <Carousel />
+    </Flex>
   )
 }
