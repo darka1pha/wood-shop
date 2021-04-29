@@ -1,14 +1,11 @@
 import "../styles/globals.css";
+import "../styles/slick.css"
 import { ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 
 import { theme } from "../theme/index";
 import { Navbar, Menu } from "../components";
 
-import 'swiper/swiper.scss';
-import 'swiper/components/navigation/navigation.scss';
-import 'swiper/components/pagination/pagination.scss';
-import 'swiper/components/scrollbar/scrollbar.scss';
 
 function MyApp({ Component, pageProps }) {
   return (
