@@ -19,7 +19,7 @@ const CarouselArrow = ({ rotate, type, ...otherProps }: ICarouselArrow) => {
             w="45px"
             bg="white"
             transform={`rotate(${rotate}deg)`}
-            top={"45%"}
+            top={"40%"}
             left={type !== "right" ? "1rem" : "auto"}
             right={type === "right" ? "1rem" : "auto"}
             zIndex="2"
