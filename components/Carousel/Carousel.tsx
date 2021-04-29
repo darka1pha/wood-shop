@@ -15,36 +15,41 @@ interface ICarousel {
 
 const Carousel = ({ data }: ICarousel) => {
 	var settings = {
-		infinite: true,
-		variableWidth:true,
+		variableWidth: true,
+		initialSlide: 0,
 		nextArrow: <CarouselArrow rotate="180" type="right" />,
 		prevArrow: <CarouselArrow />,
 		className: "slider",
+		dots: true,
+		infinite: true,
+		centerMode: true,
+		slidesToShow: 1,
+		slidesToScroll: 1,
 	};
 
 	return (
-			<Flex
-				w="100%"
-				maxW="1920px"
-				justifyContent="space-evenly"
-				overflow="hidden"
-				p={{ base: "1.5rem", md: "2rem" }}
-				display="flex"
-				flexDir="column"
-			>
-				<Slider {...settings} lazyLoad="ondemand">
-					<CarouselItem bgColor="red" />
-					<CarouselItem bgColor="violet" />
-					<CarouselItem bgColor="yellow" />
-					<CarouselItem bgColor="green" />
-					<CarouselItem bgColor="black" />
-					{/* {
+		<Flex
+			w="100%"
+			maxW="1920px"
+			justifyContent="space-evenly"
+			overflow="hidden"
+			p={{ base: "1.5rem", md: "2rem" }}
+			display="flex"
+			flexDir="column"
+		>
+			<Slider {...settings} lazyLoad="ondemand">
+				<CarouselItem />
+				<CarouselItem />
+				<CarouselItem />
+				<CarouselItem />
+				<CarouselItem />
+				{/* {
 					data.map(({ image_url, price, name }, key: number) => (
 						<CarouselItem name={name} price={price} image_url={image_url} key={key} />
 					))
 				} */}
-				</Slider>
-			</Flex>
+			</Slider>
+		</Flex>
 	);
 }
 
