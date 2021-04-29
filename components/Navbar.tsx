@@ -23,6 +23,11 @@ const Navbar = () => {
       pb="6"
       pr="4"
       justify="space-between"
+      position="fixed"
+      top="0"
+      left="0"
+      w="100%"
+      zIndex="2"
     >
       <Text variant="heading4" color="white">
         مصنوعات چوبی فرحبخش

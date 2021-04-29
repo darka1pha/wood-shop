@@ -5,11 +5,11 @@ const Menu = () => {
 	return (
 		<Flex
 			bgColor="primary"
-			pt="6"
 			pl="4"
 			pb="6"
 			pr="4"
 			direction="row-reverse"
+			pt="100px"
 		>
 			<MenuItem text="صندلی" />
 			<MenuItem text="میز" />
