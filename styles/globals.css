@@ -57,7 +57,7 @@ a {
 }
 
 .slider {
-	height: 420px;
+	
 	padding: 0 2rem;
 }
 
@@ -66,6 +66,4 @@ a {
 	height: 100%;
 	color: #fff;
 	margin: 5px;
-	line-height: 100px;
-	text-align: center;
 }
