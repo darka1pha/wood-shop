@@ -27,7 +27,7 @@ const Navbar = () => {
       top="0"
       left="0"
       w="100%"
-      zIndex="2"
+      zIndex="100"
     >
       <Text variant="heading4" color="white">
         مصنوعات چوبی فرحبخش
