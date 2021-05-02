@@ -2,9 +2,9 @@ import { Box, Flex } from "@chakra-ui/layout";
 import Slider from "react-slick";
 import NextArrow from "./NextArrow";
 import PrevArrow from "./PrevArrow";
-import CarouselItem from "./CarouselItem";
+import ProductCard from "../ProductCard";
 
-interface ICarouselItem {
+interface IProductCard {
 	image_url?: string;
 	price?: string;
 	name?: string;
@@ -12,7 +12,7 @@ interface ICarouselItem {
 
 interface ICarousel {
 	title?: string;
-	data?: Array<ICarouselItem>;
+	data?: Array<IProductCard>;
 	tempUrl?: string;
 }
 
@@ -61,14 +61,14 @@ const Carousel = ({ data, title, tempUrl }: ICarousel) => {
 			>
 				<Box
 					w="100%"
-					maxW="1080px"
+					maxW="1280px"
 				>
 					<Slider {...settings} lazyLoad="ondemand">
-						<CarouselItem background_image={tempUrl} />
-						<CarouselItem background_image={tempUrl} />
-						<CarouselItem background_image={tempUrl} />
-						<CarouselItem background_image={tempUrl} />
-						<CarouselItem background_image={tempUrl} />
+						<ProductCard background_image={tempUrl} />
+						<ProductCard background_image={tempUrl} />
+						<ProductCard background_image={tempUrl} />
+						<ProductCard background_image={tempUrl} />
+						<ProductCard background_image={tempUrl} />
 					</Slider>
 				</Box>
 			</Flex>
