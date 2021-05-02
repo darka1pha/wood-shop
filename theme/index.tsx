@@ -38,10 +38,16 @@ export const TextVariants = {
   heading5: {
     fontFamily: "iranSans",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
     color: "black",
   },
   heading6: {
+    fontFamily: "iranSans",
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "black",
+  },
+  heading7: {
     fontFamily: "iranSans",
     fontWeight: "bold",
     fontSize: 8,

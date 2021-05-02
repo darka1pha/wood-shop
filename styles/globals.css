@@ -18,6 +18,13 @@ a {
 	box-sizing: border-box;
 }
 
+.customArrow {
+	-webkit-transform: translate(0, -50%);
+	-ms-transform: translate(0, -50%);
+	transform: translate(0, -50%);
+	z-index: 2;
+}
+
 @font-face {
 	font-family: "iranSans";
 	src: local("ir_sans"), url(../public/fonts/ir_sans.ttf) format("ttf"),
@@ -56,14 +63,34 @@ a {
 	src: url(../public/fonts/Vazir-Thin-FD.ttf);
 }
 
-.slider {
-	
-	padding: 0 2rem;
+.wrap {
+	text-align: center;
+	margin: 15px 2px;
+	height: 40px;
+	position: relative;
 }
 
+.wrap:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	border-top: 1px solid #bdbdbd;
+	background: #bdbdbd;
+	width: 100%;
+	transform: translateY(-50%);
+}
 
-.slick-slide {
-	height: 100%;
-	color: #fff;
-	margin: 5px;
+.glass {
+	background: rgba(255, 255, 255, 0.5);
+	box-shadow: 0 8px 32px 0 rgba(104, 98, 98, 0.37);
+	backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(5px);
+	border-radius: 10px;
+}
+.glass2 {
+	background: rgba(70, 64, 64, 0.5);
+	box-shadow: 0 8px 32px 0 rgba(104, 98, 98, 0.37);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
 }
