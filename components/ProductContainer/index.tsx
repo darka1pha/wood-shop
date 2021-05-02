@@ -13,7 +13,7 @@ const ProductContainer = () => {
             <Flex
                 flexWrap="wrap"
                 w="100%"
-                maxW="1080px"
+                maxW="1280px"
             >
                 <ContainerItem title="صندلی" image_url="https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjB8fGNoYWlyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" />
                 <ContainerItem title="میز" image_url="https://images.unsplash.com/photo-1593062096033-9a26b09da705?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZGVza3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" />
