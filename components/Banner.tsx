@@ -13,7 +13,7 @@ const Banner = () => {
 			<Flex
 				bgColor="#FCC87A"
 				h="100%"
-				w="1080px"
+				w="1280px"
 				borderRadius=".5rem"
 				transition="all 200ms ease-in-out"
 				_hover={{
