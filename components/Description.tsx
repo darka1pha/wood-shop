@@ -5,7 +5,7 @@ const Description = () => {
 	return (
 		<Flex
 			w="100%"
-			h="480px"
+			h={{base:"100vh",md:"480px"}}
 			padding="2rem"
 			justifyContent="space-evenly"
 			bgImage="
@@ -14,16 +14,17 @@ const Description = () => {
 			bgSize="cover"
 			bgAttachment="fixed"
 			bgRepeat="no-repeat"
+			flexDir={{ base: "column-reverse", md: "row" }}
 			className="blur"
 		>
 			<Flex
-				w="65%"
+				w={{base:"100%",md:"65%"}}
 				h="100%"
 				borderRadius=".5rem"
 				className="glass"
 			/>
 			<Flex
-				w="30%"
+				w={{base:"100%",md:"30%"}}
 				h="100%"
 				ml=".5rem"
 				justifyContent="center"
@@ -33,7 +34,8 @@ const Description = () => {
 					textAlign="center"
 					variant="heading3"
 					color="white"
-					>
+					dir="rtl"
+				>
 					تولیدی چوب و دکوراسیون داخلی فرحبخش
 				</Text>
 			</Flex>
