@@ -21,11 +21,15 @@ const CarouselItem = ({ background_image, name, price }: CarouselItem) => {
 			borderRadius=".5rem"
 			overflow="hidden"
 			flexDir="column"
-			h="360px"
-			w="240px"
-			m="1rem 1rem"
+			h={{base:"360px",md:"360px"}}
+			w={{base:"240px",md:"240px"}}
+			m="1rem"
 			cursor="pointer"
 			boxShadow="md"
+			transition="all 200ms ease-in-out"
+			_hover={{
+				transform:"scale(1.02)"
+			}}
 		>
 			<Flex
 				h="75%"
