@@ -9,9 +9,10 @@ interface CarouselItem {
 	background_image?: string;
 	price?: string;
 	name?: string;
+	margin?: string;
 }
 
-const ProductCard = ({ background_image, name, price }: CarouselItem) => {
+const ProductCard = ({ background_image, name, price, margin }: CarouselItem) => {
 	const [isLiked, setIsLiked] = useState(false)
 	const bgImage = background_image ? background_image : "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjF8fHRhYmxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
 
@@ -23,7 +24,7 @@ const ProductCard = ({ background_image, name, price }: CarouselItem) => {
 			flexDir="column"
 			h={{ base: "315px", md: "360px" }}
 			w={{ base: "210px", md: "240px" }}
-			m=".5rem auto"
+			m={margin}
 			cursor="pointer"
 			boxShadow="md"
 			transition="all 200ms ease-in-out"
