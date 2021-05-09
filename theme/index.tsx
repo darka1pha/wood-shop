@@ -6,7 +6,9 @@ export const theme = extendTheme({
     rust: "#A44200",
     bloodRed: "#69140E",
     dark: "#3C1518",
-    bgColor: "#F2F2F2"
+    bgColor: "#F2F2F2",
+    itemsBg: "#ECECEC",
+    itemsBorder: "#C6C6C6"
   },
 });
 
@@ -50,7 +52,7 @@ export const TextVariants = {
   heading7: {
     fontFamily: "iranSans",
     fontWeight: "bold",
-    fontSize: 8,
+    fontSize: 12,
     color: "black",
   },
   normal: {

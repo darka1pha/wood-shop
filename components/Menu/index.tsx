@@ -38,7 +38,7 @@ const Menu = () => {
 					zIndex: 3,
 					position: "fixed",
 					left: "0",
-					// top: visible ? "85px" : "-85px",
+					// top: visible ? "88px" : "-10px",
 					display: "flex",
 					alignItems: "center",
 					backgroundColor: "#AE4600",
