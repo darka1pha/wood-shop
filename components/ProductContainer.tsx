@@ -10,13 +10,13 @@ const ProductContainer = ({ }) => {
 			justifyItems="center"
 			alignItems="center"
 		>
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
+			<ProductCard margin=".5rem auto" />
+			<ProductCard margin=".5rem auto" />
+			<ProductCard margin=".5rem auto" />
+			<ProductCard margin=".5rem auto" />
+			<ProductCard margin=".5rem auto" />
+			<ProductCard margin=".5rem auto" />
+			<ProductCard margin=".5rem auto" />
 		</Flex>
 	);
 }
