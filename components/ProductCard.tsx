@@ -21,9 +21,9 @@ const ProductCard = ({ background_image, name, price }: CarouselItem) => {
 			borderRadius=".5rem"
 			overflow="hidden"
 			flexDir="column"
-			h={{ base: "360px", md: "360px" }}
-			w={{ base: "240px", md: "240px" }}
-			m="1rem"
+			h={{ base: "315px", md: "360px" }}
+			w={{ base: "210px", md: "240px" }}
+			m=".5rem auto"
 			cursor="pointer"
 			boxShadow="md"
 			transition="all 200ms ease-in-out"
