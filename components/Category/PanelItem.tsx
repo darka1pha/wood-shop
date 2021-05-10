@@ -3,9 +3,10 @@ import { useState } from "react";
 
 interface PanelItem {
 	name?: string;
+	color?: string;
 }
 
-const PanelItem = ({ name }: PanelItem) => {
+const PanelItem = ({ name, color = "black" }: PanelItem) => {
 
 	const [isActive, setIsActive] = useState(false)
 
@@ -13,7 +14,7 @@ const PanelItem = ({ name }: PanelItem) => {
 		<Box
 			m=".5rem"
 			cursor="pointer"
-			color={isActive ? "primary" : "black"}
+			color={isActive ? "primary" : color}
 			onClick={() => setIsActive(!isActive)}
 			fontWeight={isActive ? "semibold" : "normal"}
 		>

@@ -10,14 +10,28 @@ import PanelItem from "./PanelItem";
 interface CategoryItem {
 	title?: string;
 	items?: Array<string>;
+	background?: string;
+	color?: string;
+	margin?: string;
+	border?: string;
 }
 
-const CategoryItem = ({ items, title }: CategoryItem) => {
+const CategoryItem = ({
+	items,
+	title,
+	background = "itemsBg",
+	margin = "0",
+	color = "black",
+	border = "auto"
+}: CategoryItem) => {
 	return (
 		<AccordionItem
-			bgColor="itemsBg"
+			bgColor={background}
 			fontFamily="iranSans"
 			fontSize="12px"
+			m={margin}
+			color={color}
+			border={border}
 		>
 			<h2>
 				<AccordionButton
@@ -26,19 +40,20 @@ const CategoryItem = ({ items, title }: CategoryItem) => {
 						border: "none"
 					}}
 				>
+					<AccordionIcon ml=".5rem" />
 					<Box
 						flex="1"
 						textAlign="right"
+						color={color}
 					>
 						{title}
 					</Box>
-					<AccordionIcon />
 				</AccordionButton>
 			</h2>
 			<AccordionPanel dir="rtl" pb={4}>
 				{
 					items.map((item, key) => (
-						<PanelItem key={key} name={item} />
+						<PanelItem color={color} key={key} name={item} />
 					))
 				}
 			</AccordionPanel>
