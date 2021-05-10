@@ -1,4 +1,3 @@
-import { EventHandler } from "react";
 import { Text } from "..";
 
 interface FilterItem {
