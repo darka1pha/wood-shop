@@ -8,6 +8,7 @@ import {
   InputLeftElement,
   Input,
   InputRightElement,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import { FiUser, FiShoppingCart, FiSearch } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
@@ -47,7 +48,7 @@ const Navbar = () => {
       }
     },
     hidden: {
-      type:"spring",
+      type: "spring",
       opacity: 0,
       left: "100%",
       display: "none",
@@ -120,7 +121,7 @@ const Navbar = () => {
               placeholder="جستجو"
               color="black"
               fontFamily="VazirMedium"
-              ml="2"
+              mr="2"
               _focus={{
                 borderColor: "transparent",
               }}
@@ -202,7 +203,7 @@ const Navbar = () => {
               bg: "transparent",
             }}
             _focus={{
-              outline: "none"
+              outline: "none",
             }}
             display="flex"
             w="240px"
@@ -251,8 +252,10 @@ const Navbar = () => {
                 delay: .02,
               }}
             >
-              <InputGroup w="100%">
-                <InputLeftElement children={<Icon as={FiSearch} color="black" />} />
+              <InputGroup
+
+                w="100%">
+                <InputLeftAddon children={<Icon as={FiSearch} color="black" />} />
                 <Input
                   w="100%"
                   bg="white"
