@@ -17,9 +17,10 @@ import Text from "./Text";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import CategoryMenu from "./Category/CategoryMenu";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
-
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const searchRef = useRef(null)
   const [isSearchActive, setIsSearchActive] = useState(false)
@@ -98,6 +99,8 @@ const Navbar = () => {
           pl="40px"
           fontSize={{ base: "20px", md: "24px" }}
           m="auto"
+          cursor="pointer"
+          onClick={() => router.push("/")}
         >
           مصنوعات چوبی فرحبخش
       </Text>
@@ -296,11 +299,16 @@ const Navbar = () => {
               variant="outline"
               _hover={{
                 bg: "transparent",
+                outline: 0
               }}
               _active={{
                 bg: "transparent",
+                outline: 0
               }}
-              onClick={() => alert("User Profile")}
+              _focus={{
+                bg: "transparent",
+                outline: 0
+              }}
             >
               <Text
                 variant="normalLight"
@@ -317,9 +325,15 @@ const Navbar = () => {
               variant="outline"
               _hover={{
                 bg: "transparent",
+                outline: 0
               }}
               _active={{
                 bg: "transparent",
+                outline: 0
+              }}
+              _focus={{
+                bg: "transparent",
+                outline: 0
               }}
             >
               <Text
