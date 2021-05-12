@@ -1,12 +1,11 @@
 import { Box, Flex } from "@chakra-ui/layout";
-import Image from 'next/image'
 
 const Banner = () => {
 	return (
 		<Flex
 			w="100%"
-			h={{base:"320px",md:"450px"}}
-			p="2rem"
+			h={{ base: "320px", md: "450px" }}
+			p={{ base: "1rem", md: "2rem" }}
 			justifyContent="center"
 			alignItems="center"
 		>
@@ -17,7 +16,7 @@ const Banner = () => {
 				borderRadius=".5rem"
 				transition="all 200ms ease-in-out"
 				_hover={{
-					transform:"scale(1.01)"
+					transform: "scale(1.01)"
 				}}
 			>
 				<Flex

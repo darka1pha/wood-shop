@@ -7,8 +7,8 @@ const Container = () => {
             w="100%"
             justifyContent="center"
             alignItems="center"
-            mt="4rem"
-            p="1rem"
+            mt="5rem"
+            p={{ base: ".5rem", md: "1rem" }}
         >
             <Flex
                 flexWrap="wrap"
