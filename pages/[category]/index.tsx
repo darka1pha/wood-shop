@@ -12,7 +12,7 @@ const index = () => {
 			lang="fa"
 			minH="100vh"
 			overflowX="hidden"
-			p={{ base: "140px 1rem 1rem 1rem", md: "160px 2rem 2rem 2rem" }}
+			p={{ base: "80px .5rem 2rem .5rem", md: "160px 2rem 2rem 2rem" }}
 			justifyContent="flex-end"
 			bgColor="bgColor"
 		>

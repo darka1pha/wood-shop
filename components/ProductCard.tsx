@@ -22,8 +22,8 @@ const ProductCard = ({ background_image, name, price, margin }: CarouselItem) =>
 			borderRadius=".5rem"
 			overflow="hidden"
 			flexDir="column"
-			h={{ base: "360px", md: "360px" }}
-			w={{ base: "240px", md: "240px" }}
+			h={{ base: "240px", md: "360px" }}
+			w={{ base: "160px", md: "240px" }}
 			m={margin}
 			cursor="pointer"
 			boxShadow="md"
