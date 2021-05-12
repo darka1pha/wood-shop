@@ -6,11 +6,14 @@ import {
 import { BiChair } from "react-icons/bi";
 import Text from "../Text";
 
+import { useRouter } from 'next/router'
+
 interface MenuItem {
 	text: string;
 }
 
 const MenuItem = ({ text }: MenuItem) => {
+	const router = useRouter()
 	return (
 		<Button
 			p="0 1rem"
@@ -32,6 +35,12 @@ const MenuItem = ({ text }: MenuItem) => {
 				outline: "none"
 			}}
 			variant="ghost"
+			onClick={
+				() =>
+					router.push({
+						pathname: "/[category]",
+						query: { category: "TestPath" }
+					})}
 		>
 
 			<Icon
