@@ -37,14 +37,37 @@ const Navbar = () => {
     };
   }, [searchRef]);
 
+  const variants = {
+    visible: {
+      opacity: 1,
+      left: 0,
+      transition: {
+        ease: "easeInOut",
+        duration: 0.4
+      }
+    },
+    hidden: {
+      type:"spring",
+      opacity: 0,
+      left: "100%",
+      display: "none",
+      transition: {
+        duration: 0.4,
+        display: {
+          delay: 0.4
+        }
+      }
+    },
+  };
+
   return (
     <>
       <Flex
         bgColor="primary"
         direction="row-reverse"
-        pt="6"
+        pt={{ base: "4", md: "6" }}
         pl="4"
-        pb="6"
+        pb={{ base: "4", md: "6" }}
         pr="4"
         justify="space-between"
         position="fixed"
@@ -72,6 +95,8 @@ const Navbar = () => {
           color="white"
           textAlign="center"
           pl="40px"
+          fontSize={{ base: "20px", md: "24px" }}
+          m="auto"
         >
           مصنوعات چوبی فرحبخش
       </Text>
@@ -155,15 +180,11 @@ const Navbar = () => {
           backgroundColor: "#AE4600",
           paddingTop: "100px"
         }}
-        animate={{
-          left: isOpen ? "0" : "100%",
-          opacity: isOpen ? 1 : 0,
-          display: isOpen ? "block" : "none"
-        }}
-        transition={{
-          type: "tween",
-          delay: .02,
-        }}>
+        variants={variants}
+        animate={
+          isOpen ? "visible" : "hidden"
+        }
+      >
         <Flex
           w="100%"
           h="100%"
