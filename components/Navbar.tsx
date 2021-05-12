@@ -100,7 +100,10 @@ const Navbar = () => {
           fontSize={{ base: "20px", md: "24px" }}
           m="auto"
           cursor="pointer"
-          onClick={() => router.push("/")}
+          onClick={() => {
+            setIsOpen(false)
+            router.push("/")
+          }}
         >
           مصنوعات چوبی فرحبخش
       </Text>
