@@ -19,11 +19,12 @@ const Filter = () => {
 		>
 			<Text
 				variant={"heading7"}
+				fontSize={{ base: "10px", md: "12px" }}
 			>
 				مرتب کردن بر اساس
       </Text>
 			<Flex
-				mr="2rem"
+				mr={{base:"1rem",md:"2rem"}}
 			>
 				<FilterItem onClick={(e: any) => setActive("پیشفرض")} isActive={active === "پیشفرض"} type="پیشفرض" />
 				<FilterItem onClick={(e: any) => setActive("جدیدترین")} isActive={active === "جدیدترین"} type="جدیدترین" />
