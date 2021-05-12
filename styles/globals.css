@@ -16,6 +16,7 @@ a {
 
 * {
 	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .customArrow {
@@ -99,11 +100,11 @@ a {
 	height: auto;
 	width: 10px;
 	background-color: rgb(32, 32, 32);
-  }
-  
-  ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
 	width: 10px;
 	height: 10px;
 	background-color: rgb(216, 201, 191);
 	border-radius: 10px;
-  }
+}
