@@ -13,12 +13,29 @@ import { FiUser, FiShoppingCart, FiSearch } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { AiOutlineMenu } from "react-icons/ai";
 import Text from "./Text";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import CategoryMenu from "./Category/CategoryMenu";
 
 const Navbar = () => {
 
   const [isOpen, setIsOpen] = useState(false)
+  const searchRef = useRef(null)
+  const [isSearchActive, setIsSearchActive] = useState(false)
+  useEffect(() => {
+    function handleClickOutside(event: { target: any; button: number; }) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        if (event.button === 0) {
+          setIsSearchActive(false)
+        }
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchRef]);
 
   return (
     <>
@@ -36,13 +53,6 @@ const Navbar = () => {
         w="100%"
         zIndex="100"
       >
-        <Text
-          display={{ base: "none", md: "block" }}
-          variant="heading4"
-          color="white"
-        >
-          مصنوعات چوبی فرحبخش
-      </Text>
         <IconButton
           display={{ base: "block", md: "none" }}
           variant="none"
@@ -56,15 +66,24 @@ const Navbar = () => {
             borderColor: "transparent",
           }}
         />
+        <Text
+          w={{ base: "100%", md: "auto" }}
+          variant="heading4"
+          color="white"
+          textAlign="center"
+          pl="40px"
+        >
+          مصنوعات چوبی فرحبخش
+      </Text>
         <Box
           flex={1}
           mr="8"
           ml="8"
           dir="rtl"
+          display={{ base: "none", md: "block" }}
         >
           <InputGroup
             alignItems="center"
-            display={{ base: "none", md: "block" }}
           >
             <InputLeftElement
               alignItems="center"
@@ -90,7 +109,7 @@ const Navbar = () => {
             </InputRightElement>
           </InputGroup>
         </Box>
-        <Box>
+        <Box display={{ base: "none", md: "block" }}>
           <IconButton
             aria-label="Shoping Cart"
             icon={<Icon as={FiShoppingCart} color="white" fontSize={22} />}
@@ -128,22 +147,166 @@ const Navbar = () => {
       <motion.div
         style={{
           width: "100%",
-          height: "100vh",
+          minHeight: "100vh",
           zIndex: 99,
           position: "fixed",
-          left: "0",
+          left: "100%",
           top: 0,
           backgroundColor: "#AE4600",
+          paddingTop: "100px"
         }}
         animate={{
           left: isOpen ? "0" : "100%",
-          opacity: isOpen ? 1 : 0
+          opacity: isOpen ? 1 : 0,
+          display: isOpen ? "block" : "none"
         }}
         transition={{
           type: "tween",
           delay: .02,
         }}>
-
+        <Flex
+          w="100%"
+          h="100%"
+          p="2rem"
+          alignItems="center"
+          flexDir="column"
+        >
+          <Button
+            color="white"
+            variant={isSearchActive ? "none" : "outline"}
+            _hover={{
+              bg: "transparent",
+            }}
+            _active={{
+              bg: "transparent",
+            }}
+            _focus={{
+              outline: "none"
+            }}
+            display="flex"
+            w="240px"
+            borderRadius="2rem"
+            ref={searchRef}
+            p="0"
+            overflow="hidden"
+            height="40px"
+            alignItems="center"
+          >
+            <motion.p
+              style={{
+                height: "100%",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "12px",
+                fontFamily: "iranSans",
+                fontWeight: 300,
+                display: "flex",
+                textAlign: "center",
+              }}
+              animate={{
+                opacity: isSearchActive ? 0 : 1,
+                display: isSearchActive ? "none" : "flex"
+              }}
+              transition={{
+                type: "tween",
+                delay: .02,
+              }}
+              onClick={() => setIsSearchActive(true)}
+            >
+              جستجو
+            </motion.p>
+            <motion.div
+              style={{
+                height: "100%",
+                width: "100%",
+              }}
+              animate={{
+                opacity: isSearchActive ? 1 : 0,
+                display: isSearchActive ? "block" : "none"
+              }}
+              transition={{
+                type: "tween",
+                delay: .02,
+              }}
+            >
+              <InputGroup w="100%">
+                <InputLeftElement children={<Icon as={FiSearch} color="black" />} />
+                <Input
+                  w="100%"
+                  bg="white"
+                  placeholder="جستجو"
+                  color="black"
+                  fontFamily="VazirMedium"
+                  _focus={{
+                    borderColor: "transparent",
+                  }}
+                  borderRadius="2rem"
+                  dir="rtl"
+                  type="text"
+                />
+              </InputGroup>
+            </motion.div>
+          </Button>
+          <Flex w="240px">
+            <CategoryMenu
+              color="white"
+              background="#A74300"
+              containerMargin="1rem 0 1rem 0"
+              defaultIndex={false}
+              itemsMargin=".5rem 0 .5rem 0"
+              itemsBorder="none"
+            />
+          </Flex>
+          <Flex
+            flexDir="column"
+            pos="absolute"
+            bottom="2rem"
+          >
+            <Button
+              borderRadius="2rem"
+              w="200px"
+              mb="1rem"
+              rightIcon={<Icon as={FiUser} fontSize={22} />}
+              color="white"
+              variant="outline"
+              _hover={{
+                bg: "transparent",
+              }}
+              _active={{
+                bg: "transparent",
+              }}
+              onClick={() => alert("User Profile")}
+            >
+              <Text
+                variant="normalLight"
+                mr="2"
+              >
+                حساب کاربری
+              </Text>
+            </Button>
+            <Button
+              w="200px"
+              borderRadius="2rem"
+              rightIcon={<Icon as={FiShoppingCart} fontSize={22} />}
+              color="white"
+              variant="outline"
+              _hover={{
+                bg: "transparent",
+              }}
+              _active={{
+                bg: "transparent",
+              }}
+            >
+              <Text
+                variant="normalLight"
+                mr="2"
+              >
+                سبد خرید
+              </Text>
+            </Button>
+          </Flex>
+        </Flex>
       </motion.div>
     </>
   );
