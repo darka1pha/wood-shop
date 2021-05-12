@@ -120,7 +120,7 @@ const Navbar = () => {
               placeholder="جستجو"
               color="black"
               fontFamily="VazirMedium"
-              mr="2"
+              ml="2"
               _focus={{
                 borderColor: "transparent",
               }}
