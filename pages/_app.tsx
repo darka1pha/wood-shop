@@ -14,7 +14,6 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="viewport" content="viewport-fit=cover" />
       </Head>
       <ChakraProvider theme={theme}>
         <Navbar />

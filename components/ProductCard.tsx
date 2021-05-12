@@ -2,7 +2,7 @@ import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
 import { useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
-// import { BsHeart, BsHeartFill } from "react-icons/Bs"
+import { BsHeart, BsHeartFill } from "react-icons/Bs"
 import Text from "./Text";
 
 interface CarouselItem {
@@ -69,7 +69,7 @@ const ProductCard = ({ background_image, name, price, margin }: CarouselItem) =>
 					/>
 					<Icon
 						onClick={() => setIsLiked(!isLiked)}
-						// as={!isLiked ? BsHeart : BsHeartFill}
+						as={!isLiked ? BsHeart : BsHeartFill}
 						color="red"
 					/>
 				</Flex>
