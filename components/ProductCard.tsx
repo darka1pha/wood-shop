@@ -2,6 +2,7 @@ import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
 import { useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 // import { BsHeart, BsHeartFill } from "react-icons/Bs"
 import Text from "./Text";
 
@@ -17,7 +18,6 @@ const ProductCard = ({ background_image, name, price, margin }: CarouselItem) =>
 	const bgImage = background_image ? background_image : "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjF8fHRhYmxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
 
 	return (
-
 		<Flex
 			borderRadius=".5rem"
 			overflow="hidden"
@@ -69,7 +69,7 @@ const ProductCard = ({ background_image, name, price, margin }: CarouselItem) =>
 					/>
 					<Icon
 						onClick={() => setIsLiked(!isLiked)}
-						// as={!isLiked ? BsHeart : BsHeartFill}
+						as={!isLiked ? AiFillHeart : AiOutlineHeart}
 						color="red"
 					/>
 				</Flex>
