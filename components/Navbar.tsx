@@ -185,7 +185,7 @@ const Navbar = () => {
           left: "100%",
           top: 0,
           backgroundColor: "#AE4600",
-          paddingTop: "100px"
+          paddingTop: "60px"
         }}
         variants={variants}
         animate={
@@ -324,8 +324,9 @@ const Navbar = () => {
               w="200px"
               borderRadius="2rem"
               rightIcon={<Icon as={FiShoppingCart} fontSize={22} />}
-              color="white"
+              color="primary"
               variant="outline"
+              bgColor="white"
               _hover={{
                 bg: "transparent",
                 outline: 0
@@ -340,8 +341,9 @@ const Navbar = () => {
               }}
             >
               <Text
-                variant="normalLight"
+                variant="normal"
                 mr="2"
+                color="primary"
               >
                 سبد خرید
               </Text>
