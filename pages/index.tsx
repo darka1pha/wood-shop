@@ -14,6 +14,7 @@ export default function Home() {
       bgColor="bgColor"
       minH="100vh"
       overflowX="hidden"
+      pt={{ base: 0, md: "85px" }}
     >
       <Head>
         <title>Create Next App</title>
