@@ -8,7 +8,7 @@ import { HiSortAscending } from "react-icons/hi"
 import Icon from "@chakra-ui/icon";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/modal";
 import { useDisclosure } from "@chakra-ui/hooks";
-import { Radio, RadioGroup, useRadioGroup } from "@chakra-ui/radio";
+import { useRadioGroup } from "@chakra-ui/radio";
 import RadioCard from "../RadioCard";
 
 const Filter = () => {

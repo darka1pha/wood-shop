@@ -61,6 +61,12 @@ export const TextVariants = {
     fontSize: 12,
     color: "white",
   },
+  normalExt: {
+    fontFamily: "iranSans",
+    fontWeight: "400",
+    fontSize: 14,
+    color: "white",
+  },
   normalMedium: {
     fontFamily: "iranSans",
     fontWeight: "500",

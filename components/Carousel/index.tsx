@@ -65,13 +65,13 @@ const Carousel = ({ data, title, tempUrl }: ICarousel) => {
 					maxW="1280px"
 				>
 					<Slider {...settings} lazyLoad="ondemand">
-						<ProductCard margin=".5rem" background_image={tempUrl} />
-						<ProductCard margin=".5rem" background_image={tempUrl} />
-						<ProductCard margin=".5rem" background_image={tempUrl} />
-						<ProductCard margin=".5rem" background_image={tempUrl} />
-						<ProductCard margin=".5rem" background_image={tempUrl} />
-						<ProductCard margin=".5rem" background_image={tempUrl} />
-						<ProductCard margin=".5rem" background_image={tempUrl} />
+						<ProductCard margin=".8rem" background_image={tempUrl} />
+						<ProductCard margin=".8rem" background_image={tempUrl} />
+						<ProductCard margin=".8rem" background_image={tempUrl} />
+						<ProductCard margin=".8rem" background_image={tempUrl} />
+						<ProductCard margin=".8rem" background_image={tempUrl} />
+						<ProductCard margin=".8rem" background_image={tempUrl} />
+						<ProductCard margin=".8rem" background_image={tempUrl} />
 					</Slider>
 				</Box>
 			</Flex>

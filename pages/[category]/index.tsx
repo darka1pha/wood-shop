@@ -25,7 +25,7 @@ const index = () => {
 				flexDir="column"
 				mr={{ base: 0, md: "2rem" }}
 				w="100%"
-				justifyContent={{ base: "center", md: "auto" }}
+				justifyContent="flex-start"
 			>
 				<FilterTitle title="صندلی"/>
 				<Filter />
