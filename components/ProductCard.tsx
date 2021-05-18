@@ -59,17 +59,21 @@ const ProductCard = ({ background_image, name, price, margin }: CarouselItem) =>
 					750.000
 				</Text>
 				<Flex
-					w="25%"
+					w={{ base: "45%", md: "25%" }}
 					m=".1rem"
 					justifyContent="space-evenly"
 				>
 					<Icon
 						as={FiShoppingCart}
 						color="black"
+						h="20px"
+						w="20px"
 					/>
 					<Icon
+						h="20px"
+						w="20px"
 						onClick={() => setIsLiked(!isLiked)}
-						as={!isLiked ? AiFillHeart : AiOutlineHeart}
+						as={isLiked ? AiFillHeart : AiOutlineHeart}
 						color="red"
 					/>
 				</Flex>
