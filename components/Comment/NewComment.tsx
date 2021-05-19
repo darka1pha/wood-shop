@@ -61,7 +61,7 @@ const NewComment = () => {
 				w="100%"
 				maxW="1280px"
 				flexDir="column"
-				p={{base:"0 1rem",md:0}}
+				p={{ base: "0 1rem", md: 0 }}
 			>
 				<Text color="black" variant="heading6">
 					نوشتن نظر
@@ -73,7 +73,7 @@ const NewComment = () => {
 				>
 					<Text mb=".5rem" color="black" whiteSpace="nowrap" variant="normalExt">
 						نام شما
-          </Text>
+          			</Text>
 					<Input
 						fontFamily="iranSans"
 						p=".5rem .5rem"
@@ -84,6 +84,7 @@ const NewComment = () => {
 							border: "1px solid #BDBDBD"
 						}}
 						w="220px"
+						fontSize={{ base: "12px", md: "1rem" }}
 					/>
 				</Flex>
 				<Flex
@@ -105,6 +106,7 @@ const NewComment = () => {
 							border: "1px solid #BDBDBD"
 						}}
 						fontFamily="iranSans"
+						fontSize={{ base: "12px", md: "1rem" }}
 					/>
 				</Flex>
 				<Flex flexDir="column">
@@ -148,6 +150,7 @@ const NewComment = () => {
 											border: "1px solid #BDBDBD"
 										}}
 										w="220px"
+										fontSize={{ base: "12px", md: "1rem" }}
 									/>
 								))
 							}
@@ -186,6 +189,7 @@ const NewComment = () => {
 											border: "1px solid #BDBDBD"
 										}}
 										w="220px"
+										fontSize={{ base: "12px", md: "1rem" }}
 									/>
 								))
 							}
