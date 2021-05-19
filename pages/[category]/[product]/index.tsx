@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/layout";
-import { ColorPalette, Comment, DeliveryTime, ProductDiscription, Text } from "../../../components";
+import { ColorPalette, Comment, DeliveryTime, NewComment, ProductDiscription, Text } from "../../../components";
 import ProductCarousel from "../../../components/ProductCarousel";
 import { AiFillStar } from "react-icons/ai"
 import Icon from "@chakra-ui/icon";
@@ -16,21 +16,23 @@ const index = () => {
 			p={{ base: "80px .5rem 2rem .5rem", md: "180px 2rem 2rem 2rem" }}
 			bgColor="bgColor"
 			flexDir="column"
+			justifyContent="center"
+			alignItems="center"
 		>
 			<Flex
 				w="100%"
 				maxW="1280px"
 				alignItems="center"
-				flexDir="row-reverse"
+				flexDir={{ base: "column", md: "row-reverse" }}
 				justifyContent="center"
 				mb="2rem"
 			>
-				<Flex w="50%">
+				<Flex w={{ base: "100%", md: "50%" }}>
 					<ProductCarousel />
 				</Flex>
 				<Flex
 					h="400px"
-					w="auto"
+					w={{ base: "100%", md: "auto" }}
 					flexGrow={1}
 					flexDir="column"
 					alignItems="center"
@@ -40,7 +42,7 @@ const index = () => {
 						pt="2.5rem"
 						w="100%"
 						dir="rtl"
-						pr="2rem"
+						pr={{ base: "1rem", md: "2rem" }}
 					>
 						<Text color="black" variant="heading3">
 							صندلی کد 264
@@ -97,7 +99,9 @@ const index = () => {
 									bgColor: "#ff5959"
 								}}
 								_active={{
-									outline: 0
+									outline: 0,
+									bgColor: "#FF4D4D",
+									opacity: 0.8
 								}}
 								_focus={{
 									outline: 0
@@ -126,6 +130,7 @@ const index = () => {
 				justifyContent="center"
 			>
 				<ProductDiscription />
+				<NewComment />
 				<Comment />
 			</Flex>
 		</Flex>

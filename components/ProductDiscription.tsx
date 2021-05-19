@@ -14,6 +14,7 @@ const ProductDiscription = () => {
 			w="100%"
 			dir="rtl"
 			m="1rem 0"
+			pr={{ base: "1rem", md: 0 }}
 		>
 			<Flex
 				alignItems="center"

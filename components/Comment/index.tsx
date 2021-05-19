@@ -32,13 +32,21 @@ const index = () => {
 			<Flex
 				w="100%"
 				maxW="1280px"
-				flexDir="row-reverse"
+				flexDir={{ base: "column", md: "row-reverse" }}
 				bgColor="#F8F8F8"
 				border="1px solid #BDBDBD"
 				m="1rem 0"
 				borderRadius=".4rem"
 				p="1rem"
 			>
+				<Flex display={{ base: "flex", md: "none" }} flexDir="row-reverse">
+					<Text fontSize="12px" color="black" variant="normalExt">
+						{testData.name}
+					</Text>
+					<Text fontSize="12px" color="black" variant="normalExt">
+						{testData.date.toString()}
+					</Text>
+				</Flex>
 				<Flex flexDir="column">
 					{
 						testData.ratingTitles.map(({ rate, title }, key) => (
@@ -57,10 +65,10 @@ const index = () => {
 						flexDir="row-reverse"
 						mb="1rem"
 					>
-						<Text color="black" variant="normalExt">
+						<Text display={{ base: "none", md: "flex" }} color="black" variant="normalExt">
 							{testData.name}
 						</Text>
-						<Text color="black" variant="normalExt">
+						<Text display={{ base: "none", md: "flex" }} color="black" variant="normalExt">
 							{testData.date.toString()}
 						</Text>
 					</Flex>

@@ -18,7 +18,7 @@ const ProductCarousel = ({ data, title, tempUrl }: ICarousel) => {
 	var settings = {
 		customPaging: function (i) {
 			return (
-				<Flex m="auto" h="45px" w="45px" bg={`blue.${i + 1}00`} />
+				<Flex display={{ base: "none", md: "block" }} m="auto" h="45px" w="45px" bg={`blue.${i + 1}00`} />
 			);
 		},
 		dotsClass: "slider slick-dots slick-thumb",
