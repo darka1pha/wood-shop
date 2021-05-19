@@ -38,7 +38,7 @@ const index = () => {
 					justifyContent="center"
 				>
 					<Flex
-						pt={{ base: "1rem", md: "2.5rem" }}
+						pt={{ base: "2rem", md: "2.5rem" }}
 						w="100%"
 						dir="rtl"
 						pr={{ base: "1rem", md: "2rem" }}
