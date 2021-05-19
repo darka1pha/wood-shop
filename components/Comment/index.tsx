@@ -39,11 +39,23 @@ const index = () => {
 				borderRadius=".4rem"
 				p="1rem"
 			>
-				<Flex display={{ base: "flex", md: "none" }} flexDir="row-reverse">
-					<Text fontSize="12px" color="black" variant="normalExt">
+				<Flex
+					display={{ base: "flex", md: "none" }}
+					flexDir="row-reverse"
+					justifyContent="space-between"
+				>
+					<Text
+						fontSize="12px"
+						color="black"
+						variant="normalExt"
+					>
 						{testData.name}
 					</Text>
-					<Text fontSize="12px" color="black" variant="normalExt">
+					<Text
+						fontSize="12px"
+						color="black"
+						variant="normalExt"
+					>
 						{testData.date.toString()}
 					</Text>
 				</Flex>

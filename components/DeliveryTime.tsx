@@ -4,7 +4,7 @@ import { Text } from ".";
 const DeliveryTime = () => {
     return (
         <Flex m="1rem 0">
-            <Text variant="heading7">
+            <Text whiteSpace="nowrap" variant="heading7">
                 زمان تحویل :&nbsp;
             </Text>
             <Text color="#348541" variant="heading7">

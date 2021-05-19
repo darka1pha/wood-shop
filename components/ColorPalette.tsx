@@ -16,14 +16,23 @@ const ColorPalette = () => {
 			w="100%"
 			flexDir="column"
 		>
-			<Text variant="heading5" >
+			<Text fontSize={{ base: "14px", md: "18px" }} variant="heading5" >
 				انتخاب رنگ
             </Text>
 			<Flex>
 				{options.map((value, key) => {
 					const radio = getRadioProps({ value })
 					return (
-						<RadioCard borderRadius="100%" use_as_color_pallete={true} width="45px" height="45px" onClick={() => console.log(value)} key={key} radio={radio} />
+						<RadioCard
+							borderRadius="100%"
+							use_as_color_pallete
+							width="45px"
+							height="45px"
+							onClick={() => console.log(value)}
+							key={key}
+							radio={radio}
+							margin=".5rem .3rem"
+						/>
 					)
 				})}
 			</Flex>

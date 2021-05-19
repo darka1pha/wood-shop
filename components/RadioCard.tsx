@@ -11,6 +11,7 @@ interface IRadioCard {
 	borderRadius?: string;
 	image_url?: string;
 	use_as_color_pallete?: boolean;
+	margin?: string;
 }
 
 const RadioCard = ({
@@ -21,7 +22,8 @@ const RadioCard = ({
 	borderRadius,
 	height,
 	image_url,
-	use_as_color_pallete
+	use_as_color_pallete,
+	margin = "1rem"
 }: IRadioCard) => {
 	const { getInputProps, getCheckboxProps } = useRadio(radio)
 	const input = getInputProps()
@@ -31,7 +33,7 @@ const RadioCard = ({
 		<Box as="label">
 			<input {...input} />
 			<Box
-				m="1rem"
+				m={margin}
 				{...checkbox}
 				cursor="pointer"
 				borderWidth={use_as_color_pallete ? "3px" : "1px"}

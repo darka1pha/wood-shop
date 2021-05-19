@@ -31,7 +31,6 @@ const index = () => {
 					<ProductCarousel />
 				</Flex>
 				<Flex
-					h="400px"
 					w={{ base: "100%", md: "auto" }}
 					flexGrow={1}
 					flexDir="column"
@@ -39,12 +38,12 @@ const index = () => {
 					justifyContent="center"
 				>
 					<Flex
-						pt="2.5rem"
+						pt={{ base: 0, md: "2.5rem" }}
 						w="100%"
 						dir="rtl"
 						pr={{ base: "1rem", md: "2rem" }}
 					>
-						<Text color="black" variant="heading3">
+						<Text fontSize={{ base: "18px", md: "32px" }} color="black" variant="heading3">
 							صندلی کد 264
 						</Text>
 					</Flex>
@@ -53,6 +52,7 @@ const index = () => {
 						alignItems="center"
 						w="100%"
 						pr="2rem"
+						pt={{ base: ".5rem", md: 0 }}
 					>
 						<Icon
 							as={AiFillStar}
@@ -81,10 +81,12 @@ const index = () => {
 						<ColorPalette />
 						<DeliveryTime />
 						<Flex
-							m="2rem 0"
-							w="60%"
+							m={{ base: "1rem 0", md: "2rem 0" }}
+							w={{ base: "100%", md: "60%" }}
 							justifyContent="space-between"
 							alignItems="center"
+							p={{ base: "1rem", md: 0 }}
+							mr="-1rem"
 						>
 							<Button
 								w="200px"
@@ -109,7 +111,6 @@ const index = () => {
 							>
 								<Text
 									variant="normal"
-									mr="2"
 									color="white"
 								>
 									سبد خرید
