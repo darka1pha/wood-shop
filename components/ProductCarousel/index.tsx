@@ -18,7 +18,7 @@ const ProductCarousel = ({ data, title, tempUrl }: ICarousel) => {
 	var settings = {
 		customPaging: function (i) {
 			return (
-				<Flex display={{ base: "none", md: "block" }} m="auto" h="45px" w="45px" bg={`blue.${i + 1}00`} />
+				<Flex display={{ base: "none", md: "block" }} h="45px" w="45px" bg={`blue.${i + 1}00`} />
 			);
 		},
 		dotsClass: "slider slick-dots slick-thumb",
@@ -44,7 +44,6 @@ const ProductCarousel = ({ data, title, tempUrl }: ICarousel) => {
 				<ProductCarouselItem bgColor="blue.400" />
 				<ProductCarouselItem bgColor="blue.500" />
 				<ProductCarouselItem bgColor="blue.600" />
-				<ProductCarouselItem bgColor="blue.700" />
 			</Slider>
 		</Box>
 	);

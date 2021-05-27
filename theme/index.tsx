@@ -8,7 +8,9 @@ export const theme = extendTheme({
     dark: "#3C1518",
     bgColor: "#F2F2F2",
     itemsBg: "#ECECEC",
-    itemsBorder: "#C6C6C6"
+    itemsBorder: "#C6C6C6",
+    btnActive: "#E3122A",
+    btnBg: "#EF394E"
   },
 });
 

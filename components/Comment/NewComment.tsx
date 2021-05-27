@@ -216,7 +216,7 @@ const NewComment = () => {
 							dir="ltr"
 							fontFamily="iranSans"
 							fontSize={{ base: "12px", md: "14px" }}
-							h={{ base: "30px", md: "auto" }}
+							h={{ base: "30px", md: "40px" }}
 						>
 							<option value="option1">بله</option>
 							<option value="option2">خیر</option>
@@ -230,13 +230,13 @@ const NewComment = () => {
 						fontWeight="400"
 						p="0 2rem"
 						_hover={{
-							bgColor: ""
+							bgColor: "btnBg"
 						}}
 						_focus={{
 							outline: "none",
 						}}
 						_active={{
-							bgColor: "#FF4D4D",
+							bgColor: "btnActive",
 							opacity: 0.8
 						}}
 						onClick={sendComment}

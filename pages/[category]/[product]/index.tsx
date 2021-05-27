@@ -27,7 +27,7 @@ const index = () => {
 				justifyContent="center"
 				mb="2rem"
 			>
-				<Flex w={{ base: "100%", md: "50%" }}>
+				<Flex w={{ base: "100%", md: "55%" }}>
 					<ProductCarousel />
 				</Flex>
 				<Flex
@@ -82,8 +82,7 @@ const index = () => {
 						<DeliveryTime />
 						<Flex
 							m={{ base: "1rem 0", md: "2rem 0" }}
-							w={{ base: "100%", md: "60%" }}
-							justifyContent="space-between"
+							w="100%"
 							alignItems="center"
 							p={{ base: "1rem", md: 0 }}
 							mr="-1rem"
@@ -94,19 +93,19 @@ const index = () => {
 								rightIcon={<Icon as={FiShoppingCart} fontSize={22} />}
 								color="white"
 								variant="outline"
-								bgColor="#FF4D4D"
+								bgColor="btnBg"
 								transition="all 400ms ease-in-out"
 								_hover={{
 									outline: 0,
-									bgColor: "#ff5959"
+									bgColor: "btnBg"
 								}}
 								_active={{
 									outline: 0,
-									bgColor: "#FF4D4D",
-									opacity: 0.8
+									bgColor: "btnBg"
 								}}
 								_focus={{
-									outline: 0
+									outline: 0,
+									bgColor:"btnActive"
 								}}
 							>
 								<Text
@@ -114,9 +113,13 @@ const index = () => {
 									color="white"
 								>
 									سبد خرید
-              </Text>
+              					</Text>
 							</Button>
-							<Text color="black" variant="heading5">
+							<Text 
+							m="0 2rem"
+							whiteSpace="nowrap" 
+							color="black" 
+							variant="heading5">
 								650 تومان
 							</Text>
 						</Flex>
