@@ -168,7 +168,7 @@ const Navbar = () => {
             _active={{
               bg: "transparent",
             }}
-            onClick={() => alert("User Profile")}
+            onClick={() => router.push("/auth/signin")}
           >
             <Text variant="normalLight" mr="2">
               حساب کاربری
@@ -312,6 +312,7 @@ const Navbar = () => {
                 bg: "transparent",
                 outline: 0
               }}
+              onClick={() => router.push("/auth/signin")}
             >
               <Text
                 variant="normalLight"
