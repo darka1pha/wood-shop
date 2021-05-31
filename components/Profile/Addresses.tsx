@@ -139,9 +139,8 @@ const Addresses = () => {
 					/>
 				))
 			}
-			<Flex cursor="pointer" mt="1rem" w="100%" flexDir="row-reverse" justifyContent="space-between">
+			<Flex onClick={onOpen} cursor="pointer" mt="1rem" w="100%" flexDir="row-reverse" justifyContent="space-between">
 				<Flex
-					onClick={onOpen}
 					alignItems="center"
 				>
 					<Text color="#424750" variant="normalExt">
