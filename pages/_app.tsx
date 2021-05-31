@@ -1,12 +1,17 @@
 import "../styles/globals.css";
-// import "../styles/slick.css";
-// import "../styles/slick-theme.css";
+import store from "../redux/store";
 import { ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 
 import { theme } from "../theme/index";
 import { Navbar, Menu } from "../components";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+import { createWrapper } from "next-redux-wrapper";
 
+const queryClient = new QueryClient()
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -16,12 +21,17 @@ function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ChakraProvider theme={theme}>
-        <Navbar />
-        <Menu />
-        <Component {...pageProps} />
+        <QueryClientProvider client={queryClient}>
+          <Navbar />
+          <Menu />
+          <Component {...pageProps} />
+        </QueryClientProvider>
       </ChakraProvider>
     </>
   );
 }
 
-export default MyApp;
+const makeStore = () => store;
+const wrapper = createWrapper(makeStore);
+
+export default wrapper.withRedux(MyApp);

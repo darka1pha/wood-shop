@@ -57,6 +57,12 @@ export const TextVariants = {
     fontSize: 12,
     color: "black",
   },
+  heading8: {
+    fontFamily: "iranSans",
+    fontWeight: "bold",
+    fontSize: 11,
+    color: "black",
+  },
   normal: {
     fontFamily: "iranSans",
     fontWeight: "400",

@@ -35,14 +35,14 @@ a {
   width: 45px;
 }
 
-.slick-thumb  {
+.slick-thumb {
   display: flex;
   justify-content: space-between;
   height: 100px;
 }
 
 .slider {
-	padding: 1rem;
+  padding: 1rem;
 }
 
 @font-face {
@@ -108,6 +108,12 @@ a {
   -webkit-backdrop-filter: blur(5px);
   border-radius: 10px;
 }
+
+.blur {
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
+
 .glass2 {
   background: rgba(70, 64, 64, 0.5);
   box-shadow: 0 8px 32px 0 rgba(104, 98, 98, 0.37);
