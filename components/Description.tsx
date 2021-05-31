@@ -14,7 +14,6 @@ const Description = () => {
 			bgAttachment={{ base: "unset", md: "fixed" }}
 			bgRepeat="no-repeat"
 			justifyContent="center"
-			className="blur"
 		>
 			<Flex
 				justifyContent="space-evenly"
