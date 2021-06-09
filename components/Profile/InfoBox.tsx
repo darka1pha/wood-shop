@@ -11,27 +11,31 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure
-
-} from "@chakra-ui/react"
+  useDisclosure,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 
-import { FiEdit3 } from "react-icons/fi"
+import { FiEdit3 } from "react-icons/fi";
 import Text from "../Text";
 
 interface IInfoBox extends FlexProps {
   title?: string;
   value?: string;
   inputType?: string;
-  info_box_for: "phonenumber" | "name_lastname" | "email" | "national_id"
-
+  info_box_for: "phonenumber" | "name_lastname" | "email" | "national_id";
 }
 
-const InfoBox = ({ title, inputType, value, info_box_for, ...props }: IInfoBox) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+const InfoBox = ({
+  title,
+  inputType,
+  value,
+  info_box_for,
+  ...props
+}: IInfoBox) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [input1, setInput1] = useState("")
-  const [input2, setInput2] = useState("")
+  const [input1, setInput1] = useState("");
+  const [input2, setInput2] = useState("");
 
   return (
     <>
@@ -39,21 +43,17 @@ const InfoBox = ({ title, inputType, value, info_box_for, ...props }: IInfoBox) 
         p="2rem 1rem"
         justifyContent="flex-start"
         flexDir="column"
-        w="50%"
+        w={{ base: "100%", md: "50%" }}
         border="1px solid #CFCFCF"
         alignItems="flex-start"
-        {...props}
-      >
+        {...props}>
         <Flex
           justifyContent="space-between"
           flexDir="row-reverse"
           alignItems="center"
-          w="100%"
-        >
+          w="100%">
           <Text color="#424750" variant="normalExt">
-            {
-              title
-            }
+            {title}
           </Text>
           <Icon
             as={FiEdit3}
@@ -64,9 +64,7 @@ const InfoBox = ({ title, inputType, value, info_box_for, ...props }: IInfoBox) 
         </Flex>
         <Flex w="100%" flexDir="row-reverse">
           <Text mt=".5rem" color="#717171" variant="normalExt">
-            {
-              value
-            }
+            {value}
           </Text>
         </Flex>
       </Flex>
@@ -79,77 +77,62 @@ const InfoBox = ({ title, inputType, value, info_box_for, ...props }: IInfoBox) 
             borderBottom="1px solid #DFDFDF"
             ml="2rem"
             mr="2rem"
-            pr="0"
-          >
-            {
-              title
-            }
+            pr="0">
+            {title}
           </ModalHeader>
           <ModalCloseButton
             _focus={{
-              outline: 0
+              outline: 0,
             }}
             top=".5rem"
-            right="92%" />
+            right="92%"
+          />
 
-          <ModalBody
-            flexDir="column"
-            display="flex"
-            as="form"
-          >
-            {
-              info_box_for === "name_lastname" ? (
-                <Text
-                  variant="normal"
-                  color="black"
-                  m="0 .2rem .2rem 0"
-                >
-                  نام
-                </Text>
-              ) : null
-            }
+          <ModalBody flexDir="column" display="flex" as="form">
+            {info_box_for === "name_lastname" ? (
+              <Text variant="normal" color="black" m="0 .2rem .2rem 0">
+                نام
+              </Text>
+            ) : null}
             <Input
               fontFamily="iranSans"
               type={inputType}
               _focus={{
-                outline: "none"
+                outline: "none",
               }}
               value={input1}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput1(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setInput1(e.target.value)
+              }
             />
-            {
-              info_box_for === "name_lastname" ? (
-                <>
-                  <Text
-                    color="black"
-                    variant="normal"
-                    m="1rem .2rem .2rem 0"
-                  >
-                    نام خانوادگی
-                  </Text>
-                  <Input
-                    fontFamily="iranSans"
-                    type={inputType}
-                    _focus={{
-                      outline: "none"
-                    }}
-                    value={input2}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput2(e.target.value)}
-                  />
-                </>
-              ) : null
-            }
+            {info_box_for === "name_lastname" ? (
+              <>
+                <Text color="black" variant="normal" m="1rem .2rem .2rem 0">
+                  نام خانوادگی
+                </Text>
+                <Input
+                  fontFamily="iranSans"
+                  type={inputType}
+                  _focus={{
+                    outline: "none",
+                  }}
+                  value={input2}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setInput2(e.target.value)
+                  }
+                />
+              </>
+            ) : null}
           </ModalBody>
           <ModalFooter>
-            <Button
-              fontFamily="iranSans"
-              colorScheme="blue"
-            >ثبت</Button>
+            <Button fontFamily="iranSans" colorScheme="blue">
+              ثبت
+            </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal >
+      </Modal>
     </>
-  )
-}
+  );
+};
 
 export default InfoBox;

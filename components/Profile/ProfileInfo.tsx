@@ -6,30 +6,28 @@ const ProfileInfo = () => {
   return (
     <Flex
       w="100%"
-      h="340px"
-      mr="2rem"
+      minH="340px"
+      mr={{ base: 0, md: "2rem" }}
       borderRadius=".5rem"
       border="1px solid #CFCFCF"
       justifyContent="center"
       alignItems="flex-end"
       flexDir="column"
       overflow="hidden"
-      p="1.5rem"
-    >
+      p="1.5rem">
       <Flex
         alignItems="center"
         pb="1rem"
         borderBottom="2px solid #0E668B"
-        h="10%">
-        <Text variant="heading5">
-          اطلاعات شخصی
-				</Text>
+        h="45px">
+        <Text variant="heading5">اطلاعات شخصی</Text>
       </Flex>
-      <Flex h="45%" w="100%">
+      <Flex h="45%" w="100%" flexDir={{ base: "column", md: "row" }}>
         <InfoBox
           borderTop="none"
           borderLeft="none"
-          borderBottom="none"
+          borderBottom={{ base: "1px solid #CFCFCF", md: "none" }}
+          borderRight={{ base: "none", md: "1px solid #CFCFCF" }}
           info_box_for="name_lastname"
           title="نام و نام خانوادگی"
           value="ابوالفضل عمرانی"
@@ -46,10 +44,11 @@ const ProfileInfo = () => {
           inputType="number"
         />
       </Flex>
-      <Flex h="45%" w="100%">
+      <Flex flexDir={{ base: "column", md: "row" }} h="45%" w="100%">
         <InfoBox
           borderLeft="none"
           info_box_for="national_id"
+          borderRight={{ base: "none", md: "1px solid #CFCFCF" }}
           borderBottom="none"
           title="شماره شناسنامه"
           value="3150526744"
@@ -65,8 +64,8 @@ const ProfileInfo = () => {
           inputType="email"
         />
       </Flex>
-    </Flex >
+    </Flex>
   );
-}
+};
 
 export default ProfileInfo;
