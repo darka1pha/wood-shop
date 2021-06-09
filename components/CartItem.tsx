@@ -44,7 +44,7 @@ const CartItem = ({
             fontSize={{ base: "12px", md: "14px" }}
             color="black"
             variant="normalExt">
-            قیمت : {price ? price : "620 هزار تومان"}
+            {price ?"قیمت :  " + price : "620 هزار تومان"}
           </Text>
         </Flex>
         <Flex
