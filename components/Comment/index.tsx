@@ -31,7 +31,7 @@ const index = () => {
 		>
 			<Flex
 				w="100%"
-				maxW="1280px"
+				maxW="1920px"
 				flexDir={{ base: "column", md: "row-reverse" }}
 				bgColor="#F8F8F8"
 				border="1px solid #BDBDBD"

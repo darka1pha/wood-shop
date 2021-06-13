@@ -17,12 +17,18 @@ const UserFavorites = () => {
       p="1.5rem">
       <Flex
         alignItems="center"
-        pb="1rem"
+        pb=".5rem"
         borderBottom="2px solid #0E668B"
-        h="45px">
+        h={{ base: "35px", md: "35px" }}
+        mb="2rem">
         <Text variant="heading5">علاقه مندی ها</Text>
       </Flex>
-      <Flex mb="2rem" mt="1rem" h="45%" w="100%" flexDir={{ base: "column", md: "row" }}>
+      <Flex
+        mb="2rem"
+        mt="1rem"
+        h="45%"
+        w="100%"
+        flexDir={{ base: "column", md: "row" }}>
         <ProductContainer />
       </Flex>
     </Flex>

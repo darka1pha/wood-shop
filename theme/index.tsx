@@ -9,8 +9,9 @@ export const theme = extendTheme({
     bgColor: "#F2F2F2",
     itemsBg: "#ECECEC",
     itemsBorder: "#C6C6C6",
-    btnActive: "#E3122A",
-    btnBg: "#EF394E"
+    btnActive: "#ed3247",
+    btnBg: "#EF394E",
+    btnHover: "#f04a5e",
   },
 });
 
@@ -79,18 +80,18 @@ export const TextVariants = {
     fontFamily: "iranSans",
     fontWeight: "500",
     fontSize: 12,
-    color: "white"
+    color: "white",
   },
   normalThin: {
     fontFamily: "iranSans",
     fontWeight: "100",
     fontSize: 12,
-    color: "white"
+    color: "white",
   },
   normalLight: {
     fontFamily: "iranSans",
     fontWeight: "300",
     fontSize: 12,
-    color: "white"
+    color: "white",
   },
 };

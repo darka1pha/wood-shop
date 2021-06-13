@@ -34,7 +34,7 @@ const ProductCarousel = ({ data, title, tempUrl }: ICarousel) => {
 	return (
 		<Box
 			w="100%"
-			maxW="1280px"
+			maxW="1920px"
 			h="100%"
 		>
 			<Slider {...settings} lazyLoad="ondemand">

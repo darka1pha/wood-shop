@@ -19,7 +19,7 @@ const Description = () => {
 				justifyContent="space-evenly"
 				flexDir={{ base: "column-reverse", md: "row" }}
 				w="100%"
-				maxW="1280px"
+				maxW="1920px"
 			>
 				<Flex
 					w={{ base: "100%", md: "65%" }}

@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
-import { Flex } from "@chakra-ui/layout";
+import { Divider, Flex } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
@@ -12,12 +12,11 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
+import { RadioGroup } from "@chakra-ui/radio";
 import { Select } from "@chakra-ui/select";
-import { useState } from "react";
-import { FiChevronLeft } from "react-icons/fi";
+import { useEffect, useState } from "react";
 import { RiMapPinAddLine } from "react-icons/ri";
-import Text from "../Text";
-import AddressItem from "./AddressItem";
+import { PaymentAddress, PaymentSend, Text } from "../../components";
 
 interface IAddress {
   name?: string;
@@ -27,13 +26,15 @@ interface IAddress {
   postalCode?: string;
   address?: string;
   unit?: string;
-
   city?: string;
   state?: string;
 }
 
-const Addresses = () => {
+const payment = () => {
+  const [selectedAddress, setSelectedAddress] = useState("test1");
+  const [selectedSendMethod, setSelectedSendMethod] = useState("test1");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const cost = 2000;
   const [addresses, setAddresses] = useState<Array<IAddress>>([
     {
       name: "ابوالفضل",
@@ -43,7 +44,6 @@ const Addresses = () => {
       phoneNumber: "09378239855",
       tag: "شهید حقانی",
       unit: "4",
-
       city: "کرمان",
       state: "کرمان",
     },
@@ -60,7 +60,6 @@ const Addresses = () => {
       state: "کرمان",
     },
   ]);
-
   const [tempAddress, setTempAddress] = useState<IAddress>({
     name: "",
     address: "",
@@ -72,27 +71,6 @@ const Addresses = () => {
     city: "",
     state: "",
   });
-
-  const {
-    lastname,
-    postalCode,
-    phoneNumber,
-    tag,
-    unit,
-    address,
-    name,
-    city,
-    state,
-  } = tempAddress;
-  const removeAddress = (id: number) => {
-    console.log(id);
-    setAddresses(
-      addresses.filter((_, index) => {
-        return index != id;
-      })
-    );
-  };
-
   const addAddress = (newAddress: IAddress) => {
     console.log(newAddress);
     setAddresses([...addresses, newAddress]);
@@ -110,6 +88,18 @@ const Addresses = () => {
     onClose();
   };
 
+  const {
+    lastname,
+    postalCode,
+    phoneNumber,
+    tag,
+    unit,
+    address,
+    name,
+    city,
+    state,
+  } = tempAddress;
+
   const onAddressFieldChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempAddress({ ...tempAddress, [e.target.name]: e.target.value });
   };
@@ -118,68 +108,105 @@ const Addresses = () => {
     setTempAddress({ ...tempAddress, [e.target.name]: e.target.value });
   };
 
+  useEffect(() => {
+    console.log(selectedAddress);
+  }, [selectedAddress]);
   return (
     <Flex
-      w="100%"
-      minH="340px"
-      mr={{ base: 0, md: "2rem" }}
-      borderRadius=".5rem"
-      border="1px solid #CFCFCF"
-      justifyContent="flex-start"
-      alignItems="flex-end"
+      as="div"
+      lang="fa"
+      minH="100vh"
+      overflowX="hidden"
+      p={{ base: "80px .5rem 2rem .5rem", md: "180px 2rem 2rem 2rem" }}
+      bgColor="bgColor"
       flexDir="column"
-      overflow="hidden"
-      p="1.5rem">
+      alignItems="center">
       <Flex
-        alignItems="center"
-        pb=".5rem"
-        borderBottom="2px solid #0E668B"
-        h={{ base: "35px", md: "35px" }}
-        mb="2rem">
-        <Text variant="heading5">نشانی ها</Text>
-      </Flex>
-      {addresses.map(
-        (
-          {
-            unit,
-            tag,
-            address,
-            phoneNumber,
-            postalCode,
-            lastname,
-            name,
-            city,
-            state,
-          },
-          key: number
-        ) => (
-          <AddressItem
-            address={address}
-            id={key}
-            key={key}
-            name={name + " " + lastname}
-            postal_code={postalCode}
-            phone_number={phoneNumber}
-            onRemove={() => removeAddress(key)}
-            city={city}
-            state={state}
-          />
-        )
-      )}
-      <Flex
-        onClick={onOpen}
-        cursor="pointer"
-        mt="1rem"
+        maxW="1280px"
         w="100%"
-        flexDir="row-reverse"
+        border="1px solid #CFCFCF"
+        borderRadius=".5rem"
+        p="1rem"
+        flexDirection={{ base: "column", md: "row-reverse" }}
         justifyContent="space-between">
-        <Flex alignItems="center">
-          <Text color="#424750" variant="normalExt">
-            اضافه کردن آدرس جدید
+        <Flex justifyContent="flex-end" flexDirection="column">
+          <Text dir="rtl" color="#545454" variant="heading6">
+            انتخاب آدرس برای ارسال
           </Text>
-          <Icon as={RiMapPinAddLine} ml=".2rem" fontSize="1.4rem" />
+          <RadioGroup onChange={setSelectedAddress} value={selectedAddress}>
+            {addresses.map(({ address, state, city }, key) => (
+              <PaymentAddress
+                address={address}
+                state={state}
+                city={city}
+                value={key.toString()}
+                key={key}
+              />
+            ))}
+          </RadioGroup>
+          <Flex
+            cursor="pointer"
+            onClick={onOpen}
+            mr="1rem"
+            justifyContent="flex-end"
+            alignItems="center">
+            <Text color="#424750" variant="normalExt">
+              اضافه کردن آدرس جدید
+            </Text>
+            <Icon as={RiMapPinAddLine} ml=".2rem" fontSize="1.4rem" />
+          </Flex>
         </Flex>
-        <Icon as={FiChevronLeft} />
+        <Flex
+          borderRadius=".5rem"
+          w={{ base: "auto", md: "1px" }}
+          h={{ base: "1px", md: "auto" }}
+          m={{ base: "1rem 0", md: 0 }}
+          bgColor="#CFCFCF"
+        />
+        <Flex p="0 1rem" flexDirection="column">
+          <Text dir="rtl" color="#545454" variant="heading6">
+            انتخاب شیوه ارسال
+          </Text>
+          <RadioGroup
+            onChange={setSelectedSendMethod}
+            value={selectedSendMethod}>
+            <PaymentSend value="test1" content="با موتور هوندا 125" />
+            <PaymentSend value="test2" content="با پا" />
+            <PaymentSend value="test3" content="هوایی" />
+          </RadioGroup>
+        </Flex>
+        <Flex
+          borderRadius=".5rem"
+          w={{ base: "auto", md: "1px" }}
+          h={{ base: "1px", md: "auto" }}
+          m={{ base: "1rem 0", md: 0 }}
+          bgColor="#CFCFCF"
+        />
+        <Flex
+          p="0 1rem"
+          alignItems="flex-end"
+          justifyContent="flex-end"
+          flexDirection="column">
+          <Text mb="1rem" color="#545454" variant="normalExt">
+            {`مبلغ قابل پرداخت ${cost} ریال`}
+          </Text>
+          <Button
+            color="white"
+            fontFamily="iranSans"
+            bgColor="btnBg"
+            _hover={{
+              bgColor: "btnHover",
+            }}
+            _focus={{
+              outline: 0,
+              bgColor: "btnBg",
+            }}
+            _active={{
+              bgColor: "btnActive",
+            }}>
+            پرداخت و ثبت سفارش
+          </Button>
+        </Flex>
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -375,4 +402,4 @@ const Addresses = () => {
   );
 };
 
-export default Addresses;
+export default payment;

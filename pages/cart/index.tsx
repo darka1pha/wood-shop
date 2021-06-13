@@ -1,9 +1,9 @@
 import { Flex } from "@chakra-ui/layout";
-import { Text } from "../components";
-import CartDetails from "../components/CartDetails";
-import CartItem from "../components/CartItem";
+import { Text } from "../../components";
+import CartDetails from "../../components/CartDetails";
+import CartItem from "../../components/CartItem";
 
-const cart = () => {
+const index = () => {
   return (
     <Flex
       as="div"
@@ -17,7 +17,7 @@ const cart = () => {
       alignItems="center">
       <Flex
         w="100%"
-        maxW="1280px"
+        maxW="1920px"
         flexDir={{ base: "column", md: "row-reverse" }}
         mb="2rem"
         minH="70vh">
@@ -74,4 +74,4 @@ const cart = () => {
   );
 };
 
-export default cart;
+export default index;

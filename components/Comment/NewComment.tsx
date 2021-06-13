@@ -59,7 +59,7 @@ const NewComment = () => {
 		>
 			<Flex
 				w="100%"
-				maxW="1280px"
+				maxW="1920px"
 				flexDir="column"
 				p={{ base: "0 1rem", md: 0 }}
 			>

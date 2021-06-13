@@ -1,8 +1,10 @@
 import { Button } from "@chakra-ui/button";
 import { Divider, Flex } from "@chakra-ui/layout";
+import { useRouter } from "next/router";
 import { Text } from ".";
 
 const CartDetails = () => {
+  const router = useRouter()
   return (
     <Flex flexDir="column" w="100%" h="100%">
       <Flex
@@ -59,7 +61,7 @@ const CartDetails = () => {
       </Flex>
       <Flex w="100%">
         <Button
-        onClick={() => alert("خرید")}
+        onClick={() => router.push("/cart/payment")}
           fontFamily="iranSans"
           fontSize="12px"
           bgColor="#EF394E"

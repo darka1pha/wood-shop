@@ -4,7 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 
 import { theme } from "../theme/index";
-import { Navbar, Menu } from "../components";
+import { Navbar, Menu, AlertBox } from "../components";
 import {
   QueryClient,
   QueryClientProvider,
@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }) {
         <QueryClientProvider client={queryClient}>
           <Navbar />
           <Menu />
+          <AlertBox />
           <Component {...pageProps} />
         </QueryClientProvider>
       </ChakraProvider>

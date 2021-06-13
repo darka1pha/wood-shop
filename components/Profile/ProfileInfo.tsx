@@ -17,9 +17,10 @@ const ProfileInfo = () => {
       p="1.5rem">
       <Flex
         alignItems="center"
-        pb="1rem"
+        pb=".5rem"
         borderBottom="2px solid #0E668B"
-        h="45px">
+        h={{ base: "35px", md: "35px" }}
+        mb="2rem">
         <Text variant="heading5">اطلاعات شخصی</Text>
       </Flex>
       <Flex h="45%" w="100%" flexDir={{ base: "column", md: "row" }}>

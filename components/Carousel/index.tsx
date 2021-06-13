@@ -62,7 +62,7 @@ const Carousel = ({ data, title, tempUrl }: ICarousel) => {
 			>
 				<Box
 					w="100%"
-					maxW="1280px"
+					maxW="1920px"
 				>
 					<Slider {...settings} lazyLoad="ondemand">
 						<ProductCard margin=".8rem" background_image={tempUrl} />
