@@ -14,7 +14,7 @@ const PanelItem = ({ name, color = "black" }: PanelItem) => {
 		<Box
 			m=".5rem"
 			cursor="pointer"
-			color={isActive ? "primary" : color}
+			color={isActive ? "active" : color}
 			onClick={() => setIsActive(!isActive)}
 			fontWeight={isActive ? "semibold" : "normal"}
 		>

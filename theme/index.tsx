@@ -2,7 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 
 export const theme = extendTheme({
   colors: {
-    primary: "#AE4600",
+    primary: "#42301e",
     rust: "#A44200",
     bloodRed: "#69140E",
     dark: "#3C1518",
@@ -12,6 +12,7 @@ export const theme = extendTheme({
     btnActive: "#ed3247",
     btnBg: "#EF394E",
     btnHover: "#f04a5e",
+    active:"#EF394E"
   },
 });
 

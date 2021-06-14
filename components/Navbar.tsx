@@ -14,30 +14,57 @@ import { FiUser, FiShoppingCart, FiSearch } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { AiOutlineMenu } from "react-icons/ai";
 import Text from "./Text";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import CategoryMenu from "./Category/CategoryMenu";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
-  const searchRef = useRef(null)
-  const [isSearchActive, setIsSearchActive] = useState(false)
+  const router = useRouter();
+  const btnSearchRef = useRef(null);
+  const searchRefMd = useRef(null);
+  const searchRefBase = useRef(null);
+
+  let condition = false;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+
+  const onSearchCliked = () => {
+    if (!isSearchOpen) {
+      setIsSearchOpen(true);
+      searchRefMd.current.focus();
+    } else {
+      router.push({
+        pathname: "/search",
+        query: {
+          value: searchValue,
+        },
+      });
+    }
+  };
+
+  const onSearchValueChanged = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setSearchValue(e.target.value);
+
   useEffect(() => {
-    function handleClickOutside(event: { target: any; button: number; }) {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
+    function handleClickOutside(event: { target: any; button: number }) {
+      if (
+        btnSearchRef.current &&
+        !btnSearchRef.current.contains(event.target)
+      ) {
         if (event.button === 0) {
-          setIsSearchActive(false)
+          setIsSearchActive(false);
         }
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [searchRef]);
+  }, [btnSearchRef]);
 
   const variants = {
     visible: {
@@ -45,8 +72,8 @@ const Navbar = () => {
       left: 0,
       transition: {
         ease: "easeInOut",
-        duration: 0.4
-      }
+        duration: 0.4,
+      },
     },
     hidden: {
       type: "spring",
@@ -56,9 +83,36 @@ const Navbar = () => {
       transition: {
         duration: 0.4,
         display: {
-          delay: 0.4
-        }
-      }
+          delay: 0.4,
+        },
+      },
+    },
+  };
+
+  const SearchVariants = {
+    active: {
+      width: "100%",
+      borderRadius: ".5rem",
+      paddingRight: "3rem",
+      transition: {
+        ease: "easeInOut",
+        duration: 0.4,
+      },
+    },
+    hidden: {
+      width: 0,
+      borderRadius: "2rem",
+      paddingRight: "0",
+      transition: {
+        ease: "easeInOut",
+        duration: 0.4,
+        paddingRight: {
+          delay: 0.4,
+        },
+        borderRadius: {
+          delay: 0.1,
+        },
+      },
     },
   };
 
@@ -76,13 +130,18 @@ const Navbar = () => {
         top="0"
         left="0"
         w="100%"
-        zIndex="100"
-      >
+        zIndex="100">
         <IconButton
           display={{ base: "block", md: "none" }}
           variant="none"
           aria-label="Search"
-          icon={<Icon fontSize="1.5rem" as={isOpen ? FaTimes : AiOutlineMenu} color="white" />}
+          icon={
+            <Icon
+              fontSize="1.5rem"
+              as={isOpen ? FaTimes : AiOutlineMenu}
+              color="white"
+            />
+          }
           onClick={() => setIsOpen(!isOpen)}
           _focus={{
             borderColor: "transparent",
@@ -101,42 +160,44 @@ const Navbar = () => {
           m="auto"
           cursor="pointer"
           onClick={() => {
-            setIsOpen(false)
-            router.push("/")
-          }}
-        >
+            setIsOpen(false);
+            router.push("/");
+          }}>
           مصنوعات چوبی فرحبخش
-      </Text>
+        </Text>
         <Box
           flex={1}
           mr="8"
           ml="8"
           dir="rtl"
-          display={{ base: "none", md: "block" }}
-        >
-          <InputGroup
-            alignItems="center"
-          >
-            <InputLeftElement
-              alignItems="center"
-              pointerEvents="none"
-              children={undefined}
-            />
-            <Input
-              bg="white"
-              placeholder="جستجو"
-              color="black"
-              fontFamily="VazirMedium"
-              mr="2"
-              _focus={{
-                borderColor: "transparent",
+          display={{ base: "none", md: "block" }}>
+          <InputGroup alignItems="center">
+            <motion.input
+              ref={searchRefMd}
+              style={{
+                height: "40px",
+                fontFamily: "iranSans",
               }}
+              value={searchValue}
+              onChange={onSearchValueChanged}
+              initial="hidden"
+              placeholder="جستجو..."
+              variants={SearchVariants}
+              animate={isSearchOpen ? "active" : "hidden"}
+              onBlur={() =>
+                !condition ? setIsSearchOpen(false) : (condition = false)
+              }
             />
             <InputRightElement alignItems="center">
               <IconButton
+                onClick={onSearchCliked}
+                onMouseDown={() => (condition = true)}
+                borderRadius={isSearchOpen ? ".5rem" : "2rem"}
+                _focus={{
+                  outline: 0,
+                }}
                 aria-label="Search"
                 icon={<Icon as={FiSearch} color="black" />}
-                onClick={() => alert("Search")}
               />
             </InputRightElement>
           </InputGroup>
@@ -154,7 +215,7 @@ const Navbar = () => {
               bg: "transparent",
             }}
             _focus={{
-              outline: "none"
+              outline: "none",
             }}
             onClick={() => alert("Shoping Cart")}
           />
@@ -168,11 +229,10 @@ const Navbar = () => {
             _active={{
               bg: "transparent",
             }}
-            onClick={() => router.push("/auth/signin")}
-          >
+            onClick={() => router.push("/auth/signin")}>
             <Text variant="normalLight" mr="2">
               حساب کاربری
-          </Text>
+            </Text>
           </Button>
         </Box>
       </Flex>
@@ -184,21 +244,12 @@ const Navbar = () => {
           position: "fixed",
           left: "100%",
           top: 0,
-          backgroundColor: "#AE4600",
-          paddingTop: "60px"
+          backgroundColor: "#42301e",
+          paddingTop: "60px",
         }}
         variants={variants}
-        animate={
-          isOpen ? "visible" : "hidden"
-        }
-      >
-        <Flex
-          w="100%"
-          h="100%"
-          p="2rem"
-          alignItems="center"
-          flexDir="column"
-        >
+        animate={isOpen ? "visible" : "hidden"}>
+        <Flex w="100%" h="100%" p="2rem" alignItems="center" flexDir="column">
           <Button
             color="white"
             variant={isSearchActive ? "none" : "outline"}
@@ -214,12 +265,11 @@ const Navbar = () => {
             display="flex"
             w="240px"
             borderRadius="2rem"
-            ref={searchRef}
+            ref={btnSearchRef}
             p="0"
             overflow="hidden"
             height="40px"
-            alignItems="center"
-          >
+            alignItems="center">
             <motion.p
               style={{
                 height: "100%",
@@ -234,14 +284,16 @@ const Navbar = () => {
               }}
               animate={{
                 opacity: isSearchActive ? 0 : 1,
-                display: isSearchActive ? "none" : "flex"
+                display: isSearchActive ? "none" : "flex",
               }}
               transition={{
                 type: "tween",
-                delay: .02,
+                delay: 0.02,
               }}
-              onClick={() => setIsSearchActive(true)}
-            >
+              onClick={() => {
+                setIsSearchActive(true);
+                searchRefBase.current.focus();
+              }}>
               جستجو
             </motion.p>
             <motion.div
@@ -251,19 +303,21 @@ const Navbar = () => {
               }}
               animate={{
                 opacity: isSearchActive ? 1 : 0,
-                display: isSearchActive ? "block" : "none"
+                display: isSearchActive ? "block" : "none",
               }}
               transition={{
                 type: "tween",
-                delay: .02,
-              }}
-            >
-              <InputGroup
-
-                w="100%">
-                <InputLeftAddon children={<Icon as={FiSearch} color="black" />} />
+                delay: 0.02,
+              }}>
+              <InputGroup w="100%">
+                <InputLeftAddon
+                  children={<Icon as={FiSearch} color="black" />}
+                />
                 <Input
                   w="100%"
+                  ref={searchRefBase}
+                  value={searchValue}
+                  onChange={onSearchValueChanged}
                   bg="white"
                   placeholder="جستجو"
                   color="black"
@@ -281,18 +335,14 @@ const Navbar = () => {
           <Flex w="240px">
             <CategoryMenu
               color="white"
-              background="#A74300"
+              background="#4d3723"
               containerMargin="1rem 0 1rem 0"
               defaultIndex={false}
               itemsMargin=".5rem 0 .5rem 0"
               itemsBorder="none"
             />
           </Flex>
-          <Flex
-            flexDir="column"
-            pos="absolute"
-            bottom="2rem"
-          >
+          <Flex flexDir="column" pos="absolute" bottom="2rem">
             <Button
               borderRadius="2rem"
               w="200px"
@@ -302,22 +352,18 @@ const Navbar = () => {
               variant="outline"
               _hover={{
                 bg: "transparent",
-                outline: 0
+                outline: 0,
               }}
               _active={{
                 bg: "transparent",
-                outline: 0
+                outline: 0,
               }}
               _focus={{
                 bg: "transparent",
-                outline: 0
+                outline: 0,
               }}
-              onClick={() => router.push("/auth/signin")}
-            >
-              <Text
-                variant="normalLight"
-                mr="2"
-              >
+              onClick={() => router.push("/auth/signin")}>
+              <Text variant="normalLight" mr="2">
                 حساب کاربری
               </Text>
             </Button>
@@ -330,22 +376,17 @@ const Navbar = () => {
               bgColor="white"
               _hover={{
                 bg: "transparent",
-                outline: 0
+                outline: 0,
               }}
               _active={{
                 bg: "transparent",
-                outline: 0
+                outline: 0,
               }}
               _focus={{
                 bg: "transparent",
-                outline: 0
-              }}
-            >
-              <Text
-                variant="normal"
-                mr="2"
-                color="primary"
-              >
+                outline: 0,
+              }}>
+              <Text variant="normal" mr="2" color="primary">
                 سبد خرید
               </Text>
             </Button>

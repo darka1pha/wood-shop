@@ -13,7 +13,7 @@ const ContainerItem = ({ image_url, title }: IContainerItem) => {
 			h="280px"
 			m=".5rem"
 			borderRadius=".5rem"
-			flex="1 1 340px"
+			flex="1 1 360px"
 			cursor="pointer"
 			flexDir="column"
 			overflow="hidden"

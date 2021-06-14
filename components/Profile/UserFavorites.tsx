@@ -1,8 +1,13 @@
 import { Flex } from "@chakra-ui/layout";
 import Text from "../Text";
 import ProductContainer from "../../components/ProductContainer";
+import FavoriteCard from "./FavoriteCard";
 
 const UserFavorites = () => {
+  const removeItem = (id: number) => {
+    console.log(id);
+  };
+
   return (
     <Flex
       w="100%"
@@ -23,13 +28,14 @@ const UserFavorites = () => {
         mb="2rem">
         <Text variant="heading5">علاقه مندی ها</Text>
       </Flex>
-      <Flex
-        mb="2rem"
-        mt="1rem"
-        h="45%"
-        w="100%"
-        flexDir={{ base: "column", md: "row" }}>
-        <ProductContainer />
+      <Flex flexWrap="wrap" w="100%">
+        <FavoriteCard onRemove={removeItem} />
+        <FavoriteCard onRemove={removeItem} />
+        <FavoriteCard onRemove={removeItem} />
+        <FavoriteCard onRemove={removeItem} />
+        <FavoriteCard onRemove={removeItem} />
+        <FavoriteCard onRemove={removeItem} />
+        <FavoriteCard onRemove={removeItem} />
       </Flex>
     </Flex>
   );

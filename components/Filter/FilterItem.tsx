@@ -11,7 +11,7 @@ const FilterItem = ({ type, isActive, onClick }: FilterItem) => {
 		<Text
 			m="0 1rem 0 1rem"
 			variant="normal"
-			color={isActive ? "primary" : "black"}
+			color={isActive ? "active" : "black"}
 			cursor="pointer"
 			fontWeight={isActive ? "semibold" : "normal"}
 			onClick={onClick}

@@ -42,12 +42,6 @@ const MenuItem = ({ text }: MenuItem) => {
 						query: { category: "TestPath" }
 					})}
 		>
-
-			<Icon
-				as={BiChair}
-				color="white"
-				ml=".5rem"
-			/>
 			<Text
 				variant="normal"
 			>
