@@ -14,15 +14,35 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import {
+  ICurrentUser,
+  setCurrentUser,
+  selectCurrentUser,
+  setAlert,
+  ISetAlert,
+} from "../../redux";
 
 import { FiEdit3 } from "react-icons/fi";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 import Text from "../Text";
+import { useMutation, useQueryClient } from "react-query";
+import { profileUpdate } from "../../API";
+import { IError } from "../../API/interfaces";
 
 interface IInfoBox extends FlexProps {
   title?: string;
   value?: string;
   inputType?: string;
-  info_box_for: "phonenumber" | "name_lastname" | "email" | "national_id";
+  info_box_for:
+    | "phonenumber"
+    | "name_lastname"
+    | "password"
+    | "national_id"
+    | "change_password";
+  currentUser: ICurrentUser;
+  setCurrentUser: (user: ICurrentUser) => void;
+  setAlert: (alert: ISetAlert) => void;
 }
 
 const InfoBox = ({
@@ -30,12 +50,48 @@ const InfoBox = ({
   inputType,
   value,
   info_box_for,
+  currentUser,
+  setCurrentUser,
+  setAlert,
   ...props
 }: IInfoBox) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const queryClient = useQueryClient();
+
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
+  const [input3, setInput3] = useState("");
+
+  const updateMutation = useMutation((data: any) => profileUpdate(data), {
+    onSuccess: (res: any) => {
+      console.log("awad :", res);
+      queryClient.refetchQueries();
+      setCurrentUser({ ...res.data });
+      setAlert({ content: "پروفایل با موفقیت آپدیت شد", type: "success" });
+    },
+    onError: (error: IError) => {
+      console.log(error);
+    },
+  });
+
+  const onConfirmClicked = () => {
+    if (info_box_for === "name_lastname") {
+      updateMutation.mutate({ first_name: input1, last_name: input2 });
+    } else if (info_box_for === "national_id") {
+      updateMutation.mutate({ national_id: input1 });
+    } else if (info_box_for === "phonenumber") {
+      updateMutation.mutate({ phone_number: input1 });
+    } else if (info_box_for === "password") {
+      setCurrentUser({
+        ...currentUser,
+        password: input1,
+        is_new: false,
+      });
+      updateMutation.mutate({ password: input1 });
+    }
+    onClose();
+  };
 
   return (
     <>
@@ -94,6 +150,11 @@ const InfoBox = ({
                 نام
               </Text>
             ) : null}
+            {info_box_for === "change_password" ? (
+              <Text variant="normal" color="black" m="0 .2rem .2rem 0">
+                رمز عبور قبلی
+              </Text>
+            ) : null}
             <Input
               fontFamily="iranSans"
               type={inputType}
@@ -123,9 +184,44 @@ const InfoBox = ({
                 />
               </>
             ) : null}
+            {info_box_for === "change_password" ? (
+              <>
+                <Text color="black" variant="normal" m="1rem .2rem .2rem 0">
+                  رمز عبور جدید
+                </Text>
+                <Input
+                  fontFamily="iranSans"
+                  type={inputType}
+                  _focus={{
+                    outline: "none",
+                  }}
+                  value={input2}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setInput2(e.target.value)
+                  }
+                />
+                <Text color="black" variant="normal" m="1rem .2rem .2rem 0">
+                  تایید رمز عبور جدید
+                </Text>
+                <Input
+                  fontFamily="iranSans"
+                  type={inputType}
+                  _focus={{
+                    outline: "none",
+                  }}
+                  value={input3}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setInput3(e.target.value)
+                  }
+                />
+              </>
+            ) : null}
           </ModalBody>
           <ModalFooter>
-            <Button fontFamily="iranSans" colorScheme="blue">
+            <Button
+              onClick={onConfirmClicked}
+              fontFamily="iranSans"
+              colorScheme="blue">
               ثبت
             </Button>
           </ModalFooter>
@@ -135,4 +231,14 @@ const InfoBox = ({
   );
 };
 
-export default InfoBox;
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  setAlert: ({ content, type }: ISetAlert) =>
+    dispatch(setAlert({ type, content })),
+});
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoBox);

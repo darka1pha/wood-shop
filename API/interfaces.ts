@@ -4,6 +4,10 @@ export interface IMainSignup {
 export interface IVerifySignup {
   token: string;
 }
+export interface ISigninPassword {
+  phone_number: string;
+  password: string;
+}
 
 export interface IError {
   response: {

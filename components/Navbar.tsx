@@ -18,8 +18,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import CategoryMenu from "./Category/CategoryMenu";
 import { useRouter } from "next/router";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "../redux/user/user.selectors";
+import { setAlert } from "../redux";
 
-const Navbar = () => {
+const Navbar = ({ user, setAlert }) => {
   const router = useRouter();
   const btnSearchRef = useRef(null);
   const searchRefMd = useRef(null);
@@ -32,17 +36,31 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  const onCartClicked = () => {
+    if (!user) {
+      setAlert({ content: "وارد شوید یا ثبت نام کنید!", type: "warning" });
+    } else router.push("/cart");
+  };
+
   const onSearchCliked = () => {
     if (!isSearchOpen) {
       setIsSearchOpen(true);
       searchRefMd.current.focus();
     } else {
-      router.push({
-        pathname: "/search",
-        query: {
-          value: searchValue,
-        },
-      });
+      if (searchValue.length > 0) {
+        setIsSearchOpen(false);
+        router.push({
+          pathname: "/search",
+          query: {
+            value: searchValue,
+          },
+        });
+      } else
+        setAlert({
+          content: "فیلد جستجو نمیتواند خالی باشد!",
+          type: "warning",
+        });
+      if (isOpen) setIsOpen(false);
     }
   };
 
@@ -50,6 +68,7 @@ const Navbar = () => {
     setSearchValue(e.target.value);
 
   useEffect(() => {
+    console.log(user);
     function handleClickOutside(event: { target: any; button: number }) {
       if (
         btnSearchRef.current &&
@@ -217,22 +236,36 @@ const Navbar = () => {
             _focus={{
               outline: "none",
             }}
-            onClick={() => alert("Shoping Cart")}
+            onClick={onCartClicked}
           />
           <Button
             rightIcon={<Icon as={FiUser} fontSize={22} />}
             color="white"
             variant="outline"
+            _focus={{
+              outline: 0,
+            }}
             _hover={{
               bg: "transparent",
+              outline: 0,
             }}
             _active={{
               bg: "transparent",
+              outline: 0,
             }}
-            onClick={() => router.push("/auth/signin")}>
-            <Text variant="normalLight" mr="2">
-              حساب کاربری
-            </Text>
+            onClick={() => {
+              user ? router.push("/profile") : router.push("/auth/signin");
+              isOpen ? setIsOpen(false) : null;
+            }}>
+            {user ? (
+              <Text variant="normalLight" mr="2">
+                {user.first_name + " " + user.last_name}
+              </Text>
+            ) : (
+              <Text variant="normalLight" mr="2">
+                حساب کاربری
+              </Text>
+            )}
           </Button>
         </Box>
       </Flex>
@@ -312,6 +345,7 @@ const Navbar = () => {
               <InputGroup w="100%">
                 <InputLeftAddon
                   children={<Icon as={FiSearch} color="black" />}
+                  onClick={onSearchCliked}
                 />
                 <Input
                   w="100%"
@@ -362,10 +396,19 @@ const Navbar = () => {
                 bg: "transparent",
                 outline: 0,
               }}
-              onClick={() => router.push("/auth/signin")}>
-              <Text variant="normalLight" mr="2">
-                حساب کاربری
-              </Text>
+              onClick={() => {
+                user ? router.push("/profile") : router.push("/auth/signin");
+                isOpen ? setIsOpen(false) : null;
+              }}>
+              {user ? (
+                <Text variant="normalLight" mr="2">
+                  {user.first_name + " " + user.last_name}
+                </Text>
+              ) : (
+                <Text variant="normalLight" mr="2">
+                  حساب کاربری
+                </Text>
+              )}
             </Button>
             <Button
               w="200px"
@@ -386,7 +429,14 @@ const Navbar = () => {
                 bg: "transparent",
                 outline: 0,
               }}>
-              <Text variant="normal" mr="2" color="primary">
+              <Text
+                onClick={() => {
+                  router.push("/cart");
+                  isOpen ? setIsOpen(false) : null;
+                }}
+                variant="normal"
+                mr="2"
+                color="primary">
                 سبد خرید
               </Text>
             </Button>
@@ -397,4 +447,11 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = createStructuredSelector({
+  user: selectCurrentUser,
+});
+const mapDispatchToProps = (dispatch) => ({
+  setAlert: ({ content, type }) => dispatch(setAlert({ content, type })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

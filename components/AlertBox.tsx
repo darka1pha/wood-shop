@@ -1,6 +1,4 @@
-import { Box } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectAlertInfo } from "../redux";
@@ -64,6 +62,7 @@ const AlertBox = ({ info }: IAlert) => {
             style={{
               height:"45px",
               borderRadius: ".5rem",
+              zIndex:"10",
               fontFamily: "iranSans",
               fontSize:"14px",
               position: "fixed",

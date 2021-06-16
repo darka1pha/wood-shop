@@ -13,6 +13,7 @@ import ProfileInfo from "../ProfileInfo";
 import UserFavorites from "../UserFavorites";
 import Orders from "../Orders";
 import Addresses from "../Addresses";
+import { ICurrentUser } from "../../../redux";
 
 interface IProfileNavbar {
   setCurrentPage?: Dispatch<
@@ -25,9 +26,14 @@ interface IProfileNavbar {
     Component: JSX.Element;
     title: string;
   };
+  currentUser: ICurrentUser;
 }
 
-const ProfileNavbar = ({ setCurrentPage, currentPage }: IProfileNavbar) => {
+const ProfileNavbar = ({
+  setCurrentPage,
+  currentPage,
+  currentUser,
+}: IProfileNavbar) => {
   return (
     <Flex
       p="1rem"
@@ -39,7 +45,10 @@ const ProfileNavbar = ({ setCurrentPage, currentPage }: IProfileNavbar) => {
       flexDir="column"
       h={{ base: "160px", md: "340px" }}
       mb={{ base: "1rem", md: 0 }}>
-      <UserInfo />
+      <UserInfo
+        name={currentUser.first_name + " " + currentUser.last_name}
+        phone_number={currentUser.phone_number}
+      />
       <Flex w="85%" m="1rem 0" h="1px" bgColor="rgba(207, 207, 207, 0.37)" />
       <Flex
         w="100%"

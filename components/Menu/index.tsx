@@ -25,7 +25,7 @@ const Menu = () => {
 		>
 			<motion.div
 				animate={{
-					top: visible ? "88px" : "-10px",
+					top: visible ? "85px" : "-10px",
 					opacity: visible ? 1 : 0
 				}}
 				transition={{

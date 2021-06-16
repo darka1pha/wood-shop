@@ -1,8 +1,22 @@
 import { Flex } from "@chakra-ui/layout";
+import { useEffect } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 import Text from "../Text";
 import InfoBox from "./InfoBox";
+import { IUser } from "../../redux";
+import { useRouter } from "next/router";
 
-const ProfileInfo = () => {
+const ProfileInfo = ({ currentUser }: IUser) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!currentUser) router.push("/auth/signin");
+  }, []);
+
+  if (!currentUser) return <h1>Loading</h1>;
+
   return (
     <Flex
       w="100%"
@@ -31,7 +45,7 @@ const ProfileInfo = () => {
           borderRight={{ base: "none", md: "1px solid #CFCFCF" }}
           info_box_for="name_lastname"
           title="نام و نام خانوادگی"
-          value="ابوالفضل عمرانی"
+          value={currentUser.first_name + " " + currentUser.last_name}
           inputType="text"
         />
         <InfoBox
@@ -41,7 +55,7 @@ const ProfileInfo = () => {
           borderTop="none"
           info_box_for="phonenumber"
           title="شماره تلفن همراه"
-          value="09378239855"
+          value={currentUser.phone_number}
           inputType="number"
         />
       </Flex>
@@ -52,21 +66,37 @@ const ProfileInfo = () => {
           borderRight={{ base: "none", md: "1px solid #CFCFCF" }}
           borderBottom="none"
           title="شماره شناسنامه"
-          value="3150526744"
+          value={currentUser.national_id}
           inputType="number"
         />
-        <InfoBox
-          borderRight="none"
-          borderLeft="none"
-          borderBottom="none"
-          info_box_for="email"
-          title="پست الکترونیکی"
-          value="abolfazl.omrani1999@gmail.com"
-          inputType="email"
-        />
+        {currentUser.is_new ? (
+          <InfoBox
+            borderRight="none"
+            borderLeft="none"
+            borderBottom="none"
+            info_box_for="password"
+            title="رمز عبور"
+            value="*********"
+            inputType="password"
+          />
+        ) : (
+          <InfoBox
+            borderRight="none"
+            borderLeft="none"
+            borderBottom="none"
+            info_box_for="change_password"
+            title="تغییر رمز عبور"
+            value="*********"
+            inputType="password"
+          />
+        )}
       </Flex>
     </Flex>
   );
 };
 
-export default ProfileInfo;
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+});
+
+export default connect(mapStateToProps)(ProfileInfo);

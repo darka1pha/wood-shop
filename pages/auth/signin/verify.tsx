@@ -11,8 +11,9 @@ import { useVerifySignin } from "../../../API";
 import { IError, IVerifySignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
+import Cookies from "js-cookie";
 
-const index = ({ setCurrentUser, setAlert }) => {
+const verify = ({ setCurrentUser, setAlert }) => {
   const router = useRouter();
   const [pin, setPin] = useState("");
   const [timer, setTimer] = useState(60);
@@ -41,10 +42,15 @@ const index = ({ setCurrentUser, setAlert }) => {
     (data: IVerifySignup) => useVerifySignin(data),
     {
       onSuccess: (data) => {
-        console.log("Data: ", data);
         setCurrentUser(data.user);
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
+        Cookies.set("refreshToken", data.token.refresh, {
+          sameSite: "strict",
+          expires: 24,
+        });
+        Cookies.set("accessToken", data.token.access, {
+          sameSite: "strict",
+          expires: 1 / 24,
+        });
         router.push("/");
       },
       onError: (err: IError) => {
@@ -153,4 +159,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(index);
+export default connect(null, mapDispatchToProps)(verify);
