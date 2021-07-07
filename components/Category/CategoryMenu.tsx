@@ -1,63 +1,66 @@
-import {
-	Accordion
-} from "@chakra-ui/react"
-import CategoryItem from "./CategoryItem"
+import { Accordion } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import CategoryItem from "./CategoryItem";
+
+interface ICategories {
+  title?: string;
+  id?: number;
+  category_set: Array<{
+    title?: string;
+    id?: number;
+  }>;
+}
 
 interface ICatItem {
-	title?: string;
-	items?: Array<string>;
-	background?: string;
-	color?: string;
-	itemsMargin?: string;
-	containerMargin?: string;
-	defaultIndex?: boolean;
-	itemsBorder?: string;
+  title?: string;
+  items?: Array<ICategories>;
+  background?: string;
+  color?: string;
+  itemsMargin?: string;
+  containerMargin?: string;
+  defaultIndex?: boolean;
+  itemsBorder?: string;
+  activeIndex?: number;
 }
+
 const CategoryMenu = ({
-	background,
-	color,
-	itemsMargin,
-	items,
-	containerMargin = "0",
-	defaultIndex = true,
-	itemsBorder
+  background,
+  color,
+  itemsMargin,
+  items,
+  containerMargin = "0",
+  defaultIndex = true,
+  itemsBorder,
+  activeIndex,
 }: ICatItem) => {
-	const testItems = ["ایتم 1", "ایتم 2"]
-	return (
-		<Accordion
-			borderRadius=".5rem"
-			overflow="hidden"
-			w="100%"
-			defaultIndex={defaultIndex ? [0] : null}
-			m={containerMargin}
-			allowToggle
-		>
-			<CategoryItem
-				items={testItems}
-				title="صندلی"
-				background={background}
-				color={color}
-				margin={itemsMargin}
-				border={itemsBorder}
-			/>
-			<CategoryItem
-				items={testItems}
-				title="میز"
-				background={background}
-				color={color}
-				margin={itemsMargin}
-				border={itemsBorder}
-			/>
-			<CategoryItem
-				items={testItems}
-				title="قفسه"
-				background={background}
-				color={color}
-				margin={itemsMargin}
-				border={itemsBorder}
-			/>
-		</Accordion>
-	);
-}
+  const router = useRouter();
+  useEffect(() => {
+    console.log("Active Index: ", activeIndex);
+  }, []);
+  if (!items) return <h1>chizi ni</h1>;
+
+  return (
+    <Accordion
+      borderRadius=".5rem"
+      overflow="hidden"
+      w="100%"
+      defaultIndex={defaultIndex ? [activeIndex] : null}
+      m={containerMargin}
+      allowToggle>
+      {items.map(({ title, id, category_set }, key) => (
+        <CategoryItem
+          items={category_set}
+          title={title}
+          background={background}
+          color={color}
+          margin={itemsMargin}
+          border={itemsBorder}
+          key={key}
+        />
+      ))}
+    </Accordion>
+  );
+};
 
 export default CategoryMenu;

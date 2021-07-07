@@ -1,12 +1,69 @@
-import { Flex } from "@chakra-ui/layout";
+import { Flex, FlexProps } from "@chakra-ui/layout";
+import React, { useEffect, useRef, useState } from "react";
+import { useDeleteBookmark, useGetFavorites } from "../../API";
+import { IFavorites } from "../../API/interfaces";
 import Text from "../Text";
-import ProductContainer from "../../components/ProductContainer";
 import FavoriteCard from "./FavoriteCard";
+import Loader from "react-loader-spinner";
+import { motion } from "framer-motion";
 
 const UserFavorites = () => {
-  const removeItem = (id: number) => {
-    console.log(id);
+
+  const containerRef = useRef(null);
+
+  const FlexMotion = motion<FlexProps>(Flex)
+
+  const {
+    data: favorites,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isSuccess
+  } = useGetFavorites();
+
+  const isBottom = (el) => {
+    return el.current?.getBoundingClientRect().bottom <= window.innerHeight;
   };
+
+  useEffect(() => {
+    const trackScrolling = () => {
+      if (containerRef) {
+        if (isBottom(containerRef)) {
+          if (hasNextPage) {
+            fetchMoreItems();
+            document.removeEventListener("scroll", trackScrolling);
+          }
+        }
+      }
+    };
+    document.addEventListener("scroll", trackScrolling);
+    return () => {
+      document.removeEventListener("scroll", trackScrolling);
+    };
+  }, [favorites, containerRef]);
+
+  const fetchMoreItems = () => {
+    fetchNextPage();
+  };
+
+  const variants = {
+    visible: {
+      opacity: 1,
+      transition: {
+        type: "ease",
+        duration: 0.6,
+      },
+    },
+    hidden: {
+      opacity: 0,
+      transition: {
+        type: "ease",
+        duration: 0.6,
+      },
+    },
+  };
+
+  if (!favorites) return <h1>چیزی نی</h1>;
 
   return (
     <Flex
@@ -28,15 +85,40 @@ const UserFavorites = () => {
         mb="2rem">
         <Text variant="heading5">علاقه مندی ها</Text>
       </Flex>
-      <Flex flexWrap="wrap" w="100%">
-        <FavoriteCard onRemove={removeItem} />
-        <FavoriteCard onRemove={removeItem} />
-        <FavoriteCard onRemove={removeItem} />
-        <FavoriteCard onRemove={removeItem} />
-        <FavoriteCard onRemove={removeItem} />
-        <FavoriteCard onRemove={removeItem} />
-        <FavoriteCard onRemove={removeItem} />
+      <Flex ref={containerRef} flexWrap="wrap" w="100%">
+        {isSuccess && favorites?.pages.map((group, index) => (
+          <React.Fragment key={index}>
+            {group?.results.map(({ product, id }: IFavorites, key: number) => (
+              <FavoriteCard
+                price={product.price}
+                name={product.name}
+                image={product.image}
+                id={id}
+                key={key}
+              />
+            ))}
+          </React.Fragment>
+        ))}
       </Flex>
+      <motion.div
+        style={{
+          display: isFetchingNextPage ? "flex" : "none",
+          width: "100%",
+          justifyContent: "center",
+          margin: "1rem 0",
+        }}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        variants={variants}>
+        <Loader
+          type="TailSpin"
+          color="#00BFFF"
+          height={100}
+          width={100}
+          timeout={3000}
+        />
+      </motion.div>
     </Flex>
   );
 };

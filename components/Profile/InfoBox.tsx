@@ -59,9 +59,9 @@ const InfoBox = ({
 
   const queryClient = useQueryClient();
 
-  const [input1, setInput1] = useState("");
-  const [input2, setInput2] = useState("");
-  const [input3, setInput3] = useState("");
+  const [input1, setInput1] = useState(null);
+  const [input2, setInput2] = useState(null);
+  const [input3, setInput3] = useState(null);
 
   const updateMutation = useMutation((data: any) => profileUpdate(data), {
     onSuccess: (res: any) => {
@@ -71,7 +71,8 @@ const InfoBox = ({
       setAlert({ content: "پروفایل با موفقیت آپدیت شد", type: "success" });
     },
     onError: (error: IError) => {
-      console.log(error);
+      console.log("Error: ", error.response);
+      setAlert({ content: error.response.data.error.message, type: "error" });
     },
   });
 
@@ -113,8 +114,9 @@ const InfoBox = ({
           </Text>
           <Icon
             as={FiEdit3}
+            display={info_box_for === "phonenumber" ? "none" : "flex"}
             cursor="pointer"
-            onClick={onOpen}
+            onClick={info_box_for !== "phonenumber" ? onOpen : null}
             fontSize="1.3rem"
           />
         </Flex>
@@ -157,6 +159,13 @@ const InfoBox = ({
             ) : null}
             <Input
               fontFamily="iranSans"
+              defaultValue={
+                info_box_for === "name_lastname"
+                  ? currentUser.first_name
+                  : info_box_for === "phonenumber"
+                  ? currentUser.phone_number
+                  : currentUser.national_id
+              }
               type={inputType}
               _focus={{
                 outline: "none",
@@ -173,6 +182,7 @@ const InfoBox = ({
                 </Text>
                 <Input
                   fontFamily="iranSans"
+                  defaultValue={currentUser.last_name}
                   type={inputType}
                   _focus={{
                     outline: "none",

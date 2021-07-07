@@ -20,3 +20,18 @@ export interface IError {
     };
   };
 }
+
+export interface IFavorites {
+  id: number;
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    image: string;
+  };
+}
+
+export interface IProvince {
+  name: string;
+  id: number;
+}

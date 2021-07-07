@@ -1,20 +1,25 @@
-import { userActionTypes } from './user.types'
-import { IUser } from "./user.interface"
+import { userActionTypes } from "./user.types";
+import { IUser } from "./user.interface";
 
 const INITIAL_STATE: IUser = {
-  currentUser: null
-}
+  currentUser: null,
+};
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case userActionTypes.SET_CURRENT_USER:
       return {
         ...state,
-        currentUser: action.payload
-      }
+        currentUser: action.payload,
+      };
+    case userActionTypes.CLEAR_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default userReducer
+export default userReducer;

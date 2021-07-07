@@ -2,6 +2,8 @@ import axios from "axios";
 import { IMainSignup, ISigninPassword, IVerifySignup } from "./interfaces";
 import { apiPathes } from ".";
 import Cookies from "js-cookie";
+import { IRecivedAddress } from "../components/Profile/Addresses";
+import { useInfiniteQuery, useQuery } from "react-query";
 
 const {
   MAIN,
@@ -12,6 +14,13 @@ const {
   SIGN_IN_VERIFY,
   UPDATE_PROFILE,
   SIGN_IN_PASSWORD,
+  BOOKMARKS,
+  CATEGORIES_FULL,
+  RESET_VERIFY,
+  DELETE_BOOKMARK,
+  ADDRESSES,
+  DELETE_ADDRESS,
+  GET_PROVINCE,
 } = apiPathes;
 
 export const getToken = async () => {
@@ -81,25 +90,177 @@ export const profileUpdate = async (data: {
   national_id?: string;
 }) => {
   const { last_name, first_name, password, phone_number, national_id } = data;
-  const haveToken = await getToken();
   const token = Cookies.get("accessToken");
-  if (haveToken) {
+  console.log("API ADDRESS: ", MAIN + AUTH + UPDATE_PROFILE);
+  const res = await axios.patch(
+    MAIN + AUTH + UPDATE_PROFILE,
+    {
+      phone_number,
+      password,
+      last_name,
+      first_name,
+      national_id,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res;
+};
+
+export const useGetFavorites = () =>
+  useInfiniteQuery(
+    ["userFavorites"],
+    async ({ pageParam = 1 }) => {
+      if (typeof pageParam === typeof 1) {
+        const { data } = await axios.get(
+          MAIN + BOOKMARKS + "?page=" + pageParam,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
+            },
+          }
+        );
+        return await data;
+      }
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+export const useGetCategories = () =>
+  useQuery(
+    ["categories"],
+    async () => {
+      const { data } = await axios.get(MAIN + CATEGORIES_FULL);
+      return data.results;
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+export const useDeleteBookmark = async (id: number) => {
+  console.log("Bookmark Id: ", id);
+  try {
+    const { data } = await axios.delete(MAIN + DELETE_BOOKMARK + id, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      },
+    });
     console.log(data);
-    const res = await axios.patch(
-      MAIN + AUTH + UPDATE_PROFILE,
+    return data;
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+export const useGetAddresses = () =>
+  useInfiniteQuery(
+    ["userAddresses"],
+    async ({ pageParam = 1 }) => {
+      if (typeof pageParam === typeof 1) {
+        const { data } = await axios.get(
+          MAIN + ADDRESSES + "?page=" + pageParam,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
+            },
+          }
+        );
+        return await data;
+      }
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+export const useAddAddress = async ({
+  city,
+  postal_code,
+  province,
+  receiver_family,
+  receiver_name,
+  receiver_number,
+  street_address,
+}: IRecivedAddress) => {
+  console.log("Data to Post : ", {
+    city,
+    postal_code,
+    province,
+    receiver_family,
+    receiver_name,
+    receiver_number,
+    street_address,
+  });
+  try {
+    const { data } = await axios.post(
+      MAIN + ADDRESSES,
       {
-        phone_number,
-        password,
-        last_name,
-        first_name,
-        national_id,
+        city,
+        postal_code,
+        province,
+        receiver_family,
+        receiver_name,
+        receiver_number,
+        street_address,
       },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       }
     );
-    return res;
-  } else return null;
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const useDeleteAddress = async (id: number) => {
+  console.log("Address Id: ", id);
+  try {
+    const { data } = await axios.delete(MAIN + DELETE_ADDRESS + id, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+export const useGetProvinces = () =>
+  useQuery(
+    ["provinces"],
+    async () => {
+      const { data } = await axios.get(MAIN + GET_PROVINCE, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      return await data.results;
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+export const useGetCities = async (id: number) => {
+  const { data } = await axios.get(MAIN + GET_PROVINCE + id + "/cities", {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("accessToken")}`,
+    },
+  });
+  return await data.results;
 };

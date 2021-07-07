@@ -254,7 +254,12 @@ const Navbar = ({ user, setAlert }) => {
               outline: 0,
             }}
             onClick={() => {
-              user ? router.push("/profile") : router.push("/auth/signin");
+              user
+                ? router.push({
+                    pathname: "/profile",
+                    query: { page: "profileinfo" },
+                  })
+                : router.push("/auth/signin");
               isOpen ? setIsOpen(false) : null;
             }}>
             {user ? (
@@ -397,7 +402,12 @@ const Navbar = ({ user, setAlert }) => {
                 outline: 0,
               }}
               onClick={() => {
-                user ? router.push("/profile") : router.push("/auth/signin");
+                user
+                  ? router.push({
+                      pathname: "/profile",
+                      query: { page: "profileinfo" },
+                    })
+                  : router.push("/auth/signin");
                 isOpen ? setIsOpen(false) : null;
               }}>
               {user ? (

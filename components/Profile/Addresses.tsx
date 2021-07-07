@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
-import { Flex } from "@chakra-ui/layout";
+import { Flex, FlexProps } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
@@ -13,111 +13,203 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Select } from "@chakra-ui/select";
-import { useState } from "react";
+import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState, Fragment } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { RiMapPinAddLine } from "react-icons/ri";
+import { useMutation, useQueryClient } from "react-query";
+import {
+  useAddAddress,
+  useDeleteAddress,
+  useGetAddresses,
+  useGetCities,
+  useGetProvinces,
+} from "../../API";
+import { IError, IProvince } from "../../API/interfaces";
 import Text from "../Text";
 import AddressItem from "./AddressItem";
 
 interface IAddress {
-  name?: string;
-  lastname?: string;
+  receiver_name?: string;
+  receiver_family?: string;
+  receiver_number?: string;
   tag?: string;
-  phoneNumber?: string;
-  postalCode?: string;
+  postal_code?: string;
   address?: string;
   unit?: string;
-
   city?: string;
-  state?: string;
+  province?: string;
+}
+
+export interface IRecivedAddress {
+  id?: number;
+  province: number | string;
+  city: number | string;
+  street_address: string;
+  postal_code: string;
+  receiver_name: string;
+  receiver_family: string;
+  receiver_number: string;
 }
 
 const Addresses = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [addresses, setAddresses] = useState<Array<IAddress>>([
-    {
-      name: "ابوالفضل",
-      address: "کرمان ایران مریکا",
-      lastname: "عمرانی",
-      postalCode: "2564365874",
-      phoneNumber: "09378239855",
-      tag: "شهید حقانی",
-      unit: "4",
+  const containerRef = useRef(null);
+  const queryClient = useQueryClient();
 
-      city: "کرمان",
-      state: "کرمان",
-    },
-    {
-      name: "حمیت",
-      address: "کرمان ایران مریکا",
-      lastname: "رادفر",
-      postalCode: "2564365874",
-      phoneNumber: "09378239855",
-      tag: "شهید حقانی",
-      unit: "10",
+  const [cities, setCities] = useState(null);
 
-      city: "کرمان",
-      state: "کرمان",
+  const {
+    data: addresses,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isSuccess,
+  } = useGetAddresses();
+
+  const { data: provinces } = useGetProvinces();
+
+  const { mutateAsync: deleteMutation } = useMutation(useDeleteAddress, {
+    onSuccess: async () => {
+      await queryClient.refetchQueries(["userAddresses"]);
     },
-  ]);
+  });
 
   const [tempAddress, setTempAddress] = useState<IAddress>({
-    name: "",
+    receiver_name: "",
     address: "",
-    lastname: "",
-    postalCode: "",
-    phoneNumber: "",
+    receiver_family: "",
+    postal_code: "",
+    receiver_number: "",
     tag: "",
     unit: "",
     city: "",
-    state: "",
+    province: "",
   });
 
   const {
-    lastname,
-    postalCode,
-    phoneNumber,
+    receiver_number,
+    postal_code,
+    receiver_family,
     tag,
     unit,
     address,
-    name,
+    receiver_name,
     city,
-    state,
+    province,
   } = tempAddress;
-  const removeAddress = (id: number) => {
-    console.log(id);
-    setAddresses(
-      addresses.filter((_, index) => {
-        return index != id;
-      })
-    );
+
+  const removeAddress = async (id: number) => {
+    console.log("Id of Address: ", id);
+    deleteMutation(id);
   };
 
-  const addAddress = (newAddress: IAddress) => {
-    console.log(newAddress);
-    setAddresses([...addresses, newAddress]);
-    setTempAddress({
-      name: "",
-      address: "",
-      lastname: "",
-      postalCode: "",
-      phoneNumber: "",
-      tag: "",
-      unit: "",
-      city: "",
-      state: "",
+  const addressMutation = useMutation(
+    (data: IRecivedAddress) => useAddAddress(data),
+    {
+      onSuccess: async (res) => {
+        await queryClient.refetchQueries();
+        console.log(res);
+      },
+      onError: (err: IError) => {
+        console.log(err.response);
+      },
+    }
+  );
+
+  const isBottom = (el) => {
+    return el.current?.getBoundingClientRect().bottom <= window.innerHeight;
+  };
+
+  const fetchMoreItems = () => {
+    fetchNextPage();
+  };
+
+  const addAddress = async (newAddress: IAddress) => {
+    const {
+      address,
+      city,
+      receiver_family,
+      receiver_name,
+      receiver_number,
+      postal_code,
+      province,
+      tag,
+      unit,
+    } = newAddress;
+    await addressMutation.mutateAsync({
+      city,
+      province,
+      receiver_family,
+      receiver_name,
+      receiver_number: "+98" + receiver_number,
+      postal_code,
+      street_address: address + " " + tag + " " + unit,
     });
     onClose();
   };
+
+  const variants = {
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: "easeInOut",
+        duration: 0.6,
+        opacity: {
+          delay: 0.2,
+        },
+      },
+    },
+    hidden: {
+      opacity: 0,
+      scale: 0.2,
+      transition: {
+        type: "easeInOut",
+        duration: 0.6,
+        opacity: {
+          delay: 0.2,
+        },
+      },
+    },
+  };
+
+  const FlexMotion = motion<FlexProps>(Flex);
 
   const onAddressFieldChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempAddress({ ...tempAddress, [e.target.name]: e.target.value });
   };
 
-  const onSelectChanges = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSelectChanges = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setTempAddress({ ...tempAddress, [e.target.name]: e.target.value });
+    const data = await useGetCities(Number(e.target.value));
+    setCities(data);
+  };
+  const onSelectCitiesChanges = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setTempAddress({ ...tempAddress, [e.target.name]: e.target.value });
   };
 
+  useEffect(() => {
+    console.log("Cities: ", cities);
+    const trackScrolling = () => {
+      if (containerRef) {
+        if (isBottom(containerRef)) {
+          if (hasNextPage) {
+            fetchMoreItems();
+            document.removeEventListener("scroll", trackScrolling);
+          }
+        }
+      }
+    };
+    document.addEventListener("scroll", trackScrolling);
+    return () => {
+      document.removeEventListener("scroll", trackScrolling);
+    };
+  }, [addresses, containerRef, provinces, cities]);
+
+  if (!provinces && addresses) return <h1>Error</h1>;
   return (
     <Flex
       w="100%"
@@ -129,7 +221,8 @@ const Addresses = () => {
       alignItems="flex-end"
       flexDir="column"
       overflow="hidden"
-      p="1.5rem">
+      p="1.5rem"
+      ref={containerRef}>
       <Flex
         alignItems="center"
         pb=".5rem"
@@ -138,34 +231,39 @@ const Addresses = () => {
         mb="2rem">
         <Text variant="heading5">نشانی ها</Text>
       </Flex>
-      {addresses.map(
-        (
-          {
-            unit,
-            tag,
-            address,
-            phoneNumber,
-            postalCode,
-            lastname,
-            name,
-            city,
-            state,
-          },
-          key: number
-        ) => (
-          <AddressItem
-            address={address}
-            id={key}
-            key={key}
-            name={name + " " + lastname}
-            postal_code={postalCode}
-            phone_number={phoneNumber}
-            onRemove={() => removeAddress(key)}
-            city={city}
-            state={state}
-          />
-        )
-      )}
+
+      {isSuccess &&
+        addresses?.pages?.map((group, index) => (
+          <Fragment key={index}>
+            {group?.results.map(
+              (
+                {
+                  id,
+                  city,
+                  postal_code,
+                  province,
+                  receiver_family,
+                  receiver_name,
+                  receiver_number,
+                  street_address,
+                }: IRecivedAddress,
+                key: number
+              ) => (
+                <AddressItem
+                  address={street_address}
+                  id={id}
+                  key={key}
+                  name={receiver_name + " " + receiver_family}
+                  postal_code={postal_code}
+                  phone_number={receiver_number}
+                  onRemove={() => removeAddress(id)}
+                  city={city}
+                  state={province}
+                />
+              )
+            )}
+          </Fragment>
+        ))}
       <Flex
         onClick={onOpen}
         cursor="pointer"
@@ -181,6 +279,7 @@ const Addresses = () => {
         </Flex>
         <Icon as={FiChevronLeft} />
       </Flex>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
@@ -214,12 +313,14 @@ const Addresses = () => {
                   dir="ltr"
                   focusBorderColor="pink.300"
                   placeholder="شهر خود را انتخاب کنید"
-                  onChange={onSelectChanges}
+                  onChange={onSelectCitiesChanges}
                   value={city}
                   name="city">
-                  <option value="تهران">تهران</option>
-                  <option value="کرمان">کرمان</option>
-                  <option value="شیراز">شیراز</option>
+                  {cities?.map(({ id, name }: IProvince) => (
+                    <option key={id} value={id}>
+                      {name}
+                    </option>
+                  ))}
                 </Select>
               </Flex>
               <Flex dir="rtl" w={{ base: "100%", md: "45%" }} flexDir="column">
@@ -233,12 +334,14 @@ const Addresses = () => {
                   color="#6F6F6F"
                   onChange={onSelectChanges}
                   focusBorderColor="pink.300"
-                  value={state}
-                  name="state"
+                  value={province}
+                  name="province"
                   placeholder="استان خود را انتخاب کنید">
-                  <option value="تهران">تهران</option>
-                  <option value="کرمان">کرمان </option>
-                  <option value="شیراز">شیراز</option>
+                  {provinces?.map(({ id, name }: IProvince) => (
+                    <option id="province" key={id} value={id}>
+                      {name}
+                    </option>
+                  ))}
                 </Select>
               </Flex>
             </Flex>
@@ -296,9 +399,9 @@ const Addresses = () => {
                 </Text>
                 <Input
                   focusBorderColor="pink.300"
-                  name="postalCode"
+                  name="postal_code"
                   onChange={onAddressFieldChanges}
-                  value={postalCode}
+                  value={postal_code}
                 />
               </Flex>
             </Flex>
@@ -318,9 +421,9 @@ const Addresses = () => {
                 </Text>
                 <Input
                   focusBorderColor="pink.300"
-                  name="name"
+                  name="receiver_name"
                   onChange={onAddressFieldChanges}
-                  value={name}
+                  value={receiver_name}
                 />
               </Flex>
               <Flex w={{ base: "100%", md: "45%" }} dir="rtl" flexDir="column">
@@ -329,9 +432,9 @@ const Addresses = () => {
                 </Text>
                 <Input
                   focusBorderColor="pink.300"
-                  name="lastname"
+                  name="receiver_family"
                   onChange={onAddressFieldChanges}
-                  value={lastname}
+                  value={receiver_family}
                 />
               </Flex>
             </Flex>
@@ -342,9 +445,9 @@ const Addresses = () => {
               <Input
                 focusBorderColor="pink.300"
                 w={{ base: "100%", md: "45%" }}
-                name="phoneNumber"
+                name="receiver_number"
                 onChange={onAddressFieldChanges}
-                value={phoneNumber}
+                value={receiver_number}
               />
             </Flex>
           </ModalBody>

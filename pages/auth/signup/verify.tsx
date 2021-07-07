@@ -11,7 +11,7 @@ import { IError, IVerifySignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { connect } from "react-redux";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
-import { appDispatch } from "../../../redux/store";
+import Cookies from "js-cookie";
 
 const index = ({ setCurrentUser, setAlert }) => {
   const router = useRouter();
@@ -39,13 +39,19 @@ const index = ({ setCurrentUser, setAlert }) => {
       onSuccess: (data) => {
         console.log("Data: ", data);
         setCurrentUser(data.user);
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
+        Cookies.set("refreshToken", data.token.refresh, {
+          sameSite: "strict",
+          expires: 24,
+        });
+        Cookies.set("accessToken", data.token.access, {
+          sameSite: "strict",
+          expires:24,
+        });
         router.push("/");
       },
       onError: (err: IError) => {
         console.log(err.response.data);
-        if(err.response.data.error.code===494){
+        if (err.response.data.error.code === 494) {
           setAlert({
             content: "کد وارد شده اشتباه است.",
             type: "error",

@@ -1,15 +1,74 @@
 import { IconButton } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
-import { Flex } from "@chakra-ui/layout";
+import { Flex, FlexProps } from "@chakra-ui/layout";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/router";
 import { FiChevronLeft } from "react-icons/fi";
 import { IoMdMore } from "react-icons/io";
+import { useMutation, useQueryClient } from "react-query";
 import { Text } from "..";
+import { useDeleteBookmark } from "../../API";
 
-const FavoriteCard = ({ onRemove }) => {
+interface IQD {
+  pageParams: Array<number>;
+  pages: Array<{
+    results: Array<{ id: number }>;
+  }>;
+}
+
+export interface IFavoriteCard {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+}
+
+const FavoriteCard = ({ id, image, name, price }: IFavoriteCard) => {
+  const MotionFlex = motion<FlexProps>(Flex);
+  const router = useRouter();
+  const variants = {
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: "easeInOut",
+        duration: 0.6,
+        opacity: {
+          delay: 0.3,
+        },
+      },
+    },
+    hidden: {
+      opacity: 0,
+      scale: 0.2,
+      transition: {
+        type: "easeInOut",
+        duration: 0.6,
+        opacity: {
+          delay: 0.3,
+        },
+      },
+    },
+  };
+
   const onWatchProduct = () => {
     alert("OnWatch Product");
   };
+
+  const queryClient = useQueryClient();
+
+  const { mutateAsync } = useMutation(useDeleteBookmark, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(["userFavorites"]);
+      // console.log("Bip Bip");
+      // router.reload();
+    },
+  });
+  const removeBookmark = async () => {
+    await mutateAsync(id);
+  };
+
   return (
     <Flex
       pos="relative"
@@ -21,16 +80,23 @@ const FavoriteCard = ({ onRemove }) => {
       overflow="hidden"
       justifyContent="flex-end">
       <Flex flexDir="row-reverse" w="100%">
-        <Flex h="100%" w="160px" bgColor="blackAlpha.300" />
+        <Flex
+          h="100%"
+          w="160px"
+          bgRepeat="no-repeat"
+          bgSize="cover"
+          bgPos="center"
+          bgImage={`url(${image})`}
+        />
         <Flex alignItems="flex-end" flexDir="column">
           <Flex p="1rem 2rem">
             <Text color="black" variant="normalExt">
-              نام محصول
+              {name}
             </Text>
           </Flex>
           <Flex p="1rem 2rem">
             <Text dir="rtl" color="black" variant="normalExt">
-              199,500 ریال
+              {price + " ریال"}
             </Text>
           </Flex>
           <Flex
@@ -73,7 +139,7 @@ const FavoriteCard = ({ onRemove }) => {
               outline: 0,
               bgColor: "transparent",
             }}
-            onClick={onRemove}>
+            onClick={removeBookmark}>
             حذف
           </MenuItem>
         </MenuList>

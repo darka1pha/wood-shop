@@ -30,7 +30,7 @@ const password = ({ setAlert, setCurrentUser }) => {
         });
         Cookies.set("accessToken", data.token.access, {
           sameSite: "strict",
-          expires: 1 / 24,
+          expires: 24,
         });
         router.push("/");
       },

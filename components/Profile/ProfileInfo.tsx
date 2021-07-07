@@ -65,7 +65,7 @@ const ProfileInfo = ({ currentUser }: IUser) => {
           info_box_for="national_id"
           borderRight={{ base: "none", md: "1px solid #CFCFCF" }}
           borderBottom="none"
-          title="شماره شناسنامه"
+          title="کد ملی"
           value={currentUser.national_id}
           inputType="number"
         />

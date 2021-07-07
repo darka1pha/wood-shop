@@ -1,11 +1,10 @@
 import { Flex } from "@chakra-ui/layout";
-import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import UserInfo from "./UserInfo";
 import { BsPerson } from "react-icons/bs";
 import { IoHeartOutline, IoExitOutline } from "react-icons/io5";
 import { GoNote } from "react-icons/go";
-import { RiRoadMapLine, RiRouteLine } from "react-icons/ri";
+import { RiRoadMapLine } from "react-icons/ri";
 
 import ProfileNavbarBtn from "./ProfileNavbarBtn";
 
@@ -14,6 +13,7 @@ import UserFavorites from "../UserFavorites";
 import Orders from "../Orders";
 import Addresses from "../Addresses";
 import { ICurrentUser } from "../../../redux";
+import { useRouter } from "next/router";
 
 interface IProfileNavbar {
   setCurrentPage?: Dispatch<
@@ -34,6 +34,7 @@ const ProfileNavbar = ({
   currentPage,
   currentUser,
 }: IProfileNavbar) => {
+  const router = useRouter();
   return (
     <Flex
       p="1rem"
@@ -63,7 +64,7 @@ const ProfileNavbar = ({
             Component: <ProfileInfo />,
             title: "ProfileInfo",
           }}
-          active={currentPage.title === "ProfileInfo" ? true : false}
+          active={router.query.page === "profileinfo" ? true : false}
         />
         <ProfileNavbarBtn
           title="علاقه مندی ها"
@@ -74,7 +75,7 @@ const ProfileNavbar = ({
             Component: <UserFavorites />,
             title: "favorites",
           }}
-          active={currentPage.title === "favorites" ? true : false}
+          active={router.query.page === "favorites" ? true : false}
         />
         <ProfileNavbarBtn
           title="سفارشات"
@@ -85,7 +86,7 @@ const ProfileNavbar = ({
             Component: <Orders />,
             title: "orders",
           }}
-          active={currentPage.title === "orders" ? true : false}
+          active={router.query.page === "orders" ? true : false}
         />
         <ProfileNavbarBtn
           title="آدرس ها"
@@ -96,7 +97,7 @@ const ProfileNavbar = ({
             Component: <Addresses />,
             title: "addresses",
           }}
-          active={currentPage.title === "addresses" ? true : false}
+          active={router.query.page === "addresses" ? true : false}
         />
         <ProfileNavbarBtn
           title="خروج"

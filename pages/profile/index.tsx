@@ -5,20 +5,49 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { ProfileNavbar } from "../../components";
+
 import ProfileInfo from "../../components/Profile/ProfileInfo";
+import Addresses from "../../components/Profile/Addresses";
+import UserFavorites from "../../components/Profile/UserFavorites";
+import Orders from "../../components/Profile/Orders";
+
 import { selectCurrentUser } from "../../redux";
 
+interface IPageComponent {
+  Component: JSX.Element;
+  title: string;
+}
+
 const index = ({ currentUser }) => {
+  const router = useRouter();
+  const [currentQuery, setCurrentQuery] = useState(null);
   const [currentPage, setCurrentPage] = useState({
-    Component: <ProfileInfo />,
+    Component:
+      currentQuery === "addresses" ||
+      window.location.search.split("=")[1] === "addresses" ? (
+        <Addresses />
+      ) : router.query.page === "orders" ||
+        window.location.search.split("=")[1] === "orders" ? (
+        <Orders />
+      ) : router.query.page === "profileinfo" ||
+        window.location.search.split("=")[1] === "profileinfo" ? (
+        <ProfileInfo />
+      ) : router.query.page === "favorites" ||
+        window.location.search.split("=")[1] === "favorites" ? (
+        <UserFavorites />
+      ) : (
+        <h1>
+          Wrong Query Param <br /> Query is : {router.pathname}{" "}
+        </h1>
+      ),
     title: "ProfileInfo",
   });
 
-  const router = useRouter();
-
   useEffect(() => {
+    console.log(window.location.search.split("=")[1]);
     if (!currentUser) router.push("/auth/signin");
-  }, []);
+    setCurrentQuery(router.query.page);
+  }, [router.query.page]);
 
   if (!currentUser) {
     return (
@@ -65,7 +94,13 @@ const index = ({ currentUser }) => {
         <ProfileNavbar
           currentUser={currentUser}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+          setCurrentPage={(component: IPageComponent) => {
+            router.push({
+              pathname: "profile",
+              query: { page: component.title.toLocaleLowerCase() },
+            });
+            setCurrentPage(component);
+          }}
         />
         <Flex h="100%" w="100%">
           {currentPage.Component}
