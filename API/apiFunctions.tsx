@@ -21,6 +21,7 @@ const {
   ADDRESSES,
   DELETE_ADDRESS,
   GET_PROVINCE,
+  GET_CATEGORY_PRODUCTS,
 } = apiPathes;
 
 export const getToken = async () => {
@@ -160,6 +161,22 @@ export const useDeleteBookmark = async (id: number) => {
   }
 };
 
+export const useAddBookmark = async (id: number) => {
+  console.log("id of product: ", id);
+  const { data } = await axios.post(
+    MAIN + DELETE_BOOKMARK,
+    {
+      product: id,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      },
+    }
+  );
+  return data;
+};
+
 export const useGetAddresses = () =>
   useInfiniteQuery(
     ["userAddresses"],
@@ -264,3 +281,24 @@ export const useGetCities = async (id: number) => {
   });
   return await data.results;
 };
+
+export const useGetCategoryProducts = (id: any) =>
+  useInfiniteQuery(
+    [`Products${id}`, id],
+    async ({ pageParam = 1 }) => {
+      const { data }: any = await axios.get(
+        MAIN + GET_CATEGORY_PRODUCTS + id + `/products?page=${pageParam}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
+      return data;
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+      refetchOnWindowFocus: false,
+    }
+  );

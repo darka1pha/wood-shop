@@ -108,8 +108,7 @@ const Addresses = () => {
     (data: IRecivedAddress) => useAddAddress(data),
     {
       onSuccess: async (res) => {
-        await queryClient.refetchQueries();
-        console.log(res);
+        await queryClient.refetchQueries(["userAddresses"]);
       },
       onError: (err: IError) => {
         console.log(err.response);
@@ -148,33 +147,6 @@ const Addresses = () => {
     });
     onClose();
   };
-
-  const variants = {
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        type: "easeInOut",
-        duration: 0.6,
-        opacity: {
-          delay: 0.2,
-        },
-      },
-    },
-    hidden: {
-      opacity: 0,
-      scale: 0.2,
-      transition: {
-        type: "easeInOut",
-        duration: 0.6,
-        opacity: {
-          delay: 0.2,
-        },
-      },
-    },
-  };
-
-  const FlexMotion = motion<FlexProps>(Flex);
 
   const onAddressFieldChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempAddress({ ...tempAddress, [e.target.name]: e.target.value });

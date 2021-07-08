@@ -6,19 +6,19 @@ import Text from "../Text";
 import FavoriteCard from "./FavoriteCard";
 import Loader from "react-loader-spinner";
 import { motion } from "framer-motion";
+import { SyncLoader } from "react-spinners";
 
 const UserFavorites = () => {
-
   const containerRef = useRef(null);
 
-  const FlexMotion = motion<FlexProps>(Flex)
+  const FlexMotion = motion<FlexProps>(Flex);
 
   const {
     data: favorites,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isSuccess
+    isSuccess,
   } = useGetFavorites();
 
   const isBottom = (el) => {
@@ -86,19 +86,22 @@ const UserFavorites = () => {
         <Text variant="heading5">علاقه مندی ها</Text>
       </Flex>
       <Flex ref={containerRef} flexWrap="wrap" w="100%">
-        {isSuccess && favorites?.pages.map((group, index) => (
-          <React.Fragment key={index}>
-            {group?.results.map(({ product, id }: IFavorites, key: number) => (
-              <FavoriteCard
-                price={product.price}
-                name={product.name}
-                image={product.image}
-                id={id}
-                key={key}
-              />
-            ))}
-          </React.Fragment>
-        ))}
+        {isSuccess &&
+          favorites?.pages.map((group, index) => (
+            <React.Fragment key={index}>
+              {group?.results.map(
+                ({ product, id }: IFavorites, key: number) => (
+                  <FavoriteCard
+                    price={product.price}
+                    name={product.name}
+                    image={product.image}
+                    id={id}
+                    key={key}
+                  />
+                )
+              )}
+            </React.Fragment>
+          ))}
       </Flex>
       <motion.div
         style={{
@@ -111,13 +114,7 @@ const UserFavorites = () => {
         animate="visible"
         exit="hidden"
         variants={variants}>
-        <Loader
-          type="TailSpin"
-          color="#00BFFF"
-          height={100}
-          width={100}
-          timeout={3000}
-        />
+        <SyncLoader color="#f04a5e" size={10} />
       </motion.div>
     </Flex>
   );

@@ -1,14 +1,17 @@
 import { Button } from "@chakra-ui/react";
-
+import { ISetCurrentCategory, setCurrentCategory } from "../../redux";
 import Text from "../Text";
 
 import { useRouter } from "next/router";
+import { connect } from "react-redux";
 
 interface MenuItem {
   text: string;
+  id: number;
+  setCurrentCategory: ({ name, id }: ISetCurrentCategory) => void;
 }
 
-const MenuItem = ({ text }: MenuItem) => {
+const MenuItem = ({ text, id, setCurrentCategory }: MenuItem) => {
   const router = useRouter();
   return (
     <Button
@@ -36,10 +39,16 @@ const MenuItem = ({ text }: MenuItem) => {
           pathname: "/[category]",
           query: { category: text },
         });
+        setCurrentCategory({ name: text, id });
       }}>
       <Text variant="normal">{text}</Text>
     </Button>
   );
 };
 
-export default MenuItem;
+const mapDispatchToProps = (dispatch: any) => ({
+  setCurrentCategory: (current: ISetCurrentCategory) =>
+    dispatch(setCurrentCategory(current)),
+});
+
+export default connect(null, mapDispatchToProps)(MenuItem);

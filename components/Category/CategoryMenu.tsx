@@ -1,6 +1,6 @@
 import { Accordion } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CategoryItem from "./CategoryItem";
 
 interface ICategories {
@@ -51,12 +51,13 @@ const CategoryMenu = ({
       {items.map(({ title, id, category_set }, key) => (
         <CategoryItem
           items={category_set}
-          title={title}
+          categoryTitle={title}
           background={background}
           color={color}
           margin={itemsMargin}
           border={itemsBorder}
           key={key}
+          categoryId={id}
         />
       ))}
     </Accordion>

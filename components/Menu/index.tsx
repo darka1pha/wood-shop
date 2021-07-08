@@ -7,7 +7,7 @@ import { useGetCategories } from "../../API";
 const Menu = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-  
+
   const { data: categories } = useGetCategories();
 
   const handleScroll = () => {
@@ -45,8 +45,8 @@ const Menu = () => {
           backgroundColor: "#42301e",
           flexDirection: "row-reverse",
         }}>
-        {categories.map(({ title }, key) => (
-          <MenuItem text={title} key={key} />
+        {categories.map(({ title, id }, key: number) => (
+          <MenuItem id={id} text={title} key={key} />
         ))}
       </motion.div>
     </Box>

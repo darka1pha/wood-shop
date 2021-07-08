@@ -5,18 +5,26 @@ interface PanelItem {
   name?: string;
   color?: string;
   id?: number;
+  activeId?: number;
+  onClick: () => void;
 }
 
-const PanelItem = ({ name, color = "black", id }: PanelItem) => {
+const PanelItem = ({
+  name,
+  color = "black",
+  id,
+  onClick,
+  activeId,
+}: PanelItem) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
     <Box
       m=".5rem"
       cursor="pointer"
-      color={isActive ? "active" : color}
-      onClick={() => setIsActive(!isActive)}
-      fontWeight={isActive ? "semibold" : "normal"}>
+      color={id === activeId ? "active" : color}
+      onClick={onClick}
+      fontWeight={id === activeId ? "semibold" : "normal"}>
       {name}
     </Box>
   );

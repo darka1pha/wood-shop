@@ -35,3 +35,11 @@ export interface IProvince {
   name: string;
   id: number;
 }
+
+export interface IProducts {
+  id: number;
+  name: string;
+  image: string;
+  price: string;
+  score?: number;
+}
