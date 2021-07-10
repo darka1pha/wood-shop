@@ -1,52 +1,70 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import Slider from "react-slick";
+import { IFullProducts } from "../../API/interfaces";
 import ProductCarouselItem from "./ProductCarouselItem";
+import CarouselThumb from "./CarouselThumb";
+import React, { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper.min.css";
+import "swiper/components/navigation/navigation.min.css";
+import "swiper/components/thumbs/thumbs.min.css";
+import SwiperCore, { Navigation, Thumbs } from "swiper/core";
+
+SwiperCore.use([Navigation, Thumbs]);
 
 interface IProductCard {
-	image_url?: string;
-	price?: string;
-	name?: string;
+  image_url?: string;
+  price?: string;
+  name?: string;
 }
 
 interface ICarousel {
-	title?: string;
-	data?: Array<IProductCard>;
-	tempUrl?: string;
+  product?: IFullProducts;
 }
 
-const ProductCarousel = ({ data, title, tempUrl }: ICarousel) => {
-	var settings = {
-		customPaging: function (i) {
-			return (
-				<Flex display={{ base: "none", md: "block" }} h="45px" w="45px" bg={`blue.${i + 1}00`} />
-			);
-		},
-		dotsClass: "slider slick-dots slick-thumb",
-		dots: true,
-		initialSlide: 0,
-		infinite: true,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		arrows: false,
-		fade: true
-	};
+const ProductCarousel = ({ product }: ICarousel) => {
+  const { image, images } = product;
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-	return (
-		<Box
-			w="100%"
-			maxW="1920px"
-			h="100%"
-		>
-			<Slider {...settings} lazyLoad="ondemand">
-				<ProductCarouselItem bgColor="blue.100" />
-				<ProductCarouselItem bgColor="blue.200" />
-				<ProductCarouselItem bgColor="blue.300" />
-				<ProductCarouselItem bgColor="blue.400" />
-				<ProductCarouselItem bgColor="blue.500" />
-				<ProductCarouselItem bgColor="blue.600" />
-			</Slider>
-		</Box>
-	);
-}
+  return (
+    <Box className="swiper-container" w="100%" maxW="1920px" h="100%">
+      <Swiper
+        style={{
+          "--swiper-navigation-color": "#EF394E",
+          "--swiper-pagination-color": "#EF394E",
+        }}
+        spaceBetween={10}
+        navigation={true}
+        thumbs={{ swiper: thumbsSwiper }}
+        className="mySwiper2">
+        <SwiperSlide>
+          <ProductCarouselItem imageUrl={image} />
+        </SwiperSlide>
+        {images.map((imageUrl, key) => (
+          <SwiperSlide>
+            <ProductCarouselItem key={key} imageUrl={imageUrl} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <Swiper
+        onSwiper={setThumbsSwiper}
+        spaceBetween={10}
+        slidesPerView={4}
+        freeMode={true}
+        watchSlidesVisibility={true}
+        watchSlidesProgress={true}
+        className="mySwiper">
+        <SwiperSlide>
+          <CarouselThumb imageUrl={image} />
+        </SwiperSlide>
+        {images.map((imageUrl, key) => (
+          <SwiperSlide>
+            <CarouselThumb key={key} imageUrl={imageUrl} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </Box>
+  );
+};
 
 export default ProductCarousel;

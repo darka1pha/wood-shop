@@ -4,7 +4,6 @@ import { useDeleteBookmark, useGetFavorites } from "../../API";
 import { IFavorites } from "../../API/interfaces";
 import Text from "../Text";
 import FavoriteCard from "./FavoriteCard";
-import Loader from "react-loader-spinner";
 import { motion } from "framer-motion";
 import { SyncLoader } from "react-spinners";
 

@@ -104,6 +104,7 @@ const index = ({ currentCategory }) => {
           ))}
         </Flex>
         <Button
+          fontFamily="iranSans"
           onClick={fetchMoreItems}
           disabled={!hasNextPage}
           color="white"

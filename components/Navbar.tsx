@@ -22,12 +22,14 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../redux/user/user.selectors";
 import { setAlert } from "../redux";
+import { useGetCategories } from "../API";
 
 const Navbar = ({ user, setAlert }) => {
   const router = useRouter();
   const btnSearchRef = useRef(null);
   const searchRefMd = useRef(null);
   const searchRefBase = useRef(null);
+  const { data: categories } = useGetCategories();
 
   let condition = false;
 
@@ -379,6 +381,7 @@ const Navbar = ({ user, setAlert }) => {
               defaultIndex={false}
               itemsMargin=".5rem 0 .5rem 0"
               itemsBorder="none"
+              items={categories ? categories : null}
             />
           </Flex>
           <Flex flexDir="column" pos="absolute" bottom="2rem">

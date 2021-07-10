@@ -1,7 +1,5 @@
 import { Flex } from "@chakra-ui/layout";
-import { motion } from "framer-motion";
-import { Fragment, useEffect, useRef } from "react";
-import Loader from "react-spinners";
+import { Fragment} from "react";
 import { useGetCategoryProducts } from "../API";
 import { IProducts } from "../API/interfaces";
 import ProductCard from "./ProductCard";

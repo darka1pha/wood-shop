@@ -31,7 +31,8 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "sass": "^1.32.11",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "swiper": "^6.7.5"
   },
   "devDependencies": {
     "@types/js-cookie": "^2.2.6",

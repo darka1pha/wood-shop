@@ -1,5 +1,12 @@
 import axios from "axios";
-import { IMainSignup, ISigninPassword, IVerifySignup } from "./interfaces";
+import {
+  IMainSignup,
+  ISigninPassword,
+  IVerifySignup,
+  IGetProductInfo,
+  IFullProducts,
+  IComment,
+} from "./interfaces";
 import { apiPathes } from ".";
 import Cookies from "js-cookie";
 import { IRecivedAddress } from "../components/Profile/Addresses";
@@ -22,6 +29,8 @@ const {
   DELETE_ADDRESS,
   GET_PROVINCE,
   GET_CATEGORY_PRODUCTS,
+  PRODUCT_DETAILS,
+  NEW_COMMENT,
 } = apiPathes;
 
 export const getToken = async () => {
@@ -302,3 +311,40 @@ export const useGetCategoryProducts = (id: any) =>
       refetchOnWindowFocus: false,
     }
   );
+
+export const useGetProductInfo = (id: number) =>
+  useQuery<IFullProducts>([`Product-${id}`], async () => {
+    const { data } = await axios.get(MAIN + PRODUCT_DETAILS + id, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      },
+    });
+    return data.result;
+  });
+
+export const useSendNewComment = async ({
+  design_value,
+  feature_value,
+  money_value,
+  product,
+  quality_value,
+  text,
+}: IComment) => {
+  const { data } = await axios.post(
+    MAIN + NEW_COMMENT,
+    {
+      design_value,
+      feature_value,
+      money_value,
+      product,
+      quality_value,
+      text,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      },
+    }
+  );
+  return await data;
+};

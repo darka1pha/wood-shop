@@ -6,14 +6,33 @@ import {
   NewComment,
   ProductDiscription,
   Text,
-} from "../../../components";
-import ProductCarousel from "../../../components/ProductCarousel";
+} from "../../components";
+import ProductCarousel from "../../components/ProductCarousel";
 import { AiFillStar } from "react-icons/ai";
 import Icon from "@chakra-ui/icon";
 import { Button } from "@chakra-ui/button";
 import { FiShoppingCart } from "react-icons/fi";
+import { useGetProductInfo } from "../../API";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const index = () => {
+  const router = useRouter();
+
+  const { data: product } = useGetProductInfo(
+    Number(
+      router.query.id
+        ? router.query.id
+        : Number(window.location.search.split("=")[1])
+    )
+  );
+
+  useEffect(() => {
+    console.log("ProductInfo", product);
+  }, [product]);
+
+  if (!product) return <h1>loading</h1>;
+
   return (
     <Flex
       as="div"
@@ -28,12 +47,12 @@ const index = () => {
       <Flex
         w="100%"
         maxW="1920px"
-        alignItems="center"
+        alignItems="flex-start"
         flexDir={{ base: "column", md: "row-reverse" }}
         justifyContent="center"
         mb="2rem">
-        <Flex w={{ base: "100%", md: "55%" }}>
-          <ProductCarousel />
+        <Flex w={{ base: "100%", md: "50%" }}>
+          <ProductCarousel product={product} />
         </Flex>
         <Flex
           w={{ base: "100%", md: "auto" }}
@@ -50,7 +69,7 @@ const index = () => {
               fontSize={{ base: "18px", md: "32px" }}
               color="black"
               variant="heading3">
-              صندلی کد 264
+              {product.name}
             </Text>
           </Flex>
           <Flex
@@ -67,7 +86,7 @@ const index = () => {
               h="100%"
               display="flex"
               alignItems="center">
-              4.6
+              {product.score.toString()}
             </Text>
           </Flex>
           <Flex
@@ -78,7 +97,7 @@ const index = () => {
             flexDir="column"
             justifyContent="flex-end">
             <ColorPalette />
-            <DeliveryTime />
+            <DeliveryTime time={product.creation_duration} />
             <Flex
               m={{ base: "1rem 0", md: "2rem 0" }}
               w="100%"
@@ -112,7 +131,7 @@ const index = () => {
                 whiteSpace="nowrap"
                 color="black"
                 variant="heading5">
-                650 تومان
+                {`${product.price.toLocaleString()} ریال`}
               </Text>
             </Flex>
           </Flex>
@@ -124,8 +143,14 @@ const index = () => {
         alignItems="center"
         flexDir="column"
         justifyContent="center">
-        <ProductDiscription />
-        <NewComment />
+        <ProductDiscription description={product.description} />
+        <NewComment
+          productId={Number(
+            router.query.id
+              ? router.query.id
+              : Number(window.location.search.split("=")[1])
+          )}
+        />
         <Comment />
       </Flex>
     </Flex>

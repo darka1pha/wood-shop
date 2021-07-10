@@ -36,9 +36,7 @@ const index = ({ currentUser }) => {
         window.location.search.split("=")[1] === "favorites" ? (
         <UserFavorites />
       ) : (
-        <h1>
-          Wrong Query Param <br /> Query is : {router.pathname}{" "}
-        </h1>
+        <ProfileInfo />
       ),
     title: "ProfileInfo",
   });

@@ -3,16 +3,16 @@ import { Flex } from "@chakra-ui/layout";
 import { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-// import { BsHeart, BsHeartFill } from "react-icons/Bs"
 import Text from "./Text";
-import { imageBaseUrl, useAddBookmark } from "../API";
-import { useMutation, useQueryClient } from "react-query";
+import { useAddBookmark } from "../API";
+import { useMutation } from "react-query";
 import { ISetAlert, setAlert } from "../redux";
 import { connect } from "react-redux";
+import { useRouter } from "next/router";
 
 interface CarouselItem {
   background_image?: string;
-  price?: string;
+  price?: number;
   name?: string;
   margin?: string;
   id: number;
@@ -28,8 +28,10 @@ const ProductCard = ({
   setAlert,
 }: CarouselItem) => {
   const [isLiked, setIsLiked] = useState(false);
+  const router = useRouter();
+
   const bgImage = background_image
-    ? imageBaseUrl + background_image
+    ? background_image
     : "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjF8fHRhYmxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
   // Mutation
@@ -45,6 +47,15 @@ const ProductCard = ({
     bookmarkMutation.mutate(id);
   };
 
+  const onCardClicked = () => {
+    router.push({
+      pathname: "/product",
+      query: {
+        id,
+      },
+    });
+  };
+
   return (
     <Flex
       borderRadius=".5rem"
@@ -58,7 +69,8 @@ const ProductCard = ({
       transition="all 200ms ease-in-out"
       _hover={{
         transform: "scale(1.02)",
-      }}>
+      }}
+      onClick={onCardClicked}>
       <Flex
         h="75%"
         w="100%"
@@ -77,7 +89,7 @@ const ProductCard = ({
           {name}
         </Text>
         <Text m=".1rem" color="black" variant="normalThin">
-          {price}
+          {`${price.toLocaleString()} ریال`}
         </Text>
         <Flex
           w={{ base: "45%", md: "25%" }}

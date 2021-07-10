@@ -18,6 +18,8 @@ export const apiPathes = {
   DELETE_ADDRESS: "shop/user/address/",
   GET_PROVINCE: "shop/province/",
   GET_CATEGORY_PRODUCTS: "shop/category/",
+  SEARCH: "search",
+  PRODUCT_DETAILS: "shop/product/",
+  NEW_COMMENT: "comment/",
+  GET_COMMENTS:`comment/list/`
 };
-
-export const imageBaseUrl = "http://192.168.1.114:8003/media/";
