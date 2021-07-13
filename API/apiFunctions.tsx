@@ -3,14 +3,19 @@ import {
   IMainSignup,
   ISigninPassword,
   IVerifySignup,
-  IGetProductInfo,
   IFullProducts,
   IComment,
+  IVerifyResetPassword,
+  IAddToCart,
+  IPaginatedData,
+  IProducts,
+  ICart,
+  IUpdateCart,
 } from "./interfaces";
 import { apiPathes } from ".";
 import Cookies from "js-cookie";
 import { IRecivedAddress } from "../components/Profile/Addresses";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
 
 const {
   MAIN,
@@ -24,6 +29,7 @@ const {
   BOOKMARKS,
   CATEGORIES_FULL,
   RESET_VERIFY,
+  RESET,
   DELETE_BOOKMARK,
   ADDRESSES,
   DELETE_ADDRESS,
@@ -31,6 +37,11 @@ const {
   GET_CATEGORY_PRODUCTS,
   PRODUCT_DETAILS,
   NEW_COMMENT,
+  GET_COMMENTS,
+  SEARCH,
+  ADD_PRODUCT_TO_CART,
+  GET_CART,
+  GET_CART_INFO,
 } = apiPathes;
 
 export const getToken = async () => {
@@ -50,14 +61,34 @@ export const getToken = async () => {
 
 export const useMainSignup = async (props: IMainSignup) => {
   const { phone_number } = props;
-  console.log("phone_number" + phone_number);
   const { data } = await axios.post(MAIN + AUTH + SIGN_UP, { phone_number });
+  return data;
+};
+
+export const useResetPassword = async (props: IMainSignup) => {
+  const { phone_number } = props;
+  console.log("DTAT: ", props);
+  const { data } = await axios.post(MAIN + AUTH + RESET, {
+    phone_number,
+  });
+  return data;
+};
+
+export const useVerifyResetPassword = async (props: IVerifyResetPassword) => {
+  console.log("Data: ", props, localStorage.getItem("phone_number"));
+  const { token, confirm_password, new_password } = props;
+  const { data } = await axios.patch(MAIN + AUTH + RESET_VERIFY, {
+    phone_number: localStorage.getItem("phone_number"),
+    new_password,
+    confirm_password,
+    token,
+  });
   return data;
 };
 
 export const useVerifySignup = async (props: IVerifySignup) => {
   const { token } = props;
-  const { data } = await axios.post(MAIN + AUTH + SIGN_UP + SIGN_UP_VERIFY, {
+  const { data } = await axios.post(MAIN + AUTH + SIGN_UP_VERIFY, {
     token: token,
     phone_number: localStorage.getItem("phone_number"),
   });
@@ -330,6 +361,14 @@ export const useSendNewComment = async ({
   quality_value,
   text,
 }: IComment) => {
+  console.log("Comment to Post: ", {
+    design_value,
+    feature_value,
+    money_value,
+    product,
+    quality_value,
+    text,
+  });
   const { data } = await axios.post(
     MAIN + NEW_COMMENT,
     {
@@ -348,3 +387,130 @@ export const useSendNewComment = async ({
   );
   return await data;
 };
+
+export const useGetComments = (id: number) =>
+  useInfiniteQuery(
+    [`comments-${id}`],
+    async ({ pageParam = 1 }): Promise<IPaginatedData<IComment>> => {
+      if (typeof pageParam === typeof 1) {
+        const { data } = await axios.get(
+          MAIN + GET_COMMENTS + id + "?page=" + pageParam,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
+            },
+          }
+        );
+        return await data;
+      }
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+export const useSearch = (key: string | string[]) =>
+  useInfiniteQuery(
+    [`search-${key}`, key],
+    async ({ pageParam = 1 }): Promise<IPaginatedData<IProducts>> => {
+      console.log(
+        "API to REQ: ",
+        MAIN + SEARCH + "?query=" + key + "&page=" + pageParam
+      );
+      const { data } = await axios.get(
+        MAIN + SEARCH + "?query=" + key + "&page=" + pageParam,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
+      return await data;
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+export const useAddToCart = async ({ count, product }: IAddToCart) => {
+  console.log("DATA TO POST: ", { product, count, form: { awad: 2 } });
+  try {
+    const { data } = await axios.post(
+      MAIN + ADD_PRODUCT_TO_CART,
+      {
+        product,
+        count,
+        form: { awad: 2 },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const useGetCart = () =>
+  useInfiniteQuery(
+    ["cart"],
+    async ({ pageParam = 1 }): Promise<IPaginatedData<ICart>> => {
+      if (typeof pageParam === typeof 1) {
+        const { data } = await axios.get(
+          MAIN + GET_CART + "?page=" + pageParam,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
+            },
+          }
+        );
+        return await data;
+      }
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+export const useUpdateCart = async ({ cart_id, count }: IUpdateCart) => {
+  const { data } = await axios.patch(
+    MAIN + ADD_PRODUCT_TO_CART + cart_id,
+    {
+      count,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const useDeleteCart = async ({ cart_id }: IUpdateCart) => {
+  const { data } = await axios.delete(MAIN + ADD_PRODUCT_TO_CART + cart_id, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("accessToken")}`,
+    },
+  });
+  return data;
+};
+
+export const useGetCartInfo = () =>
+  useQuery(["cartInfo"], async () => {
+    const { data } = await axios.get(MAIN + GET_CART_INFO, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      },
+    });
+    return data.total;
+  });

@@ -1,14 +1,55 @@
+import { Button } from "@chakra-ui/button";
 import { Flex } from "@chakra-ui/layout";
+import { Spinner } from "@chakra-ui/spinner";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import CategoryMenu from "../components/Category/CategoryMenu";
-import Filter from "../components/Filter/Filter";
-import FilterTitle from "../components/Filter/FilterTitle";
-import ProductContainer from "../components/ProductContainer";
+import { Fragment, useState } from "react";
+import { useSearch } from "../API";
+
+const ProductCard = dynamic(
+  () => {
+    return import("../components/ProductCard");
+  },
+  {
+    ssr: false,
+  }
+);
+const FilterTitle = dynamic(
+  () => {
+    return import("../components/Filter/FilterTitle");
+  },
+  {
+    ssr: false,
+  }
+);
+const Filter = dynamic(
+  () => {
+    return import("../components/Filter/Filter");
+  },
+  {
+    ssr: false,
+  }
+);
 
 const search = () => {
+  const [page, setPage] = useState<number>(0);
   const router = useRouter();
-  let searchValue = router.query.value;
+  const {
+    data: products,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useSearch(router.query.value);
+
+  const fetchMoreItems = () => {
+    const newPage = page + 1;
+    setPage((prev) => prev + 1);
+
+    fetchNextPage({ pageParam: newPage + 1 });
+  };
+
+  if (!products) return <h1>Chizi ni</h1>;
   return (
     <Flex
       as="div"
@@ -28,12 +69,54 @@ const search = () => {
         mr={{ base: 0, md: "2rem" }}
         w="100%"
         justifyContent="flex-start">
-        <FilterTitle title={`نتایج جستجوی شما برای " ${searchValue} "`} />
+        <FilterTitle
+          title={`نتایج جستجوی شما برای " ${router.query.value} "`}
+        />
         <Filter />
-        <ProductContainer />
-      </Flex>
-      <Flex w="25%" h="auto" display={{ base: "none", md: "block" }}>
-        <CategoryMenu />
+        <Flex pb="2rem" flexWrap="wrap" w="100%" justifyItems="center">
+          {products?.pages.map((group, index) => (
+            <Fragment key={index}>
+              {group?.results.map(
+                ({ id, name, image, price, score }, key: number) => (
+                  <ProductCard
+                    name={name}
+                    price={price}
+                    background_image={image}
+                    id={id}
+                    margin="1rem auto"
+                    key={key}
+                  />
+                )
+              )}
+            </Fragment>
+          ))}
+        </Flex>
+        <Button
+          fontFamily="iranSans"
+          onClick={fetchMoreItems}
+          disabled={!hasNextPage}
+          color="white"
+          variant="outline"
+          transition="all 400ms ease-in-out"
+          bgColor="btnBg"
+          _hover={{
+            bgColor: "btnHover",
+          }}
+          _focus={{
+            outline: 0,
+            bgColor: "btnBg",
+          }}
+          _active={{
+            bgColor: "btnActive",
+          }}>
+          {isFetchingNextPage ? (
+            <Spinner color="white" />
+          ) : hasNextPage ? (
+            "بیشتر"
+          ) : (
+            "محصولی برای بارگزاری وجود ندارد"
+          )}
+        </Button>
       </Flex>
     </Flex>
   );

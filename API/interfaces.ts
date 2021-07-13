@@ -79,5 +79,46 @@ export interface IComment {
   money_value: number;
   design_value: number;
   quality_value: number;
+  product?: number;
+  datetime?: string;
+  user?: {
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+  };
+}
+
+export interface IVerifyResetPassword {
+  token: string;
+  phone_number?: string;
+  new_password: string;
+  confirm_password: string;
+}
+
+export interface IAddToCart {
   product: number;
+  count: number;
+}
+
+export interface ICart {
+  setLoading?: (isLoading: boolean) => void;
+  count: number;
+  form?: {};
+  id: number;
+  product: {
+    id: number;
+    image: string;
+    name: string;
+    price: number;
+  };
+}
+
+export interface IPaginatedData<T> {
+  next: string | null;
+  results: Array<T>;
+}
+
+export interface IUpdateCart {
+  count?: 1 | -1;
+  cart_id: number;
 }

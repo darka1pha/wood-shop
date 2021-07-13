@@ -10,13 +10,23 @@ import { Provider } from "react-redux";
 import { useRef } from "react";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import dynamic from "next/dynamic";
+
+import "nprogress/nprogress.css";
+import Loading from "../components/Loading";
+
+const TopProgressBar = dynamic(
+  () => {
+    return import("../components/TopProgressBar");
+  },
+  { ssr: false }
+);
 
 function MyApp({ Component, pageProps }) {
   const queryClientRef: any = useRef();
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient();
   }
-
   const store = useStore(pageProps.initialReduxState);
   const persistor = persistStore(store, {}, function () {
     persistor.persist();
@@ -36,6 +46,8 @@ function MyApp({ Component, pageProps }) {
                 <Navbar />
                 <Menu />
                 <AlertBox />
+                <TopProgressBar />
+                <Loading />
                 <Component {...pageProps} />
               </ChakraProvider>
             </Hydrate>

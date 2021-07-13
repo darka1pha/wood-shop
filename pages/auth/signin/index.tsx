@@ -9,6 +9,8 @@ import { useMainSignin } from "../../../API";
 import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, setAlert } from "../../../redux";
+import { compose } from "redux";
+import withUser from "../../../components/HOC/withUser";
 
 const index = ({ setAlert }) => {
   const router = useRouter();
@@ -28,6 +30,11 @@ const index = ({ setAlert }) => {
           setAlert({ content: "شمار وارد شده اشتباه است", type: "error" });
         } else if (err.response.data.error.code === 494) {
           setAlert({ content: "کاربری با این شماره یافت نشد", type: "error" });
+        } else if (err.response.data.error.code === 420) {
+          setAlert({
+            content: `لطفا ${err.response.data.remain_time} ثانیه دیگر تلاش کنید`,
+            type: "error",
+          });
         }
       },
     }
@@ -181,4 +188,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(index);
+export default compose(connect(null, mapDispatchToProps), withUser)(index);

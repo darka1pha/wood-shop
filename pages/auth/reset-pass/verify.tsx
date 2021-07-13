@@ -4,22 +4,27 @@ import { Divider, Flex, HStack } from "@chakra-ui/layout";
 import { PinInput, PinInputField } from "@chakra-ui/pin-input";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BiMessageSquare } from "react-icons/bi";
+import { BiLock } from "react-icons/bi";
 import { useMutation } from "react-query";
-import { useVerifySignup } from "../../../API";
-import { IError, IVerifySignup } from "../../../API/interfaces";
-import { Text } from "../../../components";
 import { connect } from "react-redux";
+import { useVerifyResetPassword } from "../../../API";
+import {
+  IError,
+  IVerifyResetPassword,
+} from "../../../API/interfaces";
+import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
-import { compose } from "redux";
-import withUser from "../../../components/HOC/withUser";
+import { Input } from "@chakra-ui/input";
 
-const index = ({ setCurrentUser, setAlert }) => {
+const verify = ({ setCurrentUser, setAlert }) => {
   const router = useRouter();
   const [pin, setPin] = useState("");
-  const [timer, setTimer] = useState(2);
+  const [pass, setPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [timer, setTimer] = useState(60);
   const [isEnable, setIsEnable] = useState(false);
+  const [confirmActive, setConfirmActive] = useState(false);
 
   useEffect(() => {
     let interval: any = null;
@@ -35,11 +40,15 @@ const index = ({ setCurrentUser, setAlert }) => {
     };
   }, [timer]);
 
-  const signupVerifyMutation = useMutation(
-    (data: IVerifySignup) => useVerifySignup(data),
+  const onResendCode = () => {
+    setIsEnable(false);
+    setTimer(2);
+  };
+
+  const resetVerifyMutation = useMutation(
+    (data: IVerifyResetPassword) => useVerifyResetPassword(data),
     {
       onSuccess: (data) => {
-        console.log("Data: ", data);
         setCurrentUser(data.user);
         Cookies.set("refreshToken", data.token.refresh, {
           sameSite: "strict",
@@ -52,10 +61,20 @@ const index = ({ setCurrentUser, setAlert }) => {
         router.push("/");
       },
       onError: (err: IError) => {
-        console.log(err.response.data);
-        if (err.response.data.error.code === 494) {
+        console.log("Error: ", err.response);
+        if (err.response.data.error.code === 491) {
           setAlert({
-            content: "کد وارد شده اشتباه است.",
+            content: "رمز عبور حداقل باید 8 کاراکتر باشد",
+            type: "error",
+          });
+        } else if (err.response.data.error.code === 420) {
+          setAlert({
+            content: `لطفا ${err.response.data.remain_time} ثانیه دیگر تلاش کنید`,
+            type: "error",
+          });
+        } else if (err.response.data.error.code === 495) {
+          setAlert({
+            content: `کد وارد شده اشتباه است یا منقضی شده`,
             type: "error",
           });
         }
@@ -63,13 +82,17 @@ const index = ({ setCurrentUser, setAlert }) => {
     }
   );
 
-  const onResendCode = () => {
-    setIsEnable(false);
-    setTimer(2);
+  const onPinComplete = (val: string) => {
+    if (confirmPass === pass && val.length === 6) setConfirmActive(true);
+    else setConfirmActive(false);
   };
 
-  const onPinComplete = (val: string) => {
-    signupVerifyMutation.mutate({ token: val });
+  const onConfirmed = async () => {
+    resetVerifyMutation.mutateAsync({
+      confirm_password: confirmPass,
+      new_password: pass,
+      token: pin,
+    });
   };
 
   return (
@@ -101,13 +124,13 @@ const index = ({ setCurrentUser, setAlert }) => {
         <Flex
           bgColor="white"
           borderRadius=".5rem"
-          h="320px"
+          h="420px"
           w="420px"
           alignItems="center"
           flexDir="column">
-          <Flex p="2rem 4rem 1.5rem 4rem" alignItems="center">
-            <Text variant="heading6">کد ارسال شده را وارد کنید</Text>
-            <Icon as={BiMessageSquare} fontSize="1.3rem" ml=".5rem" />
+          <Flex p="1.5rem 4rem 1rem 4rem" alignItems="center">
+            <Text variant="heading6">بازیابی رمز عبور</Text>
+            <Icon as={BiLock} fontSize="1.3rem" ml=".5rem" />
           </Flex>
           <Divider m="1rem 0" w="90%" />
           <Flex justifyContent="center" alignItems="center" flexDir="column">
@@ -115,7 +138,9 @@ const index = ({ setCurrentUser, setAlert }) => {
               <PinInput
                 value={pin}
                 onComplete={(value) => onPinComplete(value)}
-                onChange={(value) => setPin(value)}>
+                onChange={(value) => {
+                  setPin(value);
+                }}>
                 <PinInputField fontFamily="iranSans" />
                 <PinInputField fontFamily="iranSans" />
                 <PinInputField fontFamily="iranSans" />
@@ -140,12 +165,62 @@ const index = ({ setCurrentUser, setAlert }) => {
               h="2.5rem">
               {timer > 0 ? timer + "\t" + "ارسال مجدد در" : "ارسال مجدد"}
             </Button>
+            <Input
+              mb=".5rem"
+              type="password"
+              placeholder="رمز عبور جدید"
+              _placeholder={{
+                fontFamily: "iranSans",
+                fontSize: "13px",
+              }}
+              value={pass}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setPass(e.target.value);
+                if (e.target.value === confirmPass && pin.length === 6)
+                  setConfirmActive(true);
+                else setConfirmActive(false);
+              }}
+              dir="rtl"
+            />
+            <Input
+              justifyContent="center"
+              type="password"
+              placeholder="تایید رمز عبور"
+              _placeholder={{
+                fontFamily: "iranSans",
+                fontSize: "13px",
+              }}
+              value={confirmPass}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setConfirmPass(e.target.value);
+                if (e.target.value === pass && pin.length === 6)
+                  setConfirmActive(true);
+                else setConfirmActive(false);
+              }}
+              dir="rtl"
+            />
+            <Button
+              w="100%"
+              mt=".5rem"
+              mb=".5rem"
+              onClick={onConfirmed}
+              bgColor="#348541"
+              color="white"
+              fontFamily="iranSans"
+              fontSize="12px"
+              border="none"
+              disabled={!confirmActive}
+              _hover={{ bgColor: "#3a9448" }}
+              transition="400ms ease-in-out"
+              h="2.5rem">
+              تایید
+            </Button>
           </Flex>
           <Divider m="1rem 0" bgColor="white" w="90%" />
           <Flex alignItems="center" dir="rtl">
             <Text
               variant="heading7"
-              onClick={() => router.push("/auth/signup")}
+              onClick={() => router.push("/auth/reset-pass")}
               cursor="pointer">
               تصحیح شماره تلفن
             </Text>
@@ -162,4 +237,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default compose(connect(null, mapDispatchToProps), withUser)(index);
+export default connect(null, mapDispatchToProps)(verify);

@@ -7,19 +7,64 @@ import {
   ProductDiscription,
   Text,
 } from "../../components";
-import ProductCarousel from "../../components/ProductCarousel";
 import { AiFillStar } from "react-icons/ai";
 import Icon from "@chakra-ui/icon";
 import { Button } from "@chakra-ui/button";
 import { FiShoppingCart } from "react-icons/fi";
-import { useGetProductInfo } from "../../API";
+import { useAddToCart, useGetComments, useGetProductInfo } from "../../API";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { Spinner } from "@chakra-ui/spinner";
+import dynamic from "next/dynamic";
+import { useMutation } from "react-query";
+import { connect } from "react-redux";
+import { ISetAlert, setAlert } from "../../redux";
 
-const index = () => {
+const ProductCarousel = dynamic(
+  () => {
+    return import("../../components/ProductCarousel");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const index = ({ setAlert }) => {
   const router = useRouter();
+  const containerRef = useRef(null);
 
-  const { data: product } = useGetProductInfo(
+  const addToCartMutation = useMutation(useAddToCart, {
+    onSuccess: () => {
+      setAlert({ content: "محصول به سبد خرید اضافه شد", type: "success" });
+    },
+    onError:()=>{
+      setAlert({ content: "خطایی رخ داده است", type: "error" });
+    }
+  });
+
+  const onAddToCart = async () => {
+    addToCartMutation.mutateAsync({
+      count: 1,
+      product: Number(
+        router.query.id ? router.query.id : window.location.search.split("=")[1]
+      ),
+    });
+  };
+
+  const { data: product, error: error2 } = useGetProductInfo(
+    Number(
+      router.query.id ? router.query.id : window.location.search.split("=")[1]
+    )
+  );
+
+  const {
+    data: comments,
+    fetchNextPage,
+    isFetchingNextPage,
+    isSuccess,
+    error: error1,
+  } = useGetComments(
     Number(
       router.query.id
         ? router.query.id
@@ -27,11 +72,31 @@ const index = () => {
     )
   );
 
-  useEffect(() => {
-    console.log("ProductInfo", product);
-  }, [product]);
+  const isBottom = (el) => {
+    return el.current?.getBoundingClientRect().bottom <= window.innerHeight;
+  };
 
-  if (!product) return <h1>loading</h1>;
+  useEffect(() => {
+    const trackScrolling = () => {
+      if (containerRef) {
+        if (isBottom(containerRef)) {
+          fetchMoreItems();
+          document.removeEventListener("scroll", trackScrolling);
+        }
+      }
+    };
+    document.addEventListener("scroll", trackScrolling);
+    return () => {
+      document.removeEventListener("scroll", trackScrolling);
+    };
+  }, [containerRef]);
+
+  const fetchMoreItems = () => {
+    fetchNextPage();
+  };
+
+  if (!product || !comments) return <h1>loading</h1>;
+  if (error1 || error2) return <h1>Erooooooooooor</h1>;
 
   return (
     <Flex
@@ -105,6 +170,7 @@ const index = () => {
               p={{ base: "1rem", md: 0 }}
               mr="-1rem">
               <Button
+                onClick={onAddToCart}
                 w="200px"
                 borderRadius="2rem"
                 rightIcon={<Icon as={FiShoppingCart} fontSize={22} />}
@@ -138,6 +204,7 @@ const index = () => {
         </Flex>
       </Flex>
       <Flex
+        ref={containerRef}
         w="100%"
         maxW="1920px"
         alignItems="center"
@@ -151,10 +218,55 @@ const index = () => {
               : Number(window.location.search.split("=")[1])
           )}
         />
-        <Comment />
+        <Flex flexWrap="wrap" w="100%">
+          {isSuccess &&
+            comments?.pages.map((group, index) => (
+              <React.Fragment key={index}>
+                {group?.results.map(
+                  (
+                    {
+                      design_value,
+                      feature_value,
+                      money_value,
+                      quality_value,
+                      text,
+                      user,
+                      datetime,
+                    },
+                    key: number
+                  ) => (
+                    <Comment
+                      design_value={design_value}
+                      feature_value={feature_value}
+                      money_value={money_value}
+                      quality_value={quality_value}
+                      text={text}
+                      key={key}
+                      datetime={datetime}
+                      user={user}
+                    />
+                  )
+                )}
+              </React.Fragment>
+            ))}
+          <motion.div
+            style={{
+              display: isFetchingNextPage ? "flex" : "none",
+              width: "100%",
+              justifyContent: "center",
+              margin: "1rem 0",
+            }}>
+            <Spinner color="red.200" />
+          </motion.div>
+        </Flex>
       </Flex>
     </Flex>
   );
 };
 
-export default index;
+const mapDispatchToProps = (dispatch) => ({
+  setAlert: ({ type, content }: ISetAlert) =>
+    dispatch(setAlert({ content, type })),
+});
+
+export default connect(null, mapDispatchToProps)(index);

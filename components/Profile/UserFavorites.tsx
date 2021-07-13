@@ -1,16 +1,23 @@
 import { Flex, FlexProps } from "@chakra-ui/layout";
-import React, { useEffect, useRef, useState } from "react";
-import { useDeleteBookmark, useGetFavorites } from "../../API";
+import React, { useEffect, useRef } from "react";
+import { useGetFavorites } from "../../API";
 import { IFavorites } from "../../API/interfaces";
 import Text from "../Text";
-import FavoriteCard from "./FavoriteCard";
 import { motion } from "framer-motion";
-import { SyncLoader } from "react-spinners";
+import { Spinner } from "@chakra-ui/spinner";
+import dynamic from "next/dynamic";
+
+const FavoriteCard = dynamic(
+  () => {
+    return import("./FavoriteCard");
+  },
+  {
+    ssr: false,
+  }
+);
 
 const UserFavorites = () => {
   const containerRef = useRef(null);
-
-  const FlexMotion = motion<FlexProps>(Flex);
 
   const {
     data: favorites,
@@ -113,7 +120,7 @@ const UserFavorites = () => {
         animate="visible"
         exit="hidden"
         variants={variants}>
-        <SyncLoader color="#f04a5e" size={10} />
+        <Spinner color="#f04a5e" />
       </motion.div>
     </Flex>
   );

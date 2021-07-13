@@ -89,7 +89,7 @@ const ProductCard = ({
           {name}
         </Text>
         <Text m=".1rem" color="black" variant="normalThin">
-          {`${price.toLocaleString()} ریال`}
+          {`${price?.toLocaleString()} ریال`}
         </Text>
         <Flex
           w={{ base: "45%", md: "25%" }}

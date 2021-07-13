@@ -12,6 +12,8 @@ import { IError, ISigninPassword } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
+import { compose } from "redux";
+import withUser from "../../../components/HOC/withUser";
 
 const password = ({ setAlert, setCurrentUser }) => {
   const [show, setShow] = useState(false);
@@ -138,7 +140,8 @@ const password = ({ setAlert, setCurrentUser }) => {
                 color="#383838"
                 variant="heading8"
                 cursor="pointer"
-                mt=".5rem">
+                mt=".5rem"
+                onClick={() => router.push("/auth/reset-pass")}>
                 رمز عبور خود را فراموش کرده اید؟
               </Text>
               <Text
@@ -198,4 +201,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(password);
+export default compose(connect(null, mapDispatchToProps), withUser)(password);

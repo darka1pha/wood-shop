@@ -1,9 +1,10 @@
 export const apiPathes = {
-  MAIN: "http://192.168.1.114:8003/api/v0/",
-  // MAIN: "http://192.168.1.178:8000/api/v0/",
+  // MAIN: "http://192.168.1.114:8003/api/v0/",
+  MAIN: "http://192.168.1.178:8000/api/v0/",
   AUTH: "accounts/",
-  UPDATE_PROFILE: "profile/update",
   RESET_VERIFY: "reset/verify",
+  RESET: "reset",
+  UPDATE_PROFILE: "profile/update",
   SIGN_IN_PASSWORD: "signin/password",
   SIGN_IN_PHONENUMBER: "signin/phonenumber",
   SIGN_IN_VERIFY: "signin/verify",
@@ -21,5 +22,8 @@ export const apiPathes = {
   SEARCH: "search",
   PRODUCT_DETAILS: "shop/product/",
   NEW_COMMENT: "comment/",
-  GET_COMMENTS:`comment/list/`
+  GET_COMMENTS: `comment/`,
+  ADD_PRODUCT_TO_CART: "shop/cart/",
+  GET_CART: "shop/cart/",
+  GET_CART_INFO:"shop/cart/info"
 };

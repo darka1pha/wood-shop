@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { ProfileNavbar } from "../../components";
-
+import { compose } from "redux";
 import ProfileInfo from "../../components/Profile/ProfileInfo";
 import Addresses from "../../components/Profile/Addresses";
 import UserFavorites from "../../components/Profile/UserFavorites";
 import Orders from "../../components/Profile/Orders";
-
+import withNoUser from "../../components/HOC/withNoUser";
 import { selectCurrentUser } from "../../redux";
 
 interface IPageComponent {
@@ -41,11 +41,11 @@ const index = ({ currentUser }) => {
     title: "ProfileInfo",
   });
 
-  useEffect(() => {
-    console.log(window.location.search.split("=")[1]);
-    if (!currentUser) router.push("/auth/signin");
-    setCurrentQuery(router.query.page);
-  }, [router.query.page]);
+  // useEffect(() => {
+  //   console.log(window.location.search.split("=")[1]);
+  //   if (!currentUser) router.push("/auth/signin");
+  //   setCurrentQuery(router.query.page);
+  // }, [router.query.page]);
 
   if (!currentUser) {
     return (
@@ -112,4 +112,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps)(index);
+export default compose(connect(mapStateToProps), withNoUser)(index);

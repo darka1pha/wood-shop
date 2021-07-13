@@ -1,36 +1,81 @@
 import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
+import { useState } from "react";
 import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useMutation, useQueryClient } from "react-query";
+import { connect } from "react-redux";
 import { Text } from ".";
+import { useDeleteCart, useUpdateCart } from "../API";
+import { ICart } from "../API/interfaces";
+import { setLoading } from "../redux";
 
-interface ICartItem {
-  image_url?: string;
-  title?: string;
-  color?: string;
-  price?: string;
-  count?: number;
-}
+const CartItem = ({ count, form, product, id, setLoading }: ICart) => {
+  const { id: productID, image, name, price } = product;
+  const queryQlient = useQueryClient();
+  const increaseMutation = useMutation(useUpdateCart, {
+    onSuccess: async () => {
+      console.log("Increase");
+      await queryQlient.refetchQueries("cartInfo");
+      await queryQlient.refetchQueries("cart");
+      setTimeout(() => setLoading(false), 1000);
+    },
+    onError: (err) => {
+      console.log("Increase Error: ", err);
+      setTimeout(() => setLoading(false), 1000);
+    },
+  });
+  const decreaceMutation = useMutation(useUpdateCart, {
+    onSuccess: async () => {
+      await queryQlient.refetchQueries("cartInfo");
+      await queryQlient.refetchQueries("cart");
+      setTimeout(() => setLoading(false), 1000);
+    },
+    onError: (err) => {
+      console.log("Decrease Error: ", err);
+      setTimeout(() => setLoading(false), 1000);
+    },
+  });
 
-const CartItem = ({
-  color,
-  count,
-  image_url = "https://dkstatics-public.digikala.com/digikala-products/cd6a59e7a7d277e2de97d93aec0c950fc773e659_1600689705.jpg?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60",
-  price,
-  title,
-}: ICartItem) => {
+  const deleteMutation = useMutation(useDeleteCart, {
+    onSuccess: async () => {
+      await queryQlient.refetchQueries("cart");
+      await queryQlient.refetchQueries("cartInfo");
+      setTimeout(() => setLoading(false), 1000);
+    },
+    onError: (err) => {
+      console.log("Delete Error: ", err);
+      setTimeout(() => setLoading(false), 1000);
+    },
+  });
+
+  const onIncreaseItem = () => {
+    setLoading(true);
+    increaseMutation.mutate({ cart_id: id, count: 1 });
+  };
+
+  const onDecreaseItem = () => {
+    setLoading(true);
+    decreaceMutation.mutate({ cart_id: id, count: -1 });
+  };
+
+  const onDeleteItem = () => {
+    setLoading(true);
+    deleteMutation.mutate({ cart_id: id });
+  };
+
   return (
     <Flex m=".5rem 0" h={{ base: "100px", md: "120px" }}>
       <Flex
         h="100%"
         w={{ base: "100px", md: "120px" }}
-        bgImage={`url(${image_url})`}
+        bgImage={`url(${image})`}
         bgSize="contain"
         bgRepeat="no-repeat"
       />
       <Flex w="100%" justifyContent="space-between">
-        <Flex mt=".5rem" mr=".5rem" flexDir="column">
+        <Flex mr=".5rem" flexDir="column">
           <Text fontSize={{ base: "12px", md: "16px" }} variant="heading6">
-            نام کالا
+            {name}
           </Text>
           <Text
             fontSize={{ base: "10px", md: "12px" }}
@@ -44,45 +89,55 @@ const CartItem = ({
             fontSize={{ base: "12px", md: "14px" }}
             color="black"
             variant="normalExt">
-            {price ?"قیمت :  " + price : "620 هزار تومان"}
+            {`${price.toLocaleString()} ریال`}
           </Text>
         </Flex>
-        <Flex
-          border="1px solid #e6e6e6"
-          h={{ base: "35px", md: "40px" }}
-          borderRadius="1.5rem"
-          alignItems="center">
-          {count === 1 ? (
-            <Icon
-              fontSize={{ base: "0.7rem", md: "1rem" }}
-              color="#4f4f4f"
-              cursor="pointer"
-              m={{ base: "0 .5rem", md: "0 .8rem" }}
-              as={AiOutlineDelete}
-            />
-          ) : (
-            <Icon
-              fontSize={{ base: "0.7rem", md: "1rem" }}
-              color="#4f4f4f"
-              cursor="pointer"
-              m={{ base: "0 .5rem", md: "0 .8rem" }}
-              as={AiOutlineMinus}
-            />
-          )}
-          <Text fontSize={{ base: "12px", md: "16px" }} variant="heading6">
-            {count ? count.toString() : "1"}
-          </Text>
+        <Flex h={{ base: "35px", md: "40px" }} alignItems="center">
           <Icon
+            fontSize={{ base: "0.7rem", md: "1rem" }}
             color="#4f4f4f"
             cursor="pointer"
             m={{ base: "0 .5rem", md: "0 .8rem" }}
-            fontSize={{ base: "0.7rem", md: "1rem" }}
-            as={AiOutlinePlus}
+            as={AiOutlineDelete}
+            onClick={onDeleteItem}
           />
+          <Flex
+            border="1px solid #e6e6e6"
+            h={{ base: "35px", md: "40px" }}
+            borderRadius="1.5rem"
+            alignItems="center">
+            <Icon
+              role="button"
+              fontSize={{ base: "0.7rem", md: "1rem" }}
+              color={count === 1 ? "#7a7a7a" : "#4f4f4f"}
+              cursor={count === 1 ? "not-allowed" : "pointer"}
+              m={{ base: "0 .5rem", md: "0 .8rem" }}
+              as={AiOutlineMinus}
+              onClick={count === 1 ? null : onDecreaseItem}
+            />
+            <Text
+              color="black"
+              variant="normalMedium"
+              fontSize={{ base: "12px", md: "16px" }}>
+              {count.toString()}
+            </Text>
+            <Icon
+              color="#4f4f4f"
+              cursor="pointer"
+              m={{ base: "0 .5rem", md: "0 .8rem" }}
+              fontSize={{ base: "0.7rem", md: "1rem" }}
+              as={AiOutlinePlus}
+              onClick={onIncreaseItem}
+            />
+          </Flex>
         </Flex>
       </Flex>
     </Flex>
   );
 };
 
-export default CartItem;
+const mapDispatchToProps = (dispatch) => ({
+  setLoading: (isLoading: boolean) => dispatch(setLoading(isLoading)),
+});
+
+export default connect(null, mapDispatchToProps)(CartItem);

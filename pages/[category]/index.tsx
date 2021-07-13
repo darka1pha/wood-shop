@@ -1,18 +1,51 @@
 import { Button } from "@chakra-ui/button";
 import { Flex } from "@chakra-ui/layout";
+import { Spinner } from "@chakra-ui/spinner";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useRef } from "react";
 import { connect } from "react-redux";
-import { SyncLoader } from "react-spinners";
 import { createStructuredSelector } from "reselect";
 import { useGetCategories, useGetCategoryProducts } from "../../API";
 import { IProducts } from "../../API/interfaces";
-import CategoryMenu from "../../components/Category/CategoryMenu";
-import Filter from "../../components/Filter/Filter";
-import FilterTitle from "../../components/Filter/FilterTitle";
-import ProductCard from "../../components/ProductCard";
 import { selectCurrentCategory } from "../../redux";
+
+const Filter = dynamic(
+  () => {
+    return import("../../components/Filter/Filter");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const CategoryMenu = dynamic(
+  () => {
+    return import("../../components/Category/CategoryMenu");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const FilterTitle = dynamic(
+  () => {
+    return import("../../components/Filter/FilterTitle");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const ProductCard = dynamic(
+  () => {
+    return import("../../components/ProductCard");
+  },
+  {
+    ssr: false,
+  }
+);
 
 const index = ({ currentCategory }) => {
   const router = useRouter();
@@ -29,39 +62,7 @@ const index = ({ currentCategory }) => {
     fetchNextPage();
   };
 
-  // const isBottom = (el) => {
-  //   console.log(
-  //     "getBoundingClientRect().bottom",
-  //     el.current?.getBoundingClientRect().bottom - 60
-  //   );
-  //   console.log("window.innerHeight ", window.innerHeight);
-  //   return el.current?.getBoundingClientRect().bottom <= window.innerHeight;
-  // };
-
-  // useEffect(() => {
-  //   if (containerRef) {
-  //     console.log("isBottom ? ", isBottom(containerRef));
-  //     if (isBottom) {
-  //       fetchMoreItems();
-  //     }
-  //   }
-  //   const trackScrolling = () => {
-  //     if (containerRef) {
-  //       if (isBottom(containerRef)) {
-  //         if (hasNextPage) {
-  //           fetchMoreItems();
-  //           document.removeEventListener("scroll", trackScrolling);
-  //         }
-  //       }
-  //     }
-  //   };
-  //   document.addEventListener("scroll", trackScrolling);
-  //   return () => {
-  //     document.removeEventListener("scroll", trackScrolling);
-  //   };
-  // }, [containerRef, isBottom(containerRef)]);
-
-  if (!categories) return <h1>chizi ni</h1>;
+  if (!categories || !products) return <h1>chizi ni</h1>;
 
   return (
     <Flex
@@ -122,7 +123,7 @@ const index = ({ currentCategory }) => {
             bgColor: "btnActive",
           }}>
           {isFetchingNextPage ? (
-            <SyncLoader color="#fff" size={5} />
+            <Spinner color="#fff" />
           ) : hasNextPage ? (
             "بیشتر"
           ) : (

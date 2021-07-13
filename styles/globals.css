@@ -55,32 +55,41 @@ a {
 
 @font-face {
   font-family: "Vazir";
-  src: url(../public/fonts/Vazir-FD.ttf);
-}
-
-@font-face {
-  font-family: "VazirBlack";
-  src: url(../public/fonts/Vazir-Black-FD.ttf);
+  src: local("Vazir-Regular-FD"),
+    url(../public/fonts/Vazir-Regular-FD.ttf) format("ttf"),
+    url(../public/fonts/Vazir-Regular-FD.woff2) format("woff2");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "VazirBold";
-  src: url(../public/fonts/Vazir-Bold-FD.ttf);
+  src: local("Vazir-Bold-FD"),
+    url(../public/fonts/Vazir-Bold-FD.ttf) format("ttf"),
+    url(../public/fonts/Vazir-Bold-FD.woff2) format("woff2");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "VazirLight";
-  src: url(../public/fonts/Vazir-Light-FD.ttf);
+  src: local("Vazir-Light-FD"),
+    url(../public/fonts/Vazir-Light-FD.ttf) format("ttf"),
+    url(../public/fonts/Vazir-Light-FD.woff2) format("woff2");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "VazirMedium";
-  src: url(../public/fonts/Vazir-Medium-FD.ttf);
+  src: local("Vazir-Medium-FD"),
+    url(../public/fonts/Vazir-Medium-FD.ttf) format("ttf"),
+    url(../public/fonts/Vazir-Medium-FD.woff2) format("woff2");
+  font-display: swap;
 }
-
 @font-face {
   font-family: "VazirThin";
-  src: url(../public/fonts/Vazir-Thin-FD.ttf);
+  src: local("Vazir-Thin-FD"),
+    url(../public/fonts/Vazir-Thin-FD.ttf) format("ttf"),
+    url(../public/fonts/Vazir-Thin-FD.woff2) format("woff2");
+  font-display: swap;
 }
 
 .wrap {
@@ -168,4 +177,17 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+#nprogress .bar {
+  background: #ffbb00 !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #ffbb00, 0 0 5px #ffbb00;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #ffbb00;
+  border-left-color: #ffbb00;
 }

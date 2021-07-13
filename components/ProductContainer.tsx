@@ -1,14 +1,16 @@
 import { Flex } from "@chakra-ui/layout";
-import { Fragment} from "react";
+import { Fragment } from "react";
 import { useGetCategoryProducts } from "../API";
-import { IProducts } from "../API/interfaces";
+import { IPaginatedData, IPaginatedSearch, IProducts } from "../API/interfaces";
 import ProductCard from "./ProductCard";
 
 interface IProductContainer {
   currentCategoryId: number;
+  search: IPaginatedData<IProducts>;
+  fetchMoreSearchItem
 }
 
-const ProductContainer = ({ currentCategoryId }: IProductContainer) => {
+const ProductContainer = ({ currentCategoryId, search }: IProductContainer) => {
   const {
     data: products,
     isFetchingNextPage,
@@ -54,6 +56,22 @@ const ProductContainer = ({ currentCategoryId }: IProductContainer) => {
         <Fragment key={index}>
           {group?.results.map(
             ({ id, image, name, price }: IProducts, key: number) => (
+              <ProductCard
+                name={name}
+                price={price}
+                background_image={image}
+                id={id}
+                margin="1rem auto"
+                key={key}
+              />
+            )
+          )}
+        </Fragment>
+      ))}
+      {search?.pages.map((group, index) => (
+        <Fragment key={index}>
+          {group?.results.map(
+            ({ id, name, image, price, score }, key: number) => (
               <ProductCard
                 name={name}
                 price={price}

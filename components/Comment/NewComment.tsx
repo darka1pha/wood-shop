@@ -45,7 +45,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
   const commentMutation = useMutation(useSendNewComment, {
     onSuccess: (res) => {
       console.log("API RESPONSE: ", res);
-      queryClient.refetchQueries(["comments"]);
+      queryClient.refetchQueries([`comments-${productId}`]);
       setAlert({ content: "کامنت شما ثبت شد", type: "success" });
     },
     onError: (err: IError) => {

@@ -2,38 +2,32 @@ import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { Flex } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
-import { useMainSignup } from "../../../API";
+import { useResetPassword } from "../../../API";
 import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, setAlert } from "../../../redux";
-import { compose } from "redux";
-import withUser from "../../../components/HOC/withUser";
 
 const index = ({ setAlert }) => {
   const router = useRouter();
+
   const [phonenumber, setPhonenumber] = useState("");
 
-  const mainSignupMutation = useMutation(
-    (data: IMainSignup) => useMainSignup(data),
+  const resetMutation = useMutation(
+    (data: IMainSignup) => useResetPassword(data),
     {
       onSuccess: () => {
         localStorage.setItem("phone_number", "+98" + phonenumber);
-        router.push("/auth/signup/verify");
+        router.push("/auth/reset-pass/verify");
       },
       onError: (err: IError) => {
-        console.log(err.response.data);
+        console.log(err.response.data.error.code);
         if (err.response.data.error.code === 491) {
           setAlert({ content: "شمار وارد شده اشتباه است", type: "error" });
-        } else if (err.response.data.error.code === 493) {
-          setAlert({ content: "این کاربر از قبل وجود دارد", type: "error" });
-        } else if (err.response.data.error.code === 420) {
-          setAlert({
-            content: `لطفا ${err.response.data.remain_time} ثانیه دیگر تلاش کنید`,
-            type: "error",
-          });
+        } else if (err.response.data.error.code === 494) {
+          setAlert({ content: "کاربری با این شماره یافت نشد", type: "error" });
         }
       },
     }
@@ -43,7 +37,7 @@ const index = ({ setAlert }) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (phonenumber.length === 10) {
-        mainSignupMutation.mutate({
+        resetMutation.mutate({
           phone_number: "+98" + phonenumber,
         });
       } else {
@@ -72,6 +66,7 @@ const index = ({ setAlert }) => {
       }
     }
   };
+
   return (
     <Flex
       minH="100vh"
@@ -101,12 +96,12 @@ const index = ({ setAlert }) => {
         <Flex
           bgColor="white"
           borderRadius=".5rem"
-          h="310px"
+          h="340px"
           w="420px"
           alignItems="center"
           flexDir="column">
           <Flex p="2rem 4rem 1.5rem 4rem" borderBottom="1px solid #BDBDBD">
-            <Text variant="heading5">ثبت نام</Text>
+            <Text variant="heading5">بازیابی رمز عبور</Text>
           </Flex>
           <Flex
             w="240px"
@@ -131,22 +126,6 @@ const index = ({ setAlert }) => {
                 onKeyDown={onEnterPressed}
               />
             </Flex>
-            <Flex w="100%" dir="rtl">
-              <Text
-                color="black"
-                variant="normal"
-                cursor="pointer"
-                onClick={() => router.push("/auth/signin")}>
-                حساب کاربری دارید؟
-              </Text>
-              <Text
-                color="#348541"
-                variant="heading8"
-                cursor="pointer"
-                onClick={() => router.push("/auth/signin")}>
-                وارد شوید.
-              </Text>
-            </Flex>
             <Flex w="100%" dir="rtl" flexDir="column" m="1rem 0 0 0">
               <Button
                 fontFamily="iranSans"
@@ -165,11 +144,20 @@ const index = ({ setAlert }) => {
                   bgColor: "#286632",
                 }}
                 onClick={() =>
-                  mainSignupMutation.mutate({
+                  resetMutation.mutate({
                     phone_number: "+98" + phonenumber,
                   })
                 }>
                 ارسال کد پیامکی
+              </Button>
+              <Button
+                fontFamily="iranSans"
+                fontSize="16px"
+                _focus={{
+                  outline: 0,
+                }}
+                onClick={() => router.push("/auth/signup/")}>
+                ثبت نام
               </Button>
             </Flex>
           </Flex>
@@ -184,4 +172,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default compose(connect(null, mapDispatchToProps), withUser)(index);
+export default connect(null, mapDispatchToProps)(index);

@@ -6,13 +6,13 @@ import { Dispatch, SetStateAction } from "react";
 
 interface IRatingContainer {
   title: string;
-  engTitle: string;
+  engTitle?: string;
   rate: number;
   editable?: boolean;
   mr?: string;
-  rating: number;
-  onChange: Dispatch<SetStateAction<IComment>>;
-  oldArray: IComment;
+  rating?: number;
+  onChange?: Dispatch<SetStateAction<IComment>>;
+  oldArray?: IComment;
 }
 
 const RatingContainer = ({
