@@ -1,6 +1,6 @@
 export const apiPathes = {
-  MAIN: "http://192.168.1.114:8003/api/v0/",
-  // MAIN: "http://192.168.1.178:8000/api/v0/",
+  // MAIN: "http://192.168.1.114:8003/api/v0/",
+  MAIN: "http://192.168.1.178:8000/api/v0/",
   AUTH: "accounts/",
   RESET_VERIFY: "reset/verify",
   RESET: "reset",
@@ -25,5 +25,6 @@ export const apiPathes = {
   GET_COMMENTS: `comment/`,
   ADD_PRODUCT_TO_CART: "shop/cart/",
   GET_CART: "shop/cart/",
-  GET_CART_INFO:"shop/cart/info"
+  GET_CART_INFO: "shop/cart/info",
+  PAYMENT: "payment/request/",
 };

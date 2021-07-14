@@ -1,17 +1,15 @@
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
-import { Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/skeleton";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { ProfileNavbar } from "../../components";
-import { compose } from "redux";
 import ProfileInfo from "../../components/Profile/ProfileInfo";
 import Addresses from "../../components/Profile/Addresses";
 import UserFavorites from "../../components/Profile/UserFavorites";
 import Orders from "../../components/Profile/Orders";
-import withNoUser from "../../components/HOC/withNoUser";
 import { selectCurrentUser } from "../../redux";
+import Signin from "../auth/signin";
 
 interface IPageComponent {
   Component: JSX.Element;
@@ -41,35 +39,14 @@ const index = ({ currentUser }) => {
     title: "ProfileInfo",
   });
 
-  // useEffect(() => {
-  //   console.log(window.location.search.split("=")[1]);
-  //   if (!currentUser) router.push("/auth/signin");
-  //   setCurrentQuery(router.query.page);
-  // }, [router.query.page]);
+  useEffect(() => {
+    console.log(window.location.search.split("=")[1]);
+    if (!currentUser) router.push("/auth/signin");
+    setCurrentQuery(router.query.page);
+  }, [router.query.page]);
 
   if (!currentUser) {
-    return (
-      <Flex
-        w="100%"
-        minH="100vh"
-        p={{ base: "80px .5rem 2rem .5rem", md: "180px 2rem 2rem 2rem" }}
-        padding="6"
-        boxShadow="lg"
-        bg="white"
-        justifyContent="center"
-        alignItems="center">
-        <Flex
-          w="100%"
-          maxW="1920px"
-          flexDir={{ base: "column", md: "row-reverse" }}
-          justifyContent="space-between"
-          mb="2rem"
-          h="100%">
-          <Skeleton width="20%" m="0 1rem" height="340px" />
-          <Skeleton width="75%" height="480px" />
-        </Flex>
-      </Flex>
-    );
+    return <Signin />;
   }
 
   return (
@@ -112,4 +89,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-export default compose(connect(mapStateToProps), withNoUser)(index);
+export default connect(mapStateToProps)(index);

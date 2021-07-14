@@ -92,7 +92,7 @@ const search = () => {
           ))}
         </Flex>
         <Button
-          fontFamily="iranSans"
+          fontFamily="Vazir"
           onClick={fetchMoreItems}
           disabled={!hasNextPage}
           color="white"

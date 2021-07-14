@@ -143,7 +143,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
 						نام شما
           </Text>
 					<Input
-						fontFamily="iranSans"
+						fontFamily="Vazir"
 						p=".5rem .5rem"
 						border="1px solid #BDBDBD"
 						h="35px"
@@ -176,7 +176,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
               outline: "none",
               border: "1px solid #BDBDBD",
             }}
-            fontFamily="iranSans"
+            fontFamily="Vazir"
             fontSize={{ base: "12px", md: "1rem" }}
           />
         </Flex>
@@ -218,7 +218,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
                       payload: { index, value: e.target.value },
                     })
                   }
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   border="1px solid #BDBDBD"
                   p=".2rem .5rem"
                   mb=".5rem"
@@ -254,7 +254,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
                       payload: { index, value: e.target.value },
                     })
                   }
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   border="1px solid #BDBDBD"
                   p=".2rem .5rem"
                   mb=".5rem"
@@ -286,7 +286,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
               }}
               w="80px"
               dir="ltr"
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               fontSize={{ base: "12px", md: "14px" }}
               h={{ base: "30px", md: "40px" }}>
               <option value="option1">بله</option>
@@ -297,7 +297,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
             m={{ base: "1rem", md: "0 1rem" }}
             color="white"
             bgColor="#FF4D4D"
-            fontFamily="iranSans"
+            fontFamily="Vazir"
             fontWeight="400"
             p="0 2rem"
             _hover={{

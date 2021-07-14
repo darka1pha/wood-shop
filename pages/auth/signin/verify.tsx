@@ -12,8 +12,10 @@ import { IError, IVerifySignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
+import { createStructuredSelector } from "reselect";
+import Profile from "../../profile";
 
-const verify = ({ setCurrentUser, setAlert }) => {
+const verify = ({ setCurrentUser, setAlert, currentUser }) => {
   const router = useRouter();
   const [pin, setPin] = useState("");
   const [timer, setTimer] = useState(60);
@@ -69,6 +71,12 @@ const verify = ({ setCurrentUser, setAlert }) => {
     signinVerifyMutation.mutate({ token: val });
   };
 
+  useEffect(() => {
+    if (currentUser) router.push("/profile");
+  }, []);
+
+  if (currentUser) return <Profile />;
+
   return (
     <Flex
       minH="100vh"
@@ -113,12 +121,12 @@ const verify = ({ setCurrentUser, setAlert }) => {
                 value={pin}
                 onComplete={(value) => onPinComplete(value)}
                 onChange={(value) => setPin(value)}>
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
               </PinInput>
             </HStack>
             <Button
@@ -128,7 +136,7 @@ const verify = ({ setCurrentUser, setAlert }) => {
               onClick={onResendCode}
               bgColor="#348541"
               color="white"
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               fontSize="12px"
               border="none"
               disabled={!isEnable}
@@ -159,4 +167,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(verify);
+const mapStateToProps = createStructuredSelector({
+  currentUser: setCurrentUser,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(verify);

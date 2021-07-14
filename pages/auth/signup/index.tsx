@@ -2,17 +2,17 @@ import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { Flex } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
 import { useMainSignup } from "../../../API";
 import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
-import { ISetAlert, setAlert } from "../../../redux";
-import { compose } from "redux";
-import withUser from "../../../components/HOC/withUser";
+import { ISetAlert, setAlert, setCurrentUser } from "../../../redux";
+import { createStructuredSelector } from "reselect";
+import Profile from "../../profile";
 
-const index = ({ setAlert }) => {
+const index = ({ setAlert,currentUser }) => {
   const router = useRouter();
   const [phonenumber, setPhonenumber] = useState("");
 
@@ -72,6 +72,14 @@ const index = ({ setAlert }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (currentUser) router.push("/profile");
+  }, []);
+
+  if (currentUser) return <Profile />;
+
+
   return (
     <Flex
       minH="100vh"
@@ -119,7 +127,7 @@ const index = ({ setAlert }) => {
                 شماره تلفن
               </Text>
               <Input
-                fontFamily="iranSans"
+                fontFamily="Vazir"
                 _placeholder={{
                   fontSize: "12px",
                 }}
@@ -149,7 +157,7 @@ const index = ({ setAlert }) => {
             </Flex>
             <Flex w="100%" dir="rtl" flexDir="column" m="1rem 0 0 0">
               <Button
-                fontFamily="iranSans"
+                fontFamily="Vazir"
                 fontSize="14px"
                 mb=".5rem"
                 bgColor="#348541"
@@ -184,4 +192,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default compose(connect(null, mapDispatchToProps), withUser)(index);
+const mapStateToProps = createStructuredSelector({
+  currentUser: setCurrentUser,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

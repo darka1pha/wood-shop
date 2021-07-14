@@ -3,11 +3,11 @@ import MenuItem from "./MenuItem";
 import { motion } from "framer-motion";
 import { Box } from "@chakra-ui/layout";
 import { useGetCategories } from "../../API";
+import { useQueryClient } from "react-query";
 
 const Menu = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-
   const { data: categories } = useGetCategories();
 
   const handleScroll = () => {

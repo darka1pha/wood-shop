@@ -66,7 +66,7 @@ const AlertBox = ({ info }: IAlert) => {
             style={{
               height:"45px",
               borderRadius: ".5rem",
-              fontFamily: "iranSans",
+              fontFamily: "Vazir",
               fontSize:"14px",
               position: "fixed",
               bottom: "1rem",

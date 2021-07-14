@@ -10,7 +10,7 @@ interface IPaymentAddress {
 
 const PaymentSend = ({ type, value, content }: IPaymentAddress) => {
   return (
-    <Flex justifyContent="flex-end" m="1rem" fontFamily="iranSans">
+    <Flex justifyContent="flex-end" m="1rem" fontFamily="Vazir">
       <Radio
         cursor="pointer"
         display="flex"

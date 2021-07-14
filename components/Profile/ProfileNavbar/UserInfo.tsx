@@ -15,7 +15,7 @@ const UserInfo = ({ name, phone_number }: IUserInfo) => {
         bgColor="violet"
         h="50px"
         w="50px"
-        fontFamily="iranSans"
+        fontFamily="Vazir"
       />
       <Flex
         flexDir="column"

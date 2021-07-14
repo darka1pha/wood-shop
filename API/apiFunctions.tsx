@@ -43,6 +43,7 @@ const {
   ADD_PRODUCT_TO_CART,
   GET_CART,
   GET_CART_INFO,
+  PAYMENT,
 } = apiPathes;
 
 export const getToken = async () => {
@@ -133,7 +134,7 @@ export const profileUpdate = async (data: {
 }) => {
   const { last_name, first_name, password, phone_number, national_id } = data;
   const token = Cookies.get("accessToken");
-  console.log("API ADDRESS: ", MAIN + AUTH + UPDATE_PROFILE);
+  console.log("DATA: ", { ...data });
   const res = await axios.patch(
     MAIN + AUTH + UPDATE_PROFILE,
     {
@@ -345,14 +346,20 @@ export const useGetCategoryProducts = (id: any) =>
   );
 
 export const useGetProductInfo = (id: number) =>
-  useQuery<IFullProducts>([`Product-${id}`], async () => {
-    const { data } = await axios.get(MAIN + PRODUCT_DETAILS + id, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get("accessToken")}`,
-      },
-    });
-    return data.result;
-  });
+  useQuery<IFullProducts>(
+    [`Product-${id}`],
+    async () => {
+      const { data } = await axios.get(MAIN + PRODUCT_DETAILS + id, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      return data.result;
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
 export const useSendNewComment = async ({
   design_value,
@@ -507,11 +514,27 @@ export const useDeleteCart = async ({ cart_id }: IUpdateCart) => {
 };
 
 export const useGetCartInfo = () =>
-  useQuery(["cartInfo"], async () => {
-    const { data } = await axios.get(MAIN + GET_CART_INFO, {
+  useQuery(
+    ["cartInfo"],
+    async () => {
+      const { data } = await axios.get(MAIN + GET_CART_INFO, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      return data.total;
+    },
+    { refetchOnWindowFocus: false }
+  );
+
+export const usePayment = async () => {
+  const {} = await axios.post(
+    MAIN + PAYMENT,
+    {},
+    {
       headers: {
         Authorization: `Bearer ${Cookies.get("accessToken")}`,
       },
-    });
-    return data.total;
-  });
+    }
+  );
+};

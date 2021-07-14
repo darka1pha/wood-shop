@@ -5,7 +5,6 @@ import {
   Box,
   IconButton,
   InputGroup,
-  InputLeftElement,
   Input,
   InputRightElement,
   InputLeftAddon,
@@ -197,7 +196,7 @@ const Navbar = ({ user, setAlert }) => {
               ref={searchRefMd}
               style={{
                 height: "40px",
-                fontFamily: "iranSans",
+                fontFamily: "Vazir",
               }}
               value={searchValue}
               onChange={onSearchValueChanged}
@@ -317,7 +316,7 @@ const Navbar = ({ user, setAlert }) => {
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "12px",
-                fontFamily: "iranSans",
+                fontFamily: "Vazir",
                 fontWeight: 300,
                 display: "flex",
                 textAlign: "center",

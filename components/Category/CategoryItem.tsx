@@ -49,7 +49,7 @@ const CategoryItem = ({
   return (
     <AccordionItem
       bgColor={background}
-      fontFamily="iranSans"
+      fontFamily="Vazir"
       fontSize="12px"
       m={margin}
       color={color}

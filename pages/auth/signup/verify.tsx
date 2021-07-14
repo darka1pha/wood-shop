@@ -12,10 +12,10 @@ import { Text } from "../../../components";
 import { connect } from "react-redux";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
-import { compose } from "redux";
-import withUser from "../../../components/HOC/withUser";
+import { createStructuredSelector } from "reselect";
+import Profile from "../../profile";
 
-const index = ({ setCurrentUser, setAlert }) => {
+const index = ({ setCurrentUser, setAlert, currentUser }) => {
   const router = useRouter();
   const [pin, setPin] = useState("");
   const [timer, setTimer] = useState(2);
@@ -72,6 +72,12 @@ const index = ({ setCurrentUser, setAlert }) => {
     signupVerifyMutation.mutate({ token: val });
   };
 
+  useEffect(() => {
+    if (currentUser) router.push("/profile");
+  }, []);
+
+  if (currentUser) return <Profile />;
+
   return (
     <Flex
       minH="100vh"
@@ -116,12 +122,12 @@ const index = ({ setCurrentUser, setAlert }) => {
                 value={pin}
                 onComplete={(value) => onPinComplete(value)}
                 onChange={(value) => setPin(value)}>
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
               </PinInput>
             </HStack>
             <Button
@@ -131,7 +137,7 @@ const index = ({ setCurrentUser, setAlert }) => {
               onClick={onResendCode}
               bgColor="#348541"
               color="white"
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               fontSize="12px"
               border="none"
               disabled={!isEnable}
@@ -162,4 +168,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default compose(connect(null, mapDispatchToProps), withUser)(index);
+const mapStateToProps = createStructuredSelector({
+  currentUser: setCurrentUser,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

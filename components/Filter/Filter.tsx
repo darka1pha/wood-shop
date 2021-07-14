@@ -61,7 +61,7 @@ const Filter = () => {
 						outline: 0
 					}}
 					onClick={onOpen}
-					fontFamily="iranSans"
+					fontFamily="Vazir"
 					fontSize="12px"
 					display="flex"
 					bgColor="itemsBorder"
@@ -85,7 +85,7 @@ const Filter = () => {
 						/>
 						<ModalBody >
 							<ModalHeader
-								fontFamily="iranSans"
+								fontFamily="Vazir"
 								fontSize="18px"
 								display="flex"
 								alignItems="center"

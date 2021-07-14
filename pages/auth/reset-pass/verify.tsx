@@ -8,16 +8,15 @@ import { BiLock } from "react-icons/bi";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
 import { useVerifyResetPassword } from "../../../API";
-import {
-  IError,
-  IVerifyResetPassword,
-} from "../../../API/interfaces";
+import { IError, IVerifyResetPassword } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
 import { Input } from "@chakra-ui/input";
+import { createStructuredSelector } from "reselect";
+import Profile from "../../profile";
 
-const verify = ({ setCurrentUser, setAlert }) => {
+const verify = ({ setCurrentUser, setAlert, currentUser }) => {
   const router = useRouter();
   const [pin, setPin] = useState("");
   const [pass, setPass] = useState("");
@@ -95,6 +94,12 @@ const verify = ({ setCurrentUser, setAlert }) => {
     });
   };
 
+  useEffect(() => {
+    if (currentUser) router.push("/profile");
+  }, []);
+
+  if (currentUser) return <Profile />;
+
   return (
     <Flex
       minH="100vh"
@@ -141,12 +146,12 @@ const verify = ({ setCurrentUser, setAlert }) => {
                 onChange={(value) => {
                   setPin(value);
                 }}>
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
-                <PinInputField fontFamily="iranSans" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
+                <PinInputField fontFamily="Vazir" />
               </PinInput>
             </HStack>
             <Button
@@ -156,7 +161,7 @@ const verify = ({ setCurrentUser, setAlert }) => {
               onClick={onResendCode}
               bgColor="#348541"
               color="white"
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               fontSize="12px"
               border="none"
               disabled={!isEnable}
@@ -170,7 +175,7 @@ const verify = ({ setCurrentUser, setAlert }) => {
               type="password"
               placeholder="رمز عبور جدید"
               _placeholder={{
-                fontFamily: "iranSans",
+                fontFamily: "Vazir",
                 fontSize: "13px",
               }}
               value={pass}
@@ -187,7 +192,7 @@ const verify = ({ setCurrentUser, setAlert }) => {
               type="password"
               placeholder="تایید رمز عبور"
               _placeholder={{
-                fontFamily: "iranSans",
+                fontFamily: "Vazir",
                 fontSize: "13px",
               }}
               value={confirmPass}
@@ -206,7 +211,7 @@ const verify = ({ setCurrentUser, setAlert }) => {
               onClick={onConfirmed}
               bgColor="#348541"
               color="white"
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               fontSize="12px"
               border="none"
               disabled={!confirmActive}
@@ -237,4 +242,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(verify);
+const mapStateToProps = createStructuredSelector({
+  currentUser: setCurrentUser,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(verify);

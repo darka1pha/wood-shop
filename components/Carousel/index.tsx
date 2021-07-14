@@ -49,7 +49,7 @@ const Carousel = ({ data, title, tempUrl }: ICarousel) => {
 					right="15%"
 					top="0"
 					borderRadius="2rem"
-					fontFamily="iranSans"
+					fontFamily="Vazir"
 				>
 					{title}
 				</Box>

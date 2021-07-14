@@ -3,7 +3,7 @@ import Icon from "@chakra-ui/icon";
 import { Input, InputGroup, InputLeftAddon } from "@chakra-ui/input";
 import { Flex } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
@@ -12,10 +12,10 @@ import { IError, ISigninPassword } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
-import { compose } from "redux";
-import withUser from "../../../components/HOC/withUser";
+import { createStructuredSelector } from "reselect";
+import Profile from "../../profile";
 
-const password = ({ setAlert, setCurrentUser }) => {
+const password = ({ setAlert, setCurrentUser, currentUser }) => {
   const [show, setShow] = useState(false);
   const router = useRouter();
   const [phonenumber, setPhonenumber] = useState("");
@@ -57,6 +57,12 @@ const password = ({ setAlert, setCurrentUser }) => {
       },
     }
   );
+
+  useEffect(() => {
+    if (currentUser) router.push("/profile");
+  }, []);
+
+  if (currentUser) return <Profile />;
 
   return (
     <Flex
@@ -155,7 +161,7 @@ const password = ({ setAlert, setCurrentUser }) => {
             </Flex>
             <Flex w="100%" dir="rtl" flexDir="column" m="1rem 0 0 0">
               <Button
-                fontFamily="iranSans"
+                fontFamily="Vazir"
                 fontSize="16px"
                 mb=".5rem"
                 bgColor="#348541"
@@ -179,7 +185,7 @@ const password = ({ setAlert, setCurrentUser }) => {
                 ورود
               </Button>
               <Button
-                fontFamily="iranSans"
+                fontFamily="Vazir"
                 fontSize="16px"
                 _focus={{
                   outline: 0,
@@ -201,4 +207,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default compose(connect(null, mapDispatchToProps), withUser)(password);
+const mapStateToProps = createStructuredSelector({
+  currentUser: setCurrentUser,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(password);

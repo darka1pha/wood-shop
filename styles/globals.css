@@ -46,14 +46,6 @@ a {
 }
 
 @font-face {
-  font-family: "iranSans";
-  src: local("ir_sans"), url(../public/fonts/ir_sans.ttf) format("ttf"),
-    url(../public/fonts/ir_sans.woff2) format("woff2"),
-    url(../public/fonts/ir_sans.woff) format("woff");
-  font-display: swap;
-}
-
-@font-face {
   font-family: "Vazir";
   src: local("Vazir-Regular-FD"),
     url(../public/fonts/Vazir-Regular-FD.ttf) format("ttf"),

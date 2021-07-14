@@ -257,7 +257,7 @@ const Addresses = () => {
         <ModalContent
           w={{ base: "85%", md: "auto" }}
           minW={{ base: "320px", md: "640px" }}>
-          <ModalHeader dir="rtl" w="100%" fontFamily="iranSans">
+          <ModalHeader dir="rtl" w="100%" fontFamily="Vazir">
             افزودن آدرس
           </ModalHeader>
           <ModalCloseButton
@@ -279,7 +279,7 @@ const Addresses = () => {
                   شهر
                 </Text>
                 <Select
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   fontSize="12px"
                   color="#6F6F6F"
                   dir="ltr"
@@ -301,7 +301,7 @@ const Addresses = () => {
                 </Text>
                 <Select
                   dir="ltr"
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   fontSize="12px"
                   color="#6F6F6F"
                   onChange={onSelectChanges}
@@ -322,7 +322,7 @@ const Addresses = () => {
                 نشانی پستی
               </Text>
               <Input
-                fontFamily="iranSans"
+                fontFamily="Vazir"
                 fontSize="14px"
                 focusBorderColor="pink.300"
                 name="address"
@@ -425,7 +425,7 @@ const Addresses = () => {
           </ModalBody>
           <ModalFooter dir="rtl">
             <Button
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               fontSize="12px"
               bgColor="#EF394E"
               color="white"

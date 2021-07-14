@@ -11,7 +11,7 @@ interface IPaymentAddress {
 
 const PaymentAddress = ({ address, value, city, state }: IPaymentAddress) => {
   return (
-    <Flex justifyContent="flex-end" m="1rem" fontFamily="iranSans">
+    <Flex justifyContent="flex-end" m="1rem" fontFamily="Vazir">
       <Radio
         cursor="pointer"
         display="flex"

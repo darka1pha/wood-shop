@@ -128,7 +128,7 @@ const FavoriteCard = ({ id, image, name, price }: IFavoriteCard) => {
         />
         <MenuList minW="110px">
           <MenuItem
-            fontFamily="iranSans"
+            fontFamily="Vazir"
             color="red.500"
             dir="rtl"
             _hover={{

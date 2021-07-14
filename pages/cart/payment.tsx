@@ -16,6 +16,8 @@ import { RadioGroup } from "@chakra-ui/radio";
 import { Select } from "@chakra-ui/select";
 import { useEffect, useState } from "react";
 import { RiMapPinAddLine } from "react-icons/ri";
+import { useMutation } from "react-query";
+import { usePayment } from "../../API";
 import { PaymentAddress, PaymentSend, Text } from "../../components";
 
 interface IAddress {
@@ -34,6 +36,11 @@ const payment = () => {
   const [selectedAddress, setSelectedAddress] = useState("test1");
   const [selectedSendMethod, setSelectedSendMethod] = useState("test1");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const paymentMutation = useMutation(usePayment, {
+    onSuccess: (res) => {
+      console.log("Payment Response: ", res);
+    },
+  });
   const cost = 2000;
   const [addresses, setAddresses] = useState<Array<IAddress>>([
     {
@@ -106,6 +113,10 @@ const payment = () => {
 
   const onSelectChanges = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTempAddress({ ...tempAddress, [e.target.name]: e.target.value });
+  };
+
+  const onConfirmOrder = () => {
+    paymentMutation.mutate();
   };
 
   useEffect(() => {
@@ -192,7 +203,7 @@ const payment = () => {
           </Text>
           <Button
             color="white"
-            fontFamily="iranSans"
+            fontFamily="Vazir"
             bgColor="btnBg"
             _hover={{
               bgColor: "btnHover",
@@ -203,7 +214,8 @@ const payment = () => {
             }}
             _active={{
               bgColor: "btnActive",
-            }}>
+            }}
+            onClick={onConfirmOrder}>
             پرداخت و ثبت سفارش
           </Button>
         </Flex>
@@ -213,7 +225,7 @@ const payment = () => {
         <ModalContent
           w={{ base: "85%", md: "auto" }}
           minW={{ base: "320px", md: "640px" }}>
-          <ModalHeader dir="rtl" w="100%" fontFamily="iranSans">
+          <ModalHeader dir="rtl" w="100%" fontFamily="Vazir">
             افزودن آدرس
           </ModalHeader>
           <ModalCloseButton
@@ -235,7 +247,7 @@ const payment = () => {
                   شهر
                 </Text>
                 <Select
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   fontSize="12px"
                   color="#6F6F6F"
                   dir="ltr"
@@ -255,7 +267,7 @@ const payment = () => {
                 </Text>
                 <Select
                   dir="ltr"
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   fontSize="12px"
                   color="#6F6F6F"
                   onChange={onSelectChanges}
@@ -274,7 +286,7 @@ const payment = () => {
                 نشانی پستی
               </Text>
               <Input
-                fontFamily="iranSans"
+                fontFamily="Vazir"
                 fontSize="14px"
                 focusBorderColor="pink.300"
                 name="address"
@@ -377,7 +389,7 @@ const payment = () => {
           </ModalBody>
           <ModalFooter dir="rtl">
             <Button
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               fontSize="12px"
               bgColor="#EF394E"
               color="white"

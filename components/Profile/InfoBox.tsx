@@ -66,7 +66,7 @@ const InfoBox = ({
   const updateMutation = useMutation((data: any) => profileUpdate(data), {
     onSuccess: (res: any) => {
       console.log("awad :", res);
-      queryClient.refetchQueries();
+      // queryClient.refetchQueries();
       setCurrentUser({ ...res.data });
       setAlert({ content: "پروفایل با موفقیت آپدیت شد", type: "success" });
     },
@@ -130,7 +130,7 @@ const InfoBox = ({
         <ModalOverlay />
         <ModalContent display="flex" dir="rtl">
           <ModalHeader
-            fontFamily="iranSans"
+            fontFamily="Vazir"
             fontSize="16px"
             borderBottom="1px solid #DFDFDF"
             ml="2rem"
@@ -158,7 +158,7 @@ const InfoBox = ({
               </Text>
             ) : null}
             <Input
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               defaultValue={
                 info_box_for === "name_lastname"
                   ? currentUser.first_name
@@ -181,7 +181,7 @@ const InfoBox = ({
                   نام خانوادگی
                 </Text>
                 <Input
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   defaultValue={currentUser.last_name}
                   type={inputType}
                   _focus={{
@@ -200,7 +200,7 @@ const InfoBox = ({
                   رمز عبور جدید
                 </Text>
                 <Input
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   type={inputType}
                   _focus={{
                     outline: "none",
@@ -214,7 +214,7 @@ const InfoBox = ({
                   تایید رمز عبور جدید
                 </Text>
                 <Input
-                  fontFamily="iranSans"
+                  fontFamily="Vazir"
                   type={inputType}
                   _focus={{
                     outline: "none",
@@ -230,7 +230,7 @@ const InfoBox = ({
           <ModalFooter>
             <Button
               onClick={onConfirmClicked}
-              fontFamily="iranSans"
+              fontFamily="Vazir"
               colorScheme="blue">
               ثبت
             </Button>

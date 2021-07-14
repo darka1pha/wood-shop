@@ -13,24 +13,64 @@ class MyDocument extends Document {
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/ir_sans.ttf"
-						type="font/tff"
+						href="fonts/Vazir-Bold-FD.ttf"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/ir_sans.woff"
-						type="font/tff"
+						href="fonts/Vazir-Bold-FD.woff2"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/ir_sans.woff2"
-						type="font/tff"
+						href="fonts/Vazir-Light-FD.ttf"
 						crossOrigin="anonymous"
 					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/Vazir-Light-FD.woff2"
+						crossOrigin="anonymous"
+					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/Vazir-Medium-FD.ttf"
+						crossOrigin="anonymous"
+					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/Vazir-Medium-FD.woff2"
+						crossOrigin="anonymous"
+					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/Vazir-Regular-FD.ttf"
+						crossOrigin="anonymous"
+					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/Vazir-Regular-FD.woff2"
+						crossOrigin="anonymous"
+					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/Vazir-Thin-FD.ttf"
+						crossOrigin="anonymous"
+					/>
+					<link
+						rel="preload"
+						as="font"
+						href="fonts/Vazir-Thin-FD.woff2"
+						crossOrigin="anonymous"
+					/>
+
 					<link
 						rel="stylesheet"
 						type="text/css"
