@@ -1,3 +1,4 @@
+import { Flex, FlexProps } from "@chakra-ui/layout";
 import { AnimatePresence, motion } from "framer-motion";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -9,6 +10,8 @@ interface IAlert {
     content?: string;
   };
 }
+
+const MotionFlex = motion<FlexProps>(Flex)
 
 const AlertBox = ({ info }: IAlert) => {
   const variants = {
@@ -54,15 +57,15 @@ const AlertBox = ({ info }: IAlert) => {
     <AnimatePresence>
       {!content ||
         (content.length > 1 && (
-          <motion.div
+          <MotionFlex
             initial="hidden"
             animate="visible"
             exit="hidden"
             variants={variants}
+            zIndex="10"
             style={{
               height:"45px",
               borderRadius: ".5rem",
-              zIndex:"10",
               fontFamily: "iranSans",
               fontSize:"14px",
               position: "fixed",
@@ -93,7 +96,7 @@ const AlertBox = ({ info }: IAlert) => {
                 flexDirection:"row-reverse"
               }}
             />
-          </motion.div>
+          </MotionFlex>
         ))}
     </AnimatePresence>
   );

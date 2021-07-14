@@ -1,13 +1,12 @@
 import { Flex } from "@chakra-ui/layout";
 import { Fragment } from "react";
 import { useGetCategoryProducts } from "../API";
-import { IPaginatedData, IPaginatedSearch, IProducts } from "../API/interfaces";
+import { IProducts } from "../API/interfaces";
 import ProductCard from "./ProductCard";
 
 interface IProductContainer {
   currentCategoryId: number;
-  search: IPaginatedData<IProducts>;
-  fetchMoreSearchItem
+  search: any;
 }
 
 const ProductContainer = ({ currentCategoryId, search }: IProductContainer) => {

@@ -113,6 +113,8 @@ export interface ICart {
   };
 }
 
+
+
 export interface IPaginatedData<T> {
   next: string | null;
   results: Array<T>;

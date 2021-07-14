@@ -12,6 +12,7 @@ import {
   ICart,
   IUpdateCart,
 } from "./interfaces";
+import { InfiniteData } from "react-query";
 import { apiPathes } from ".";
 import Cookies from "js-cookie";
 import { IRecivedAddress } from "../components/Profile/Addresses";

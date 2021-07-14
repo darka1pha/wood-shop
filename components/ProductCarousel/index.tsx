@@ -29,10 +29,10 @@ const ProductCarousel = ({ product }: ICarousel) => {
   return (
     <Box className="swiper-container" w="100%" maxW="1920px" h="100%">
       <Swiper
-        style={{
-          "--swiper-navigation-color": "#EF394E",
-          "--swiper-pagination-color": "#EF394E",
-        }}
+        // style={{
+        //   "--swiper-navigation-color": "#EF394E",
+        //   "--swiper-pagination-color": "#EF394E",
+        // }}
         spaceBetween={10}
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
