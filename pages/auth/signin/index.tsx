@@ -10,7 +10,7 @@ import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, setAlert, setCurrentUser } from "../../../redux";
 import { createStructuredSelector } from "reselect";
-import Profile from "../../profile";
+import withUser from "../../../components/HOC/withUser";
 
 const index = ({ setAlert, currentUser }) => {
   const router = useRouter();
@@ -73,12 +73,6 @@ const index = ({ setAlert, currentUser }) => {
       }
     }
   };
-
-  useEffect(() => {
-    if (currentUser) router.push("/profile");
-  }, []);
-
-  if (currentUser) return <Profile />;
 
   return (
     <Flex
@@ -198,4 +192,5 @@ const mapStateToProps = createStructuredSelector({
   currentUser: setCurrentUser,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(index);
+// export default connect(mapStateToProps, mapDispatchToProps)(index);
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(index));

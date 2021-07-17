@@ -40,7 +40,9 @@ const CartDetails = ({ final_cost, total_cost, total_off }: ICartDetails) => {
         </Text>
         <Flex alignItems="center" flexDir="row-reverse">
           <Text color="#13bf52" variant="normalExt">
-            {total_off === null ? "0" : total_off.toLocaleString()}
+            {total_off === null || !total_off
+              ? "0"
+              : total_off.toLocaleString()}
           </Text>
           <Text color="#717171" fontSize="12px" variant="normalMedium">
             ریال&nbsp;
@@ -67,7 +69,10 @@ const CartDetails = ({ final_cost, total_cost, total_off }: ICartDetails) => {
       </Flex>
       <Flex w="100%">
         <Button
-          onClick={() => router.push("/cart/payment")}
+          onClick={() =>
+            final_cost === 0 ? null : router.push("/cart/payment")
+          }
+          disabled={final_cost === 0}
           fontFamily="Vazir"
           fontSize="12px"
           bgColor="#EF394E"

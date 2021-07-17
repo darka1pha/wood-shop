@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/modal";
 import { RadioGroup } from "@chakra-ui/radio";
 import { Select } from "@chakra-ui/select";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { RiMapPinAddLine } from "react-icons/ri";
 import { useMutation } from "react-query";
@@ -35,10 +36,12 @@ interface IAddress {
 const payment = () => {
   const [selectedAddress, setSelectedAddress] = useState("test1");
   const [selectedSendMethod, setSelectedSendMethod] = useState("test1");
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const paymentMutation = useMutation(usePayment, {
     onSuccess: (res) => {
-      console.log("Payment Response: ", res);
+      // window.location.replace(res.redirect_url);
+      router.replace(res.redirect_url)
     },
   });
   const cost = 2000;

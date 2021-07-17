@@ -9,43 +9,47 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { useGetCategories, useGetCategoryProducts } from "../../API";
 import { IProducts } from "../../API/interfaces";
+import CategoryMenu from "../../components/Category/CategoryMenu";
+import Filter from "../../components/Filter/Filter";
+import FilterTitle from "../../components/Filter/FilterTitle";
+import ProductCard from "../../components/ProductCard";
 import { selectCurrentCategory } from "../../redux";
 
-const Filter = dynamic(
-  () => {
-    return import("../../components/Filter/Filter");
-  },
-  {
-    ssr: false,
-  }
-);
+// const Filter = dynamic(
+//   () => {
+//     return import("../../components/Filter/Filter");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
-const CategoryMenu = dynamic(
-  () => {
-    return import("../../components/Category/CategoryMenu");
-  },
-  {
-    ssr: false,
-  }
-);
+// const CategoryMenu = dynamic(
+//   () => {
+//     return import("../../components/Category/CategoryMenu");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
-const FilterTitle = dynamic(
-  () => {
-    return import("../../components/Filter/FilterTitle");
-  },
-  {
-    ssr: false,
-  }
-);
+// const FilterTitle = dynamic(
+//   () => {
+//     return import("../../components/Filter/FilterTitle");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
-const ProductCard = dynamic(
-  () => {
-    return import("../../components/ProductCard");
-  },
-  {
-    ssr: false,
-  }
-);
+// const ProductCard = dynamic(
+//   () => {
+//     return import("../../components/ProductCard");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
 const index = ({ currentCategory }) => {
   const router = useRouter();

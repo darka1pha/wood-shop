@@ -71,12 +71,6 @@ const verify = ({ setCurrentUser, setAlert, currentUser }) => {
     signinVerifyMutation.mutate({ token: val });
   };
 
-  useEffect(() => {
-    if (currentUser) router.push("/profile");
-  }, []);
-
-  if (currentUser) return <Profile />;
-
   return (
     <Flex
       minH="100vh"

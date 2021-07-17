@@ -2,15 +2,16 @@ import { Flex } from "@chakra-ui/layout";
 import dynamic from "next/dynamic";
 import { IComment } from "../../API/interfaces";
 import Text from "../Text";
+import RatingContainer from "./RatingContainer";
 
-const RatingContainer = dynamic(
-  () => {
-    return import("./RatingContainer");
-  },
-  {
-    ssr: false,
-  }
-);
+// const RatingContainer = dynamic(
+//   () => {
+//     return import("./RatingContainer");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
 const index = ({
   text,

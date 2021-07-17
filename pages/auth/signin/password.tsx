@@ -58,12 +58,6 @@ const password = ({ setAlert, setCurrentUser, currentUser }) => {
     }
   );
 
-  useEffect(() => {
-    if (currentUser) router.push("/profile");
-  }, []);
-
-  if (currentUser) return <Profile />;
-
   return (
     <Flex
       minH="100vh"

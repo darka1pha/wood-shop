@@ -6,31 +6,34 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import { useSearch } from "../API";
+import Filter from "../components/Filter/Filter";
+import FilterTitle from "../components/Filter/FilterTitle";
+import ProductCard from "../components/ProductCard";
 
-const ProductCard = dynamic(
-  () => {
-    return import("../components/ProductCard");
-  },
-  {
-    ssr: false,
-  }
-);
-const FilterTitle = dynamic(
-  () => {
-    return import("../components/Filter/FilterTitle");
-  },
-  {
-    ssr: false,
-  }
-);
-const Filter = dynamic(
-  () => {
-    return import("../components/Filter/Filter");
-  },
-  {
-    ssr: false,
-  }
-);
+// const ProductCard = dynamic(
+//   () => {
+//     return import("../components/ProductCard");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
+// const FilterTitle = dynamic(
+//   () => {
+//     return import("../components/Filter/FilterTitle");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
+// const Filter = dynamic(
+//   () => {
+//     return import("../components/Filter/Filter");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
 const search = () => {
   const [page, setPage] = useState<number>(0);

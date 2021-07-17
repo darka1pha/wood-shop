@@ -20,15 +20,27 @@ import dynamic from "next/dynamic";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
 import { ISetAlert, setAlert } from "../../redux";
+import ProductCarousel from "../../components/ProductCarousel";
 
-const ProductCarousel = dynamic(
-  () => {
-    return import("../../components/ProductCarousel");
-  },
-  {
-    ssr: false,
-  }
-);
+//TODO Dynamic Import for Components 
+
+// const ProductCarousel = dynamic(
+//   () => {
+//     return import("../../components/ProductCarousel");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
+
+// const NewComment = dynamic(
+//   () => {
+//     return import("../../components/Comment/NewComment");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
 const index = ({ setAlert }) => {
   const router = useRouter();
@@ -38,9 +50,9 @@ const index = ({ setAlert }) => {
     onSuccess: () => {
       setAlert({ content: "محصول به سبد خرید اضافه شد", type: "success" });
     },
-    onError:()=>{
+    onError: () => {
       setAlert({ content: "خطایی رخ داده است", type: "error" });
-    }
+    },
   });
 
   const onAddToCart = async () => {

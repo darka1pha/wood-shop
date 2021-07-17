@@ -72,8 +72,6 @@ const index = ({ setAlert, currentUser }) => {
     if (currentUser) router.push("/profile");
   }, []);
 
-  if (currentUser) return <Profile />;
-
   return (
     <Flex
       minH="100vh"
@@ -183,4 +181,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: setCurrentUser,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(index);
+export default connect(null, mapDispatchToProps)(index);

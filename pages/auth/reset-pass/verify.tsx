@@ -98,8 +98,6 @@ const verify = ({ setCurrentUser, setAlert, currentUser }) => {
     if (currentUser) router.push("/profile");
   }, []);
 
-  if (currentUser) return <Profile />;
-
   return (
     <Flex
       minH="100vh"

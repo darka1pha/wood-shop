@@ -1,26 +1,30 @@
+import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
 import dynamic from "next/dynamic";
 import { Fragment, useEffect } from "react";
+import { IoBasketOutline } from "react-icons/io5";
 import { useGetCart, useGetCartInfo } from "../../API";
 import { Text } from "../../components";
+import CartDetails from "../../components/CartDetails";
+import CartItem from "../../components/CartItem";
 
-const CartItem = dynamic(
-  () => {
-    return import("../../components/CartItem");
-  },
-  {
-    ssr: false,
-  }
-);
+// const CartItem = dynamic(
+//   () => {
+//     return import("../../components/CartItem");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
-const CartDetails = dynamic(
-  () => {
-    return import("../../components/CartDetails");
-  },
-  {
-    ssr: false,
-  }
-);
+// const CartDetails = dynamic(
+//   () => {
+//     return import("../../components/CartDetails");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
 const index = () => {
   const { data: products } = useGetCart();
@@ -65,21 +69,41 @@ const index = () => {
             w="100px"
             alignItems="center"
             flexDir="column"
-            p="1rem">
-            <Text whiteSpace="nowrap" variant="heading5">
+            p="1rem"
+            display={
+              products?.pages[0].results.length === 0 ? "none" : "flex"
+            }
+            >
+            <Text
+              whiteSpace="nowrap"
+              variant="heading5">
               سبد خرید
             </Text>
             <Flex mt=".5rem" w="85px" h="2px" bgColor="#EF394E" />
           </Flex>
-          {products?.pages.map((group, index) => (
-            <Fragment key={index}>
-              {group?.results.map(
-                ({ count, id, product, form }, key: number) => (
-                  <CartItem count={count} id={id} product={product} key={key} />
-                )
-              )}
-            </Fragment>
-          ))}
+          {products?.pages[0].results.length !== 0 ? (
+            products?.pages.map((group, index) => (
+              <Fragment key={index}>
+                {group?.results.map(
+                  ({ count, id, product, form }, key: number) => (
+                    <CartItem
+                      count={count}
+                      id={id}
+                      product={product}
+                      key={key}
+                    />
+                  )
+                )}
+              </Fragment>
+            ))
+          ) : (
+            <Flex alignItems="center" flexDir="column" w="100%" justifyContent="center">
+              <Icon color="#d6d6d6" h="180px" w="180px" as={IoBasketOutline} />
+              <Text dir="rtl" color="#d6d6d6" variant="heading5">
+                سبد خرید شما خالی است !
+              </Text>
+            </Flex>
+          )}
         </Flex>
         <Flex
           boxShadow="lg"

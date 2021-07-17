@@ -39,8 +39,8 @@ const ProfileNavbarBtn = ({
   const router = useRouter();
 
   const onLogout = () => {
-    router.push("/auth/signin");
     clearCurrentUser(null);
+    router.push("/auth/signin");
   };
 
   return (

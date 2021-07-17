@@ -9,8 +9,7 @@ import Addresses from "../../components/Profile/Addresses";
 import UserFavorites from "../../components/Profile/UserFavorites";
 import Orders from "../../components/Profile/Orders";
 import { selectCurrentUser } from "../../redux";
-import Signin from "../auth/signin";
-
+import withNoUser from "../../components/HOC/withNoUser";
 interface IPageComponent {
   Component: JSX.Element;
   title: string;
@@ -41,13 +40,8 @@ const index = ({ currentUser }) => {
 
   useEffect(() => {
     console.log(window.location.search.split("=")[1]);
-    if (!currentUser) router.push("/auth/signin");
     setCurrentQuery(router.query.page);
   }, [router.query.page]);
-
-  if (!currentUser) {
-    return <Signin />;
-  }
 
   return (
     <Flex
@@ -89,4 +83,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps)(index);
+export default connect(mapStateToProps)(withNoUser(index));

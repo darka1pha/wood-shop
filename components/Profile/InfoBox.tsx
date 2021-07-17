@@ -27,7 +27,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import Text from "../Text";
 import { useMutation, useQueryClient } from "react-query";
-import { profileUpdate } from "../../API";
+import { profileUpdate, profileUpdatePassword } from "../../API";
 import { IError } from "../../API/interfaces";
 
 interface IInfoBox extends FlexProps {
@@ -72,9 +72,26 @@ const InfoBox = ({
     },
     onError: (error: IError) => {
       console.log("Error: ", error.response);
-      setAlert({ content: error.response.data.error.message, type: "error" });
+      if (info_box_for === "national_id") {
+        setAlert({ content: "کد ملی وارد شده اشتباه است", type: "error" });
+      }
     },
   });
+
+  const updatePasswordMutation = useMutation(
+    (data: any) => profileUpdatePassword(data),
+    {
+      onSuccess: (res: any) => {
+        // queryClient.refetchQueries();
+        setCurrentUser({ ...res.data });
+        setAlert({ content: "پروفایل با موفقیت آپدیت شد", type: "success" });
+      },
+      onError: (error: IError) => {
+        console.log("Error: ", error.response);
+        setAlert({ content: error.response.data.error.message, type: "error" });
+      },
+    }
+  );
 
   const onConfirmClicked = () => {
     if (info_box_for === "name_lastname") {
@@ -84,12 +101,33 @@ const InfoBox = ({
     } else if (info_box_for === "phonenumber") {
       updateMutation.mutate({ phone_number: input1 });
     } else if (info_box_for === "password") {
+      //TODO setCurren User when request send response 200 ok
       setCurrentUser({
         ...currentUser,
         password: input1,
         is_new: false,
       });
       updateMutation.mutate({ password: input1 });
+    } else if (
+      info_box_for === "change_password" &&
+      currentUser.is_new === false
+    ) {
+      if (input2 === input3 && input1.length >= 8) {
+        updatePasswordMutation.mutate({
+          password: input1,
+          new_password: input2,
+          confirm_password: input3,
+        });
+      } else if (input2 !== input3)
+        setAlert({
+          content: "رمز عبور جدید با تایید آن مطابقت ندارد",
+          type: "error",
+        });
+      else if (input1.length < 8)
+        setAlert({
+          content: "رمز عبور قبلی وارد شده اشتباه است",
+          type: "error",
+        });
     }
     onClose();
   };
@@ -164,6 +202,8 @@ const InfoBox = ({
                   ? currentUser.first_name
                   : info_box_for === "phonenumber"
                   ? currentUser.phone_number
+                  : info_box_for === "change_password"
+                  ? ""
                   : currentUser.national_id
               }
               type={inputType}

@@ -11,9 +11,10 @@ let store;
 const middlewares = [logger, thunk];
 
 const persistConfig = {
-  key: "root",
+  key: "primary",
   storage,
   whitelist: ["user", "category"],
+  timeout: null,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -36,8 +37,6 @@ export const initializeStore = (preloadedState) => {
 
     store = undefined;
   }
-
-  if (typeof window === "undefined") return _store;
 
   if (!store) store = _store;
 

@@ -6,15 +6,16 @@ import Text from "../Text";
 import { motion } from "framer-motion";
 import { Spinner } from "@chakra-ui/spinner";
 import dynamic from "next/dynamic";
+import FavoriteCard from "./FavoriteCard";
 
-const FavoriteCard = dynamic(
-  () => {
-    return import("./FavoriteCard");
-  },
-  {
-    ssr: false,
-  }
-);
+// const FavoriteCard = dynamic(
+//   () => {
+//     return import("./FavoriteCard");
+//   },
+//   {
+//     ssr: false,
+//   }
+// );
 
 const UserFavorites = () => {
   const containerRef = useRef(null);

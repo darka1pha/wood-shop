@@ -134,142 +134,52 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
         <Text color="black" variant="heading6">
           نوشتن نظر
         </Text>
-        {/* <Flex
-					flexDir="column"
-					p="0 1rem"
-					m="1rem 0"
-				>
-					<Text mb=".5rem" color="black" whiteSpace="nowrap" variant="normalExt">
-						نام شما
-          </Text>
-					<Input
-						fontFamily="Vazir"
-						p=".5rem .5rem"
-						border="1px solid #BDBDBD"
-						h="35px"
-						_focus={{
-							outline: "none",
-							border: "1px solid #BDBDBD"
-						}}
-						w="220px"
-						fontSize={{ base: "12px", md: "1rem" }}
-					/>
-				</Flex> */}
-        <Flex flexDir="column" p="0 1rem" m="1rem 0">
-          <Text
-            mb=".5rem"
-            color="black"
-            whiteSpace="nowrap"
-            variant="normalExt">
-            پیام شما
-          </Text>
-          <Textarea
-            value={text}
-            name="text"
-            onChange={onCommentFieldChanges}
-            border="1px solid #BDBDBD"
-            maxH="200px"
-            minH="150px"
-            p="1rem"
-            maxW="920px"
-            _focus={{
-              outline: "none",
-              border: "1px solid #BDBDBD",
-            }}
-            fontFamily="Vazir"
-            fontSize={{ base: "12px", md: "1rem" }}
-          />
-        </Flex>
-        <Flex flexDir="column">
-          {ratingTitles.map(({ rate, title, engTitle }, key) => (
-            <RatingContainer
-              oldArray={comment}
-              engTitle={engTitle}
-              mr=".5rem"
-              editable
-              title={title}
-              rate={rate}
-              key={key}
-              onChange={setComment}
-              rating={rate}
+        <Flex flexDir={{ base: "column", md: "row" }}>
+          <Flex w="65%" flexDir="column" p="0 1rem" m="1rem 0">
+            <Text
+              mb=".5rem"
+              color="black"
+              whiteSpace="nowrap"
+              variant="normalExt">
+              پیام شما
+            </Text>
+            <Textarea
+              value={text}
+              name="text"
+              onChange={onCommentFieldChanges}
+              border="1px solid #BDBDBD"
+              maxH="200px"
+              minH="150px"
+              p="1rem"
+              maxW="920px"
+              _focus={{
+                outline: "none",
+                border: "1px solid #BDBDBD",
+              }}
+              fontFamily="Vazir"
+              fontSize={{ base: "12px", md: "1rem" }}
             />
-          ))}
-        </Flex>
-        <Flex flexDir={{ base: "column", md: "row" }} m="2rem 1rem">
-          <Flex ml="5rem">
-            <Flex>
-              <Text
-                ml="1rem"
-                mt=".5rem"
-                whiteSpace="nowrap"
-                color="#2C9B37"
-                variant="normalExt">
-                نقاط قوت
-              </Text>
-            </Flex>
-            <Flex flexDir="column">
-              {posValues.map((input, index) => (
-                <Input
-                  key={index}
-                  value={input}
-                  onChange={(e) =>
-                    setPosValues({
-                      type: "change",
-                      payload: { index, value: e.target.value },
-                    })
-                  }
-                  fontFamily="Vazir"
-                  border="1px solid #BDBDBD"
-                  p=".2rem .5rem"
-                  mb=".5rem"
-                  _focus={{
-                    outline: "none",
-                    border: "1px solid #BDBDBD",
-                  }}
-                  w="220px"
-                  fontSize={{ base: "12px", md: "1rem" }}
-                />
-              ))}
-            </Flex>
           </Flex>
-          <Flex>
-            <Flex>
-              <Text
-                ml={{ base: ".5rem", md: "1rem" }}
-                mt=".5rem"
-                whiteSpace="nowrap"
-                color="#DE2D2D"
-                variant="normalExt">
-                نقاط ضعف
-              </Text>
-            </Flex>
-            <Flex flexDir="column">
-              {negValues.map((input, index) => (
-                <Input
-                  key={index}
-                  value={input}
-                  onChange={(e) =>
-                    setNegValues({
-                      type: "change",
-                      payload: { index, value: e.target.value },
-                    })
-                  }
-                  fontFamily="Vazir"
-                  border="1px solid #BDBDBD"
-                  p=".2rem .5rem"
-                  mb=".5rem"
-                  _focus={{
-                    outline: "none",
-                    border: "1px solid #BDBDBD",
-                  }}
-                  w="220px"
-                  fontSize={{ base: "12px", md: "1rem" }}
-                />
-              ))}
-            </Flex>
+          <Flex mt="3rem" flexDir="column">
+            {ratingTitles.map(({ rate, title, engTitle }, key) => (
+              <RatingContainer
+                oldArray={comment}
+                engTitle={engTitle}
+                mr=".5rem"
+                editable
+                title={title}
+                rate={rate}
+                key={key}
+                onChange={setComment}
+                rating={rate}
+              />
+            ))}
           </Flex>
         </Flex>
-        <Flex flexDir={{ base: "column", md: "row" }} alignItems="center">
+        <Flex
+          mt="1rem"
+          flexDir={{ base: "column", md: "row" }}
+          alignItems="center">
           <Flex alignItems="center">
             <Text
               color="black"

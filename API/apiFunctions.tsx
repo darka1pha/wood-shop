@@ -44,6 +44,7 @@ const {
   GET_CART,
   GET_CART_INFO,
   PAYMENT,
+  UPDATE_PASSWORD,
 } = apiPathes;
 
 export const getToken = async () => {
@@ -143,6 +144,30 @@ export const profileUpdate = async (data: {
       last_name,
       first_name,
       national_id,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res;
+};
+
+export const profileUpdatePassword = async (data: {
+  password?: string;
+  confirm_password?: string;
+  new_password?: string;
+}) => {
+  const { confirm_password, new_password, password } = data;
+  const token = Cookies.get("accessToken");
+  console.log("DATA: ", { ...data });
+  const res = await axios.patch(
+    MAIN + AUTH + UPDATE_PROFILE,
+    {
+      confirm_password,
+      new_password,
+      password,
     },
     {
       headers: {
@@ -528,7 +553,7 @@ export const useGetCartInfo = () =>
   );
 
 export const usePayment = async () => {
-  const {} = await axios.post(
+  const { data } = await axios.post(
     MAIN + PAYMENT,
     {},
     {
@@ -537,4 +562,5 @@ export const usePayment = async () => {
       },
     }
   );
+  return data;
 };
