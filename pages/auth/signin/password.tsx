@@ -3,7 +3,7 @@ import Icon from "@chakra-ui/icon";
 import { Input, InputGroup, InputLeftAddon } from "@chakra-ui/input";
 import { Flex } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
@@ -200,4 +200,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(withUser(password));
+export default connect(null, mapDispatchToProps)(password);

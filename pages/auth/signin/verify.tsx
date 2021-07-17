@@ -161,4 +161,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 
-export default connect(null, mapDispatchToProps)(withUser(verify));
+export default connect(null, mapDispatchToProps)(verify);

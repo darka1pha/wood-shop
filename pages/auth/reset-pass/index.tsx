@@ -174,4 +174,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(withUser(index));
+export default connect(null, mapDispatchToProps)(index);

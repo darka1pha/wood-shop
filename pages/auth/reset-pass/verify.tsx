@@ -240,4 +240,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: setCurrentUser,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withUser(verify));
+export default connect(mapStateToProps, mapDispatchToProps)(verify);
