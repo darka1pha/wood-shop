@@ -8,11 +8,10 @@ import { connect } from "react-redux";
 import { useMainSignin } from "../../../API";
 import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
-import { ISetAlert, setAlert, setCurrentUser } from "../../../redux";
-import { createStructuredSelector } from "reselect";
+import { ISetAlert, setAlert } from "../../../redux";
 import withUser from "../../../components/HOC/withUser";
 
-const index = ({ setAlert, currentUser }) => {
+const index = ({ setAlert}) => {
   const router = useRouter();
 
   const [phonenumber, setPhonenumber] = useState("");
@@ -188,9 +187,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: setCurrentUser,
-});
-
-// export default connect(mapStateToProps, mapDispatchToProps)(index);
-export default connect(mapStateToProps, mapDispatchToProps)(withUser(index));
+export default connect(null, mapDispatchToProps)(withUser(index));

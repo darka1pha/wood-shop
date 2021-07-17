@@ -14,9 +14,9 @@ import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
 import { Input } from "@chakra-ui/input";
 import { createStructuredSelector } from "reselect";
-import Profile from "../../profile";
+import withUser from "../../../components/HOC/withUser";
 
-const verify = ({ setCurrentUser, setAlert, currentUser }) => {
+const verify = ({ setCurrentUser, setAlert }) => {
   const router = useRouter();
   const [pin, setPin] = useState("");
   const [pass, setPass] = useState("");
@@ -93,10 +93,6 @@ const verify = ({ setCurrentUser, setAlert, currentUser }) => {
       token: pin,
     });
   };
-
-  useEffect(() => {
-    if (currentUser) router.push("/profile");
-  }, []);
 
   return (
     <Flex
@@ -244,4 +240,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: setCurrentUser,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(verify);
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(verify));

@@ -12,10 +12,9 @@ import { IError, IVerifySignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
-import { createStructuredSelector } from "reselect";
-import Profile from "../../profile";
+import withUser from "../../../components/HOC/withUser";
 
-const verify = ({ setCurrentUser, setAlert, currentUser }) => {
+const verify = ({ setCurrentUser, setAlert}) => {
   const router = useRouter();
   const [pin, setPin] = useState("");
   const [timer, setTimer] = useState(60);
@@ -161,8 +160,5 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: setCurrentUser,
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(verify);
+export default connect(null, mapDispatchToProps)(withUser(verify));

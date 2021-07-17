@@ -12,10 +12,9 @@ import { IError, ISigninPassword } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
-import { createStructuredSelector } from "reselect";
-import Profile from "../../profile";
+import withUser from "../../../components/HOC/withUser";
 
-const password = ({ setAlert, setCurrentUser, currentUser }) => {
+const password = ({ setAlert, setCurrentUser }) => {
   const [show, setShow] = useState(false);
   const router = useRouter();
   const [phonenumber, setPhonenumber] = useState("");
@@ -201,8 +200,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: setCurrentUser,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(password);
+export default connect(null, mapDispatchToProps)(withUser(password));
