@@ -2,17 +2,16 @@ import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { Flex } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 import { useResetPassword } from "../../../API";
 import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
-import withUser from "../../../components/HOC/withUser";
-import { ISetAlert, setAlert} from "../../../redux";
+import WithUser from "../../../components/HOC/withUser";
+import { ISetAlert, setAlert } from "../../../redux";
 
-const index = ({ setAlert }) => {
+const Index = ({ setAlert }) => {
   const router = useRouter();
 
   const [phonenumber, setPhonenumber] = useState("");
@@ -174,4 +173,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(index);
+export default connect(null, mapDispatchToProps)(WithUser(Index));

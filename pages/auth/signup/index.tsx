@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { Flex } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
 import { useMainSignup } from "../../../API";
@@ -10,9 +10,9 @@ import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, setAlert, setCurrentUser } from "../../../redux";
 import { createStructuredSelector } from "reselect";
-import Profile from "../../profile";
+import WithUser from "../../../components/HOC/withUser";
 
-const index = ({ setAlert,currentUser }) => {
+const Index = ({ setAlert }) => {
   const router = useRouter();
   const [phonenumber, setPhonenumber] = useState("");
 
@@ -189,4 +189,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: setCurrentUser,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(index);
+export default connect(mapStateToProps, mapDispatchToProps)(WithUser(Index));

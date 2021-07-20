@@ -8,17 +8,18 @@ const selectCurrentUser = createSelector(
   (user: any) => user.currentUser
 );
 
-const withUser = (WrappedComponent) => {
-  return (props) => {
+const WithUser = (WrapComponent) => {
+  const PrivateComponent = ({ ...otherProps }) => {
     const CurrentUser = useSelector(selectCurrentUser);
     const router = useRouter();
-    if (CurrentUser) {
-      router.push("/profile");
-      return <Profile />;
-    } else {
-      return <WrappedComponent {...props} />;
+    if (CurrentUser && typeof window !== "undefined") {
+      router.replace("/profile");
+      return <Profile />
     }
+    return <WrapComponent {...otherProps} />;
   };
+
+  return PrivateComponent;
 };
 
-export default withUser;
+export default WithUser;

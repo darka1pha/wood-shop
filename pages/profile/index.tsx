@@ -9,13 +9,13 @@ import Addresses from "../../components/Profile/Addresses";
 import UserFavorites from "../../components/Profile/UserFavorites";
 import Orders from "../../components/Profile/Orders";
 import { selectCurrentUser } from "../../redux";
-import withNoUser from "../../components/HOC/withNoUser";
+import WithNoUser from "../../components/HOC/withNoUser";
 interface IPageComponent {
   Component: JSX.Element;
   title: string;
 }
 
-const index = ({ currentUser }) => {
+const Profile = ({ currentUser }) => {
   const router = useRouter();
   const [currentQuery, setCurrentQuery] = useState(null);
   const [currentPage, setCurrentPage] = useState({
@@ -83,4 +83,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps)(withNoUser(index));
+export default connect(mapStateToProps)(WithNoUser(Profile));

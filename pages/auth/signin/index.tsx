@@ -9,9 +9,9 @@ import { useMainSignin } from "../../../API";
 import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, setAlert } from "../../../redux";
-import withUser from "../../../components/HOC/withUser";
+import WithUser from "../../../components/HOC/withUser";
 
-const index = ({ setAlert}) => {
+const Index = ({ setAlert}) => {
   const router = useRouter();
 
   const [phonenumber, setPhonenumber] = useState("");
@@ -187,4 +187,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(withUser(index));
+export default connect(null, mapDispatchToProps)(WithUser(Index));

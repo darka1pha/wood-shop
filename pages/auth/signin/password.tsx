@@ -12,9 +12,9 @@ import { IError, ISigninPassword } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
-import withUser from "../../../components/HOC/withUser";
+import WithUser from "../../../components/HOC/WithUser";
 
-const password = ({ setAlert, setCurrentUser }) => {
+const Password = ({ setAlert, setCurrentUser }) => {
   const [show, setShow] = useState(false);
   const router = useRouter();
   const [phonenumber, setPhonenumber] = useState("");
@@ -200,4 +200,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(password);
+export default connect(null, mapDispatchToProps)(WithUser(Password));

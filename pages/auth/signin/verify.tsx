@@ -12,9 +12,13 @@ import { IError, IVerifySignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
-import withUser from "../../../components/HOC/withUser";
+import WithUser from "../../../components/HOC/withUser";
+import { useDispatch } from "react-redux"
 
-const verify = ({ setCurrentUser, setAlert}) => {
+const Verify = () => {
+
+  const dispatch = useDispatch()
+
   const router = useRouter();
   const [pin, setPin] = useState("");
   const [timer, setTimer] = useState(60);
@@ -43,7 +47,8 @@ const verify = ({ setCurrentUser, setAlert}) => {
     (data: IVerifySignup) => useVerifySignin(data),
     {
       onSuccess: (data) => {
-        setCurrentUser(data.user);
+        // setCurrentUser(data.user);
+        dispatch(setCurrentUser(data.user))
         Cookies.set("refreshToken", data.token.refresh, {
           sameSite: "strict",
           expires: 24,
@@ -57,10 +62,11 @@ const verify = ({ setCurrentUser, setAlert}) => {
       onError: (err: IError) => {
         console.log(err.response.data);
         if (err.response.data.error.code === 494) {
-          setAlert({
+
+          dispatch(setAlert({
             content: "کد وارد شده اشتباه است.",
             type: "error",
-          });
+          }))
         }
       },
     }
@@ -161,4 +167,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 
-export default connect(null, mapDispatchToProps)(verify);
+export default WithUser(Verify);
