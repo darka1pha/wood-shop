@@ -1,12 +1,14 @@
 import { Flex } from "@chakra-ui/layout";
+import router from "next/router";
 import { Text } from "..";
 
 interface IContainerItem {
-	image_url?: string;
-	title?: string;
+	image_url: string;
+	title: string;
+	id: number;
 }
 
-const ContainerItem = ({ image_url, title }: IContainerItem) => {
+const ContainerItem = ({ image_url, title, id }: IContainerItem) => {
 	return (
 		<Flex
 			pos="relative"
@@ -24,6 +26,14 @@ const ContainerItem = ({ image_url, title }: IContainerItem) => {
 			_hover={{
 				transform: "scale(1.02)"
 			}}
+			onClick={() => router.push({
+				pathname: "/[category]",
+				query: {
+					category: title,
+					id,
+					order: "default"
+				}
+			})}
 		>
 			<Flex
 				h="100%"

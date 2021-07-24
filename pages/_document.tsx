@@ -13,49 +13,49 @@ class MyDocument extends Document {
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Bold-FD.ttf"
+						href="/fonts/Vazir-Bold-FD.ttf"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Bold-FD.woff2"
+						href="/fonts/Vazir-Bold-FD.woff2"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Light-FD.ttf"
+						href="/fonts/Vazir-Light-FD.ttf"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Light-FD.woff2"
+						href="/fonts/Vazir-Light-FD.woff2"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Medium-FD.ttf"
+						href="/fonts/Vazir-Medium-FD.ttf"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Medium-FD.woff2"
+						href="/fonts/Vazir-Medium-FD.woff2"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Regular-FD.ttf"
+						href="/fonts/Vazir-Regular-FD.ttf"
 						crossOrigin="anonymous"
 					/>
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Regular-FD.woff2"
+						href="/fonts/Vazir-Regular-FD.woff2"
 						crossOrigin="anonymous"
 					/>
 					<link
@@ -67,7 +67,7 @@ class MyDocument extends Document {
 					<link
 						rel="preload"
 						as="font"
-						href="fonts/Vazir-Thin-FD.woff2"
+						href="/fonts/Vazir-Thin-FD.woff2"
 						crossOrigin="anonymous"
 					/>
 

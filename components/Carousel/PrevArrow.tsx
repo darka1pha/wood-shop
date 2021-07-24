@@ -1,17 +1,20 @@
 import Icon from "@chakra-ui/icon";
 import { Box } from "@chakra-ui/layout";
+import { Ref } from "react";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
 interface ICarouselArrow {
     rotate?: string;
     type?: string;
+    buttonRef: Ref<HTMLDivElement>
     otherProps?: any;
 }
 
-const NextArrow = ({ rotate, type, ...otherProps }: ICarouselArrow) => {
+const NextArrow = ({ rotate, type, buttonRef, ...otherProps }: ICarouselArrow) => {
     const { onClick }: any = otherProps;
     return (
         <Box
+            ref={buttonRef}
             onClick={onClick}
             borderRadius="100%"
             lineHeight="0"

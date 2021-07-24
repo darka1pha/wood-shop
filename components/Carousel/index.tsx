@@ -1,13 +1,23 @@
 import { Box, Flex } from "@chakra-ui/layout";
-import Slider from "react-slick";
-import NextArrow from "./NextArrow";
-import PrevArrow from "./PrevArrow";
 import ProductCard from "../ProductCard";
 
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, {
+	Pagination, Navigation, Thumbs
+} from 'swiper/core';
+
+import "swiper/swiper.min.css";
+import "swiper/components/pagination/pagination.min.css"
+
+SwiperCore.use([Pagination, Navigation, Thumbs]);
+
+
 interface IProductCard {
-	image_url?: string;
-	price?: string;
 	name?: string;
+	id: number,
+	image: string;
+	price: number;
 }
 
 interface ICarousel {
@@ -16,17 +26,7 @@ interface ICarousel {
 	tempUrl?: string;
 }
 
-const Carousel = ({ data, title, tempUrl }: ICarousel) => {
-	var settings = {
-		dots: true,
-		variableWidth: true,
-		centerMode: true,
-		initialSlide: 0,
-		nextArrow: <NextArrow />,
-		prevArrow: <PrevArrow />,
-		className: "slider variable-width",
-		infinite: true,
-	};
+const Carousel = ({ data, title }: ICarousel) => {
 
 	return (
 		<Flex
@@ -64,15 +64,23 @@ const Carousel = ({ data, title, tempUrl }: ICarousel) => {
 					w="100%"
 					maxW="1920px"
 				>
-					<Slider {...settings} lazyLoad="ondemand">
-						<ProductCard id={1}  margin=".8rem" background_image={tempUrl} />
-						<ProductCard id={1}  margin=".8rem" background_image={tempUrl} />
-						<ProductCard id={1}  margin=".8rem" background_image={tempUrl} />
-						<ProductCard id={1}  margin=".8rem" background_image={tempUrl} />
-						<ProductCard id={1}  margin=".8rem" background_image={tempUrl} />
-						<ProductCard id={1}  margin=".8rem" background_image={tempUrl} />
-						<ProductCard id={1}  margin=".8rem" background_image={tempUrl} />
-					</Slider>
+					<Swiper
+						navigation={true}
+						slidesPerView={'auto'}
+						spaceBetween={30}
+						className="mainSwiper"
+						pagination={true}
+					>
+						{
+							data?.map(({ name, id, image, price }, key: number) => (
+								<>
+									<SwiperSlide>
+										<ProductCard key={key} price={price} name={name} id={id} margin=".8rem" background_image={image} />
+									</SwiperSlide>
+								</>
+							))
+						}
+					</Swiper>
 				</Box>
 			</Flex>
 		</Flex>

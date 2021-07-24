@@ -5,27 +5,27 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
-import { useSearch } from "../API";
-import Filter from "../components/Filter/Filter";
-import FilterTitle from "../components/Filter/FilterTitle";
-import ProductCard from "../components/ProductCard";
+import { useGetBannerProducts, useSearch } from "../API";
+// import Filter from "../components/Filter/Filter";
+// import FilterTitle from "../components/Filter/FilterTitle";
+// import ProductCard from "../components/ProductCard";
 
-// const ProductCard = dynamic(
-//   () => {
-//     return import("../components/ProductCard");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
-// const FilterTitle = dynamic(
-//   () => {
-//     return import("../components/Filter/FilterTitle");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+const ProductCard = dynamic(
+  () => {
+    return import("../components/ProductCard");
+  },
+  {
+    ssr: false,
+  }
+);
+const FilterTitle = dynamic(
+  () => {
+    return import("../components/Filter/FilterTitle");
+  },
+  {
+    ssr: false,
+  }
+);
 // const Filter = dynamic(
 //   () => {
 //     return import("../components/Filter/Filter");
@@ -35,7 +35,7 @@ import ProductCard from "../components/ProductCard";
 //   }
 // );
 
-const Search = () => {
+const Banners = () => {
   const [page, setPage] = useState<number>(0);
   const router = useRouter();
   const {
@@ -43,7 +43,7 @@ const Search = () => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useSearch(router.query.value);
+  } = useGetBannerProducts(router.query.value);
 
   const fetchMoreItems = () => {
     const newPage = page + 1;
@@ -73,11 +73,10 @@ const Search = () => {
         w="100%"
         justifyContent="flex-start">
         <FilterTitle
-          title={`نتایج جستجوی شما برای " ${router.query.value} "`}
+          title={`Banner Title`}
         />
-        {/* <Filter /> */}
         <Flex pb="2rem" flexWrap="wrap" w="100%" justifyItems="center">
-          {products?.pages.map((group, index) => (
+          {/* {products?.pages.map((group, index) => (
             <Fragment key={index}>
               {group?.results.map(
                 ({ id, name, image, price, score }, key: number) => (
@@ -92,7 +91,7 @@ const Search = () => {
                 )
               )}
             </Fragment>
-          ))}
+          ))} */}
         </Flex>
         <Button
           fontFamily="Vazir"
@@ -125,4 +124,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Banners;

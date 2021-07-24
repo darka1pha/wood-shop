@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Text from "./Text";
-import { useAddBookmark } from "../API";
+import { useAddBookmark, useAddToCart } from "../API";
 import { useMutation } from "react-query";
 import { ISetAlert, setAlert } from "../redux";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
+import { MouseEventHandler } from "react";
 
 interface CarouselItem {
   background_image?: string;
@@ -43,9 +44,21 @@ const ProductCard = ({
     },
   });
 
-  const onBookmarkClicked = () => {
+  const addToCartMutation = useMutation(useAddToCart, {
+    onSuccess: () => {
+      setAlert({ content: "به سبد خرید افزوده شد", type: "success" });
+    },
+  });
+
+  const onBookmarkClicked: MouseEventHandler<SVGElement> = (e) => {
+    e.stopPropagation()
     bookmarkMutation.mutate(id);
   };
+
+  const onAddToCart: MouseEventHandler<SVGElement> = (e) => {
+    e.stopPropagation()
+    addToCartMutation.mutate({ count: 1, product: id })
+  }
 
   const onCardClicked = () => {
     router.push({
@@ -95,8 +108,9 @@ const ProductCard = ({
           w={{ base: "45%", md: "25%" }}
           m=".1rem"
           justifyContent="space-evenly">
-          <Icon as={FiShoppingCart} color="black" h="20px" w="20px" />
+          <Icon onClick={onAddToCart} as={FiShoppingCart} color="black" h="20px" w="20px" />
           <Icon
+            zIndex={10}
             h="20px"
             w="20px"
             onClick={onBookmarkClicked}

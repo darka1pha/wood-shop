@@ -10,16 +10,6 @@ interface IProductContainer {
 }
 
 const ProductContainer = ({ currentCategoryId, search }: IProductContainer) => {
-  const {
-    data: products,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useGetCategoryProducts(currentCategoryId);
-
-  const fetchMoreItems = () => {
-    fetchNextPage();
-  };
 
   const variants = {
     visible: {
@@ -51,7 +41,7 @@ const ProductContainer = ({ currentCategoryId, search }: IProductContainer) => {
       flexWrap="wrap"
       w="100%"
       justifyItems="center">
-      {products?.pages.map((group, index) => (
+      {/* {products?.pages.map((group, index) => (
         <Fragment key={index}>
           {group?.results.map(
             ({ id, image, name, price }: IProducts, key: number) => (
@@ -66,7 +56,7 @@ const ProductContainer = ({ currentCategoryId, search }: IProductContainer) => {
             )
           )}
         </Fragment>
-      ))}
+      ))} */}
       {search?.pages.map((group, index) => (
         <Fragment key={index}>
           {group?.results.map(

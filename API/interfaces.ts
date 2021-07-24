@@ -113,8 +113,6 @@ export interface ICart {
   };
 }
 
-
-
 export interface IPaginatedData<T> {
   next: string | null;
   results: Array<T>;
@@ -123,4 +121,15 @@ export interface IPaginatedData<T> {
 export interface IUpdateCart {
   count?: 1 | -1;
   cart_id: number;
+}
+
+export interface IGetCatProducts {
+  id: number;
+  ordering: "cheapest" | "expensivest" | "default";
+}
+
+export interface IBanners {
+  id: number;
+  title: string;
+  image: string;
 }

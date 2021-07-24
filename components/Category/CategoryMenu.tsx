@@ -34,10 +34,7 @@ const CategoryMenu = ({
   itemsBorder,
   activeIndex,
 }: ICatItem) => {
-  const router = useRouter();
-  useEffect(() => {
-    console.log("Active Index: ", activeIndex);
-  }, []);
+
   if (!items) return <h1>chizi ni</h1>;
 
   return (

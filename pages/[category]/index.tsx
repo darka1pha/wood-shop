@@ -4,6 +4,7 @@ import { Spinner } from "@chakra-ui/spinner";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { Fragment, useRef } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -53,6 +54,7 @@ import { selectCurrentCategory } from "../../redux";
 
 const index = ({ currentCategory }) => {
   const router = useRouter();
+  const [order, setOrder]: any = useState(router.query.order)
   const containerRef = useRef(null);
   const { data: categories } = useGetCategories();
   const {
@@ -60,7 +62,7 @@ const index = ({ currentCategory }) => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useGetCategoryProducts(currentCategory.id);
+  } = useGetCategoryProducts({ id: currentCategory.id, ordering: order });
 
   const fetchMoreItems = () => {
     fetchNextPage();
@@ -89,7 +91,7 @@ const index = ({ currentCategory }) => {
         justifyContent="flex-start"
         ref={containerRef}>
         <FilterTitle title={router.query.category} />
-        <Filter />
+        <Filter setOrder={setOrder} />
         <Flex pb="2rem" flexWrap="wrap" w="100%" justifyItems="center">
           {products?.pages.map((group, index) => (
             <Fragment key={index}>

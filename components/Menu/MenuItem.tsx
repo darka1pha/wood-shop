@@ -37,7 +37,10 @@ const MenuItem = ({ text, id, setCurrentCategory }: MenuItem) => {
       onClick={() => {
         router.push({
           pathname: "/[category]",
-          query: { category: text },
+          query: {
+            category: text,
+            order: "default"
+          },
         });
         setCurrentCategory({ name: text, id });
       }}>

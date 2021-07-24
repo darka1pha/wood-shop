@@ -1,5 +1,7 @@
 import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
+import { Center, Divider } from "@chakra-ui/react";
+import { useRouter } from "next/dist/client/router";
 import dynamic from "next/dynamic";
 import { Fragment, useEffect } from "react";
 import { IoBasketOutline } from "react-icons/io5";
@@ -29,10 +31,7 @@ import CartItem from "../../components/CartItem";
 const index = () => {
   const { data: products } = useGetCart();
   const { data: cartInfo } = useGetCartInfo();
-
-  useEffect(() => {
-    console.log("CART DATA: ", cartInfo);
-  }, [products, cartInfo]);
+  const router = useRouter()
 
   if (!products && !cartInfo) return <h1>Chizi ni</h1>;
 
@@ -73,7 +72,7 @@ const index = () => {
             display={
               products?.pages[0].results.length === 0 ? "none" : "flex"
             }
-            >
+          >
             <Text
               whiteSpace="nowrap"
               variant="heading5">
@@ -99,9 +98,17 @@ const index = () => {
           ) : (
             <Flex alignItems="center" flexDir="column" w="100%" justifyContent="center">
               <Icon color="#d6d6d6" h="180px" w="180px" as={IoBasketOutline} />
-              <Text dir="rtl" color="#d6d6d6" variant="heading5">
-                سبد خرید شما خالی است !
-              </Text>
+              <Flex alignItems="center">
+                <Text fontSize="1rem" dir="rtl" color="#d6d6d6" variant="normal">
+                  سبد خرید شما خالی است !
+                </Text>
+                <Center mx=".5rem" height="30px">
+                  <Divider colorScheme="purple" orientation="vertical" />
+                </Center>
+                <Text onClick={() => router.push('/')} fontSize="1rem" cursor="pointer" dir="rtl" color="#57B5CD" variant="normal">
+                  همین الان خرید کن
+                </Text>
+              </Flex>
             </Flex>
           )}
         </Flex>

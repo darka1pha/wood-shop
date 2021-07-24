@@ -6,10 +6,11 @@ import { useGetCategories } from "../../API";
 import { useQueryClient } from "react-query";
 
 const Menu = () => {
+  const queryClient = useQueryClient()
+  const [categories, setCategories] = useState(null)
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-  const { data: categories } = useGetCategories();
-
+  // const { data: categories } = useGetCategories();
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
     setVisible(prevScrollPos > currentScrollPos);
@@ -18,8 +19,9 @@ const Menu = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    setCategories(queryClient.getQueryData([`categories`]))
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollPos, visible, handleScroll, categories]);
+  }, [prevScrollPos, visible, handleScroll, queryClient.getQueryData([`categories`])]);
 
   if (!categories) return <h1>chizi nis</h1>;
 

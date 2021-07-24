@@ -15,3 +15,4 @@ export { default as ProfileNavbar } from "./Profile/ProfileNavbar/ProfileNavbar"
 export { default as AlertBox } from "./AlertBox";
 export { default as PaymentAddress } from "./PaymentAddress";
 export { default as PaymentSend } from "./PaymentSend";
+export { default as BannerContainer } from "./BannerContainer";

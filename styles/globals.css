@@ -30,6 +30,7 @@ a {
   transition: all 0.5s ease-in-out;
   will-change: width;
 }
+
 .slick-thumb li {
   height: 45px;
   width: 45px;
@@ -76,6 +77,7 @@ a {
     url(../public/fonts/Vazir-Medium-FD.woff2) format("woff2");
   font-display: swap;
 }
+
 @font-face {
   font-family: "VazirThin";
   src: local("Vazir-Thin-FD"),
@@ -171,15 +173,83 @@ a {
   object-fit: cover;
 }
 
-#nprogress .bar {
-  background: #ffbb00 !important;
+.mainSwiper {
+  box-sizing: border-box;
+  height: 420px;
 }
 
-#nprogress .peg {
-  box-shadow: 0 0 10px #ffbb00, 0 0 5px #ffbb00;
+.mainSwiper .swiper-slide {
+  height: 100%;
+  width: auto;
 }
 
-#nprogress .spinner-icon {
-  border-top-color: #ffbb00;
-  border-left-color: #ffbb00;
+.mainSwiper .swiper-button-next,
+.mainSwiper .swiper-button-prev {
+  width: 37px;
+  height: 108px;
+  text-align: center;
+  display: block;
+}
+
+
+.mainSwiper .swiper-button-next,
+.mainSwiper .swiper-button-prev {
+  position: absolute;
+  top: 50%;
+  margin-top: calc(0px - (var(--swiper-navigation-size)/ 2));
+  z-index: 120;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--swiper-navigation-color, var(--swiper-theme-color));
+  background-color: white;
+  height: 45px;
+  width: 45px;
+  border-radius: 100%;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.mainSwiper .swiper-button-next:after,
+.mainSwiper .swiper-button-prev:after {
+  font-family: swiper-icons;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  text-transform: none !important;
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant: initial;
+  line-height: 1;
+  color: black;
+}
+
+.mySwiper2 .swiper-button-next,
+.mySwiper2 .swiper-button-prev {
+  position: absolute;
+  top: 50%;
+  margin-top: calc(0px - (var(--swiper-navigation-size)/ 2));
+  z-index: 120;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--swiper-navigation-color, var(--swiper-theme-color));
+  background-color: white;
+  height: 45px;
+  width: 45px;
+  border-radius: 100%;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.mySwiper2 .swiper-button-next:after,
+.mySwiper2 .swiper-button-prev:after {
+  font-family: swiper-icons;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  text-transform: none !important;
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant: initial;
+  line-height: 1;
+  color: black;
 }

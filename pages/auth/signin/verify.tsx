@@ -6,13 +6,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BiMessageSquare } from "react-icons/bi";
 import { useMutation } from "react-query";
-import { connect } from "react-redux";
 import { useVerifySignin } from "../../../API";
 import { IError, IVerifySignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
-import WithUser from "../../../components/HOC/withUser";
+import withUser from "../../../components/HOC/withUser";
 import { useDispatch } from "react-redux"
 
 const Verify = () => {
@@ -167,4 +166,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 
-export default WithUser(Verify);
+export default withUser(Verify);

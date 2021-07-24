@@ -28,6 +28,7 @@ const Navbar = ({ user, setAlert }) => {
   const btnSearchRef = useRef(null);
   const searchRefMd = useRef(null);
   const searchRefBase = useRef(null);
+  const testCount = Math.floor((Math.random() * 10))
   const { data: categories } = useGetCategories();
 
   let condition = false;
@@ -222,8 +223,9 @@ const Navbar = ({ user, setAlert }) => {
             </InputRightElement>
           </InputGroup>
         </Box>
-        <Box display={{ base: "none", md: "block" }}>
+        <Box alignItems="center" pos="relative" display={{ base: "none", md: "block" }}>
           <IconButton
+            display={user ? "auto" : "none"}
             aria-label="Shoping Cart"
             icon={<Icon as={FiShoppingCart} color="white" fontSize={22} />}
             variant="ghost"
@@ -239,6 +241,24 @@ const Navbar = ({ user, setAlert }) => {
             }}
             onClick={onCartClicked}
           />
+          <Flex
+            display={user && testCount !== 0 ? "flex" : "none"}
+            alignItems="center"
+            justifyContent="center"
+            pos="absolute"
+            fontSize="12px"
+            fontFamily="Vazir"
+            color="white"
+            h="22px"
+            top="1.3rem"
+            left="1.8rem"
+            borderRadius=".5rem"
+            px=".5rem"
+            bgColor="btnBg">
+            {
+              testCount
+            }
+          </Flex>
           <Button
             rightIcon={<Icon as={FiUser} fontSize={22} />}
             color="white"
@@ -257,9 +277,9 @@ const Navbar = ({ user, setAlert }) => {
             onClick={() => {
               user
                 ? router.push({
-                    pathname: "/profile",
-                    query: { page: "profileinfo" },
-                  })
+                  pathname: "/profile",
+                  query: { page: "profileinfo" },
+                })
                 : router.push("/auth/signin");
               isOpen ? setIsOpen(false) : null;
             }}>
@@ -406,9 +426,9 @@ const Navbar = ({ user, setAlert }) => {
               onClick={() => {
                 user
                   ? router.push({
-                      pathname: "/profile",
-                      query: { page: "profileinfo" },
-                    })
+                    pathname: "/profile",
+                    query: { page: "profileinfo" },
+                  })
                   : router.push("/auth/signin");
                 isOpen ? setIsOpen(false) : null;
               }}>

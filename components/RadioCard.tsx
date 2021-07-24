@@ -4,13 +4,14 @@ import { useRadio } from "@chakra-ui/radio";
 interface IRadioCard {
   lable?: string;
   radio?: any;
-  onClick?: () => void;
+  onClick?: (e: any, ordering: string) => void;
   height?: string;
   width?: string;
   borderRadius?: string;
   image_url?: string;
   use_as_color_pallete?: boolean;
   margin?: string;
+  ordering?: string;
 }
 
 const RadioCard = ({
@@ -23,6 +24,7 @@ const RadioCard = ({
   image_url,
   use_as_color_pallete,
   margin = "1rem",
+  ordering
 }: IRadioCard) => {
   const { getInputProps, getCheckboxProps } = useRadio(radio);
   const input = getInputProps();
@@ -58,7 +60,7 @@ const RadioCard = ({
         }}
         px={3}
         py={3}
-        onClick={onClick}
+        onClick={(e) => onClick(e, ordering)}
       >
         {lable}
       </Box>

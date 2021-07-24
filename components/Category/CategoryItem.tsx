@@ -6,7 +6,6 @@ import {
 } from "@chakra-ui/accordion";
 import { Box } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import {
@@ -72,7 +71,10 @@ const CategoryItem = ({
             setCurrentCategory({ id: categoryId, name: categoryTitle });
             router.push({
               pathname: "/[category]",
-              query: { category: categoryTitle },
+              query: {
+                category: categoryTitle,
+                order: "default"
+              },
             });
           }}
           color={color}

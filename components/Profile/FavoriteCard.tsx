@@ -53,7 +53,12 @@ const FavoriteCard = ({ id, image, name, price }: IFavoriteCard) => {
   };
 
   const onWatchProduct = () => {
-    alert("OnWatch Product");
+    router.push({
+      pathname: "/product",
+      query: {
+        id: id
+      }
+    })
   };
 
   const queryClient = useQueryClient();
@@ -61,8 +66,6 @@ const FavoriteCard = ({ id, image, name, price }: IFavoriteCard) => {
   const { mutateAsync } = useMutation(useDeleteBookmark, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(["userFavorites"]);
-      // console.log("Bip Bip");
-      // router.reload();
     },
   });
   const removeBookmark = async () => {

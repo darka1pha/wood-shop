@@ -6,6 +6,8 @@ let state;
 let activeRequests = 0;
 const delay = 250;
 
+NProgress.configure({ easing: 'ease', speed: 2000, showSpinner: false, });
+
 function load() {
   if (state === "loading") {
     return;

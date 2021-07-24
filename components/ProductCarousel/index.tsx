@@ -12,12 +12,6 @@ import SwiperCore, { Navigation, Thumbs } from "swiper/core";
 
 SwiperCore.use([Navigation, Thumbs]);
 
-interface IProductCard {
-  image_url?: string;
-  price?: string;
-  name?: string;
-}
-
 interface ICarousel {
   product?: IFullProducts;
 }

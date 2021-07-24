@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { ISetAlert, IUser, setAlert, setCurrentUser } from "../../../redux";
 import Cookies from "js-cookie";
 import { createStructuredSelector } from "reselect";
-import WithUser from "../../../components/HOC/withUser";
+import withUser from "../../../components/HOC/withUser";
 
 const Index = ({ setCurrentUser, setAlert }) => {
   const router = useRouter();
@@ -166,4 +166,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: setCurrentUser,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithUser(Index));
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(Index));

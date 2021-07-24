@@ -3,10 +3,11 @@ import { Text } from "..";
 interface FilterItem {
 	type: string;
 	isActive?: boolean;
-	onClick?: (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => void;
+	onClick?: (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>, ordering: string, type: string) => void;
+	ordering?: string;
 }
 
-const FilterItem = ({ type, isActive, onClick }: FilterItem) => {
+const FilterItem = ({ type, isActive, onClick, ordering }: FilterItem) => {
 	return (
 		<Text
 			m="0 1rem 0 1rem"
@@ -14,7 +15,7 @@ const FilterItem = ({ type, isActive, onClick }: FilterItem) => {
 			color={isActive ? "active" : "black"}
 			cursor="pointer"
 			fontWeight={isActive ? "semibold" : "normal"}
-			onClick={onClick}
+			onClick={(e) => onClick(e, ordering, type)}
 		>
 			{type}
 		</Text>

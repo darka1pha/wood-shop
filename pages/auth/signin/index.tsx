@@ -1,18 +1,17 @@
-import { Button } from "@chakra-ui/button";
-import { Input } from "@chakra-ui/input";
-import { Flex } from "@chakra-ui/layout";
+import { Flex, Input, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useMainSignin } from "../../../API";
 import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
-import { ISetAlert, setAlert } from "../../../redux";
-import WithUser from "../../../components/HOC/withUser";
+import { setAlert } from "../../../redux";
+import withUser from "../../../components/HOC/withUser";
 
-const Index = ({ setAlert}) => {
+const Index = () => {
   const router = useRouter();
+  const dispatch = useDispatch()
 
   const [phonenumber, setPhonenumber] = useState("");
 
@@ -26,14 +25,14 @@ const Index = ({ setAlert}) => {
       onError: (err: IError) => {
         console.log(err.response.data.error.code);
         if (err.response.data.error.code === 491) {
-          setAlert({ content: "شمار وارد شده اشتباه است", type: "error" });
+          dispatch(setAlert({ content: "شمار وارد شده اشتباه است", type: "error" }))
         } else if (err.response.data.error.code === 494) {
-          setAlert({ content: "کاربری با این شماره یافت نشد", type: "error" });
+          dispatch(setAlert({ content: "کاربری با این شماره یافت نشد", type: "error" }))
         } else if (err.response.data.error.code === 420) {
-          setAlert({
+          dispatch(setAlert({
             content: `لطفا ${err.response.data.remain_time} ثانیه دیگر تلاش کنید`,
             type: "error",
-          });
+          }))
         }
       },
     }
@@ -182,9 +181,4 @@ const Index = ({ setAlert}) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
-  setAlert: ({ content, type }: ISetAlert) =>
-    dispatch(setAlert({ type, content })),
-});
-
-export default connect(null, mapDispatchToProps)(WithUser(Index));
+export default withUser(Index)

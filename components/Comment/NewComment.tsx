@@ -14,7 +14,7 @@ import { ISetAlert, setAlert } from "../../redux";
 import { IComment, IError } from "../../API/interfaces";
 
 interface INewComment {
-  setAlert: ({}: ISetAlert) => void;
+  setAlert: ({ }: ISetAlert) => void;
   productId: number;
 }
 
@@ -135,7 +135,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
           نوشتن نظر
         </Text>
         <Flex flexDir={{ base: "column", md: "row" }}>
-          <Flex w="65%" flexDir="column" p="0 1rem" m="1rem 0">
+          <Flex w={{ base: "100%", md: "65%" }} flexDir="column" p="0 1rem" m="1rem 0">
             <Text
               mb=".5rem"
               color="black"
@@ -160,7 +160,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
               fontSize={{ base: "12px", md: "1rem" }}
             />
           </Flex>
-          <Flex mt="3rem" flexDir="column">
+          <Flex mt={{ base: "1rem", md: "3rem" }} flexDir="column">
             {ratingTitles.map(({ rate, title, engTitle }, key) => (
               <RatingContainer
                 oldArray={comment}
@@ -179,7 +179,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
         <Flex
           mt="1rem"
           flexDir={{ base: "column", md: "row" }}
-          alignItems="center">
+          alignItems={{base:"flex-start",md:"center"}}>
           <Flex alignItems="center">
             <Text
               color="black"
@@ -204,7 +204,7 @@ const NewComment = ({ setAlert, productId }: INewComment) => {
             </Select>
           </Flex>
           <Button
-            m={{ base: "1rem", md: "0 1rem" }}
+            m={{ base: "1rem 0", md: "0 1rem" }}
             color="white"
             bgColor="#FF4D4D"
             fontFamily="Vazir"

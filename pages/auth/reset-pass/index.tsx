@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { useResetPassword } from "../../../API";
 import { IError, IMainSignup } from "../../../API/interfaces";
 import { Text } from "../../../components";
-import WithUser from "../../../components/HOC/withUser";
+import withUser from "../../../components/HOC/withUser";
 import { ISetAlert, setAlert } from "../../../redux";
 
 const Index = ({ setAlert }) => {
@@ -173,4 +173,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(setAlert({ type, content })),
 });
 
-export default connect(null, mapDispatchToProps)(WithUser(Index));
+export default withUser(connect(null, mapDispatchToProps)(Index));

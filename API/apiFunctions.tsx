@@ -11,8 +11,9 @@ import {
   IProducts,
   ICart,
   IUpdateCart,
+  IGetCatProducts,
+  IBanners,
 } from "./interfaces";
-import { InfiniteData } from "react-query";
 import { apiPathes } from ".";
 import Cookies from "js-cookie";
 import { IRecivedAddress } from "../components/Profile/Addresses";
@@ -45,6 +46,8 @@ const {
   GET_CART_INFO,
   PAYMENT,
   UPDATE_PASSWORD,
+  FILTER,
+  BANNERS
 } = apiPathes;
 
 export const getToken = async () => {
@@ -91,6 +94,7 @@ export const useVerifyResetPassword = async (props: IVerifyResetPassword) => {
 
 export const useVerifySignup = async (props: IVerifySignup) => {
   const { token } = props;
+  console.log("Path: ", MAIN + AUTH + SIGN_UP_VERIFY)
   const { data } = await axios.post(MAIN + AUTH + SIGN_UP_VERIFY, {
     token: token,
     phone_number: localStorage.getItem("phone_number"),
@@ -349,12 +353,13 @@ export const useGetCities = async (id: number) => {
   return await data.results;
 };
 
-export const useGetCategoryProducts = (id: any) =>
+export const useGetCategoryProducts = ({ id, ordering }: IGetCatProducts) =>
   useInfiniteQuery(
-    [`Products${id}`, id],
+    [`Products${id}`, id, ordering],
     async ({ pageParam = 1 }) => {
+      console.log("Address To Req: ", MAIN + GET_CATEGORY_PRODUCTS + id + `/products?ordering=${ordering}&page=${pageParam}`)
       const { data }: any = await axios.get(
-        MAIN + GET_CATEGORY_PRODUCTS + id + `/products?page=${pageParam}`,
+        MAIN + GET_CATEGORY_PRODUCTS + id + `/products?ordering=${ordering}&page=${pageParam}`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -365,7 +370,9 @@ export const useGetCategoryProducts = (id: any) =>
     },
     {
       getNextPageParam: (lastPage) =>
-        lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+
+        lastPage && lastPage.next ? Number(lastPage.next.split("=")[2]) : null
+      ,
       refetchOnWindowFocus: false,
     }
   );
@@ -564,3 +571,56 @@ export const usePayment = async () => {
   );
   return data;
 };
+
+export const useGetFiltredData = ({ filterOption }) =>
+  useQuery(
+    ["filteredData"],
+    async () => {
+      console.log("Address: ", MAIN + FILTER + `?${filterOption}`)
+      const { data } = await axios.get(MAIN + FILTER + `?${filterOption}&page_size=100`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      return data.results;
+    },
+    { refetchOnWindowFocus: false }
+  );
+
+export const useGetBanners = () =>
+  useQuery<Array<IBanners>>(
+    ["banners"],
+    async () => {
+      const { data } = await axios.get(MAIN + BANNERS, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      return data.results;
+    },
+    { refetchOnWindowFocus: false }
+  );
+
+export const useGetBannerProducts = ((id: string | string[]) =>
+  useInfiniteQuery(
+    [`Banners`],
+    async ({ pageParam = 1 }) => {
+      console.log("Address To Req: ", MAIN + BANNERS + id)
+      const { data }: any = await axios.get(
+        MAIN + BANNERS + id + `?page=${pageParam}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
+      return data;
+    },
+    {
+      getNextPageParam: (lastPage) =>
+
+        lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null
+      ,
+      refetchOnWindowFocus: false,
+    })
+);

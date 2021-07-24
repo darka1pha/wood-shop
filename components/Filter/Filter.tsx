@@ -10,15 +10,44 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOve
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useRadioGroup } from "@chakra-ui/radio";
 import RadioCard from "../RadioCard";
+import { useRouter } from "next/dist/client/router";
 
-const Filter = () => {
+const Filter = ({ setOrder }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
-	const [active, setActive] = useState("پیشفرض")
+	const router = useRouter()
+	// const [active, setActive] = useState("پیشفرض")
 	const { getRadioProps } = useRadioGroup({
 		name: "Ordering",
-		defaultValue: "پیشفرض",
+		defaultValue: router.query.order === "default"
+			? "پیشفرض"
+			: router.query.order === "expencivest"
+				? "گرانترین"
+				: router.query.order === "cheapest"
+					? "ارزانترین"
+					: "پیشفرض"
 	})
-	const options = ["پیشفرض", "جدیدترین", "گرانترین", "ارزانترین", "پرفروشترین"]
+
+	const options = [{
+		value: "پیشفرض",
+		title: "default"
+	}, {
+		value: "ارزانترین",
+		title: "cheapest"
+	}, {
+		value: "گرانترین",
+		title: "expencivest"
+	}]
+
+	const onOrderClick = (e, ordering) => {
+		router.push({
+			pathname: '/[category]',
+			query: {
+				category: router.query.category,
+				order: ordering
+			}
+		})
+		setOrder(ordering)
+	}
 
 	return (
 		<Flex
@@ -36,16 +65,30 @@ const Filter = () => {
 				display={{ base: "none", md: "block" }}
 			>
 				مرتب کردن بر اساس
-      </Text>
+			</Text>
 			<Flex
 				mr={{ base: "0", md: "2rem" }}
 				display={{ base: "none", md: "flex" }}
 			>
-				<FilterItem onClick={(e: any) => setActive("پیشفرض")} isActive={active === "پیشفرض"} type="پیشفرض" />
-				<FilterItem onClick={(e: any) => setActive("جدیدترین")} isActive={active === "جدیدترین"} type="جدیدترین" />
-				<FilterItem onClick={(e: any) => setActive("گرانترین")} isActive={active === "گرانترین"} type="گرانترین" />
-				<FilterItem onClick={(e: any) => setActive("ارزانترین")} isActive={active === "ارزانترین"} type="ارزانترین" />
-				<FilterItem onClick={(e: any) => setActive("پرفروشترین")} isActive={active === "پرفروشترین"} type="پرفروشترین" />
+				<FilterItem
+					onClick={onOrderClick}
+					isActive={router.query.order === "default"}
+					type="پیشفرض"
+					ordering="default"
+				/>
+				<FilterItem
+					onClick={onOrderClick}
+					isActive={router.query.order === "expencivest"}
+					type="گرانترین"
+					ordering="expencivest"
+				/>
+				<FilterItem
+					onClick={onOrderClick}
+					isActive={router.query.order === "cheapest"}
+					type="ارزانترین"
+					ordering="cheapest"
+				/>
+
 			</Flex>
 			<Flex
 				display={{ base: "flex", md: "none" }}
@@ -92,11 +135,11 @@ const Filter = () => {
 								justifyContent="center"
 							>
 								مرتب سازی بر اساس
-						</ModalHeader>
-							{options.map((value, key) => {
+							</ModalHeader>
+							{options.map(({ value, title }, key) => {
 								const radio = getRadioProps({ value })
 								return (
-									<RadioCard onClick={() => console.log(value)} lable={value} key={key} radio={radio} />
+									<RadioCard ordering={title} onClick={onOrderClick} lable={value} key={key} radio={radio} />
 								)
 							})}
 						</ModalBody>
