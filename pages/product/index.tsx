@@ -7,20 +7,24 @@ import {
   ProductDiscription,
   Text,
 } from "../../components";
-import { AiFillStar } from "react-icons/ai";
+import ReactStars from "react-rating-stars-component";
 import Icon from "@chakra-ui/icon";
 import { Button } from "@chakra-ui/button";
 import { FiShoppingCart } from "react-icons/fi";
-import { useAddToCart, useGetComments, useGetProductInfo } from "../../API";
+import { useAddToCart, useGetComments, useGetProductInfo, useSetScore } from "../../API";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Spinner } from "@chakra-ui/spinner";
-import dynamic from "next/dynamic";
 import { useMutation } from "react-query";
 import { connect } from "react-redux";
 import { ISetAlert, setAlert } from "../../redux";
 import ProductCarousel from "../../components/ProductCarousel";
+import { IError } from "../../API/interfaces";
+import { useState } from "react";
+import { AiFillStar } from "react-icons/ai";
+import { Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal } from "@chakra-ui/react";
+import Rating from "../../components/ProductRating/ProductRating";
 
 //TODO Dynamic Import for Components 
 
@@ -44,6 +48,7 @@ import ProductCarousel from "../../components/ProductCarousel";
 
 const index = ({ setAlert }) => {
   const router = useRouter();
+
   const containerRef = useRef(null);
 
   const addToCartMutation = useMutation(useAddToCart, {
@@ -54,6 +59,16 @@ const index = ({ setAlert }) => {
       setAlert({ content: "خطایی رخ داده است", type: "error" });
     },
   });
+
+  const setScoreMutation = useMutation(useSetScore, {
+    onSuccess: () => {
+      setAlert({ content: "امتیاز شما ثبت شد", type: "success" });
+    },
+    onError: (err: IError) => {
+      console.log(err.response.data)
+      setAlert({ content: "Erroe", type: "error" });
+    }
+  })
 
   const onAddToCart = async () => {
     addToCartMutation.mutateAsync({
@@ -88,6 +103,11 @@ const index = ({ setAlert }) => {
     return el.current?.getBoundingClientRect().bottom <= window.innerHeight;
   };
 
+  const onRatingChange = (res) => {
+    console.log({ product: Number(router.query.id), value: res })
+    setScoreMutation.mutate({ product: Number(router.query.id), value: res })
+  }
+
   useEffect(() => {
     const trackScrolling = () => {
       if (containerRef) {
@@ -101,7 +121,7 @@ const index = ({ setAlert }) => {
     return () => {
       document.removeEventListener("scroll", trackScrolling);
     };
-  }, [containerRef]);
+  }, [containerRef, product]);
 
   const fetchMoreItems = () => {
     fetchNextPage();
@@ -155,16 +175,50 @@ const index = ({ setAlert }) => {
             w="100%"
             pr="2rem"
             pt={{ base: ".5rem", md: 0 }}>
-            <Icon as={AiFillStar} color="#FFD331" fontSize={22} />
-            <Text
-              m="0 .3rem"
-              color="black"
-              variant="heading7"
-              h="100%"
-              display="flex"
-              alignItems="center">
-              {product.score.toString()}
-            </Text>
+            <Popover>
+              <PopoverTrigger>
+                <Button
+                  bgColor="#E2E8F0"
+                  _focus={{
+                    outline: 0
+                  }}
+                >
+                  <Icon
+                    as={AiFillStar}
+                    h="35px"
+                    w="35px"
+                    color="orange"
+                  />
+                  <Text
+                    m="0 .3rem"
+                    color="black"
+                    variant="heading7"
+                    h="100%"
+                    display="flex"
+                    alignItems="center">
+                    {product.score.toString()}
+                  </Text>
+                </Button>
+              </PopoverTrigger>
+              <Portal>
+                <PopoverContent
+                  _focus={{
+                    outline: 0
+                  }}
+                  w="200px"
+                >
+                  <PopoverArrow />
+                  <PopoverBody>
+                    <Rating
+                      onChange={onRatingChange}
+                      editable={true}
+                      rate={0}
+                    />
+                  </PopoverBody>
+                </PopoverContent>
+              </Portal>
+            </Popover>
+
           </Flex>
           <Flex
             dir="rtl"

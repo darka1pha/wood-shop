@@ -1,9 +1,10 @@
 import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
-import { Center, Divider } from "@chakra-ui/react";
+import { Center, Divider, Spinner } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import dynamic from "next/dynamic";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { IoBasketOutline } from "react-icons/io5";
 import { useGetCart, useGetCartInfo } from "../../API";
 import { Text } from "../../components";
@@ -29,9 +30,53 @@ import CartItem from "../../components/CartItem";
 // );
 
 const index = () => {
-  const { data: products } = useGetCart();
+  const {
+    data: products, fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isSuccess
+  } = useGetCart();
+
   const { data: cartInfo } = useGetCartInfo();
   const router = useRouter()
+  const containerRef = useRef(null);
+
+  const isBottom = (el) => {
+    return el.current?.getBoundingClientRect().bottom <= window.innerHeight;
+  };
+
+  useEffect(() => {
+    const trackScrolling = () => {
+      if (containerRef) {
+        console.log(isBottom(containerRef))
+        if (isBottom(containerRef)) {
+            fetchNextPage();
+            document.removeEventListener("scroll", trackScrolling);
+        }
+      }
+    };
+    document.addEventListener("scroll", trackScrolling);
+    return () => {
+      document.removeEventListener("scroll", trackScrolling);
+    };
+  }, [containerRef]);
+
+  const variants = {
+    visible: {
+      opacity: 1,
+      transition: {
+        type: "ease",
+        duration: 0.6,
+      },
+    },
+    hidden: {
+      opacity: 0,
+      transition: {
+        type: "ease",
+        duration: 0.6,
+      },
+    },
+  };
 
   if (!products && !cartInfo) return <h1>Chizi ni</h1>;
 
@@ -53,6 +98,7 @@ const index = () => {
         mb="2rem"
         minH="70vh">
         <Flex
+          ref={containerRef}
           bgColor="white"
           p={{ base: ".5rem", md: "1rem" }}
           borderRadius=".5rem"
@@ -111,6 +157,19 @@ const index = () => {
               </Flex>
             </Flex>
           )}
+          <motion.div
+            style={{
+              display: isFetchingNextPage ? "flex" : "none",
+              width: "100%",
+              justifyContent: "center",
+              margin: "1rem 0",
+            }}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={variants}>
+            <Spinner color="#f04a5e" />
+          </motion.div>
         </Flex>
         <Flex
           boxShadow="lg"

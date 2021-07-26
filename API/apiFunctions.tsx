@@ -13,6 +13,7 @@ import {
   IUpdateCart,
   IGetCatProducts,
   IBanners,
+  ISetScore,
 } from "./interfaces";
 import { apiPathes } from ".";
 import Cookies from "js-cookie";
@@ -47,7 +48,9 @@ const {
   PAYMENT,
   UPDATE_PASSWORD,
   FILTER,
-  BANNERS
+  BANNERS,
+  SCORE,
+  CART_COUNT
 } = apiPathes;
 
 export const getToken = async () => {
@@ -218,7 +221,6 @@ export const useGetCategories = () =>
   );
 
 export const useDeleteBookmark = async (id: number) => {
-  console.log("Bookmark Id: ", id);
   try {
     const { data } = await axios.delete(MAIN + DELETE_BOOKMARK + id, {
       headers: {
@@ -624,3 +626,29 @@ export const useGetBannerProducts = ((id: string | string[]) =>
       refetchOnWindowFocus: false,
     })
 );
+
+export const useSetScore = async ({ value, product }: ISetScore) => {
+  const { data } = await axios.post(MAIN + SCORE, {
+    value,
+    product
+  }, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("accessToken")}`,
+    },
+  });
+  return data;
+};
+
+export const useGetCartCount = () =>
+  useQuery(
+    ["cartCounts"],
+    async () => {
+      const { data } = await axios.get(MAIN + CART_COUNT, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      return data.result;
+    },
+    { refetchOnWindowFocus: false }
+  );

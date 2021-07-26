@@ -18,6 +18,7 @@ interface IProductCard {
 	id: number,
 	image: string;
 	price: number;
+	bookmarked: boolean;
 }
 
 interface ICarousel {
@@ -72,10 +73,10 @@ const Carousel = ({ data, title }: ICarousel) => {
 						pagination={true}
 					>
 						{
-							data?.map(({ name, id, image, price }, key: number) => (
+							data?.map(({ name, id, image, price, bookmarked }, key: number) => (
 								<>
 									<SwiperSlide>
-										<ProductCard key={key} price={price} name={name} id={id} margin=".8rem" background_image={image} />
+										<ProductCard bookmarked={bookmarked} key={key} price={price} name={name} id={id} margin=".8rem" background_image={image} />
 									</SwiperSlide>
 								</>
 							))

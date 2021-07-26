@@ -30,4 +30,6 @@ export const apiPathes = {
   FILTER: "shop/filter",
   PAYMENT: "payment/request/",
   BANNERS: "shop/banners/",
+  SCORE: "shop/score/",
+  CART_COUNT: "shop/cart/info/count"
 };

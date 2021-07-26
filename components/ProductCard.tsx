@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Text from "./Text";
-import { useAddBookmark, useAddToCart } from "../API";
-import { useMutation } from "react-query";
+import { useAddBookmark, useAddToCart, useDeleteBookmark } from "../API";
+import { useMutation, useQueryClient } from "react-query";
 import { ISetAlert, setAlert } from "../redux";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
@@ -17,6 +17,7 @@ interface CarouselItem {
   name?: string;
   margin?: string;
   id: number;
+  bookmarked: boolean;
   setAlert: (alert: ISetAlert) => void;
 }
 
@@ -26,10 +27,13 @@ const ProductCard = ({
   price,
   margin,
   id,
+  bookmarked,
   setAlert,
 }: CarouselItem) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(bookmarked);
   const router = useRouter();
+
+  const queryClient = useQueryClient()
 
   const bgImage = background_image
     ? background_image
@@ -38,21 +42,33 @@ const ProductCard = ({
   // Mutation
   const bookmarkMutation = useMutation(useAddBookmark, {
     onSuccess: (response) => {
-      console.log("Like Response: ", response);
-      setIsLiked(!isLiked);
-      setAlert({ content: "به لیست دلخواه افزوده شد", type: "success" });
+      setIsLiked(true);
+      setAlert({ content: "به لیست علاقه مندی ها افزوده شد", type: "success" });
+    },
+  });
+
+  const deleteBookmarkMutation = useMutation(useDeleteBookmark, {
+    onSuccess: (response) => {
+      setIsLiked(false);
+      setAlert({ content: "از لیست علاقه مندی ها حذف شد", type: "success" });
     },
   });
 
   const addToCartMutation = useMutation(useAddToCart, {
     onSuccess: () => {
       setAlert({ content: "به سبد خرید افزوده شد", type: "success" });
+      queryClient.refetchQueries(['cartCounts'])
     },
   });
 
   const onBookmarkClicked: MouseEventHandler<SVGElement> = (e) => {
     e.stopPropagation()
-    bookmarkMutation.mutate(id);
+    if (!isLiked) {
+      bookmarkMutation.mutate(id)
+    }
+    else {
+      deleteBookmarkMutation.mutate(id)
+    }
   };
 
   const onAddToCart: MouseEventHandler<SVGElement> = (e) => {

@@ -21,15 +21,17 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../redux/user/user.selectors";
 import { setAlert } from "../redux";
-import { useGetCategories } from "../API";
+import { useGetCartCount, useGetCategories } from "../API";
+import { KeyboardEventHandler } from "react";
 
 const Navbar = ({ user, setAlert }) => {
   const router = useRouter();
   const btnSearchRef = useRef(null);
   const searchRefMd = useRef(null);
   const searchRefBase = useRef(null);
-  const testCount = Math.floor((Math.random() * 10))
   const { data: categories } = useGetCategories();
+  const { data: countData } = useGetCartCount()
+
 
   let condition = false;
 
@@ -66,11 +68,28 @@ const Navbar = ({ user, setAlert }) => {
     }
   };
 
+  const onEnterPressed: KeyboardEventHandler = (e) => {
+    if (e.key === "Enter") {
+      if (searchValue.length > 0) {
+        setIsSearchOpen(false);
+        router.push({
+          pathname: "/search",
+          query: {
+            value: searchValue,
+          },
+        });
+      } else
+        setAlert({
+          content: "فیلد جستجو نمیتواند خالی باشد!",
+          type: "warning",
+        });
+    }
+  }
+
   const onSearchValueChanged = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearchValue(e.target.value);
 
   useEffect(() => {
-    console.log(user);
     function handleClickOutside(event: { target: any; button: number }) {
       if (
         btnSearchRef.current &&
@@ -194,6 +213,8 @@ const Navbar = ({ user, setAlert }) => {
           display={{ base: "none", md: "block" }}>
           <InputGroup alignItems="center">
             <motion.input
+              onKeyDown={onEnterPressed}
+              layout
               ref={searchRefMd}
               style={{
                 height: "40px",
@@ -242,7 +263,7 @@ const Navbar = ({ user, setAlert }) => {
             onClick={onCartClicked}
           />
           <Flex
-            display={user && testCount !== 0 ? "flex" : "none"}
+            display={user && countData && countData.count !== 0 ? "flex" : "none"}
             alignItems="center"
             justifyContent="center"
             pos="absolute"
@@ -256,7 +277,7 @@ const Navbar = ({ user, setAlert }) => {
             px=".5rem"
             bgColor="btnBg">
             {
-              testCount
+              countData?.count
             }
           </Flex>
           <Button
@@ -296,6 +317,7 @@ const Navbar = ({ user, setAlert }) => {
         </Box>
       </Flex>
       <motion.div
+        layout
         style={{
           width: "100%",
           minHeight: "100vh",
@@ -330,6 +352,7 @@ const Navbar = ({ user, setAlert }) => {
             height="40px"
             alignItems="center">
             <motion.p
+              layout
               style={{
                 height: "100%",
                 width: "100%",

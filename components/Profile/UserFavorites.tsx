@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Spinner } from "@chakra-ui/spinner";
 import dynamic from "next/dynamic";
 import FavoriteCard from "./FavoriteCard";
+import { Skeleton } from "@chakra-ui/react";
 
 // const FavoriteCard = dynamic(
 //   () => {
@@ -23,7 +24,7 @@ const UserFavorites = () => {
   const {
     data: favorites,
     fetchNextPage,
-    hasNextPage,
+    isLoading,
     isFetchingNextPage,
     isSuccess,
   } = useGetFavorites();
@@ -36,10 +37,8 @@ const UserFavorites = () => {
     const trackScrolling = () => {
       if (containerRef) {
         if (isBottom(containerRef)) {
-          if (hasNextPage) {
-            fetchMoreItems();
-            document.removeEventListener("scroll", trackScrolling);
-          }
+          fetchMoreItems();
+          document.removeEventListener("scroll", trackScrolling);
         }
       }
     };
@@ -70,7 +69,39 @@ const UserFavorites = () => {
     },
   };
 
-  if (!favorites) return <h1>چیزی نی</h1>;
+  if (!favorites || isLoading) return (
+    <Flex
+      flexWrap="wrap" w="100%"
+      h="100vh"
+      mt="5rem"
+      p="85px"
+    >
+      <Skeleton
+        w={{ base: "100%", md: "48%" }}
+        m="1rem 1%"
+        h="160px"
+        borderRadius=".5rem"
+      />
+      <Skeleton
+        w={{ base: "100%", md: "48%" }}
+        m="1rem 1%"
+        h="160px"
+        borderRadius=".5rem"
+      />
+      <Skeleton
+        w={{ base: "100%", md: "48%" }}
+        m="1rem 1%"
+        h="160px"
+        borderRadius=".5rem"
+      />
+      <Skeleton
+        w={{ base: "100%", md: "48%" }}
+        m="1rem 1%"
+        h="160px"
+        borderRadius=".5rem"
+      />
+    </Flex>
+  )
 
   return (
     <Flex

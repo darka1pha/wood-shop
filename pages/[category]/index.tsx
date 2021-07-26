@@ -1,5 +1,6 @@
 import { Button } from "@chakra-ui/button";
 import { Flex } from "@chakra-ui/layout";
+import { Skeleton } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/spinner";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -68,7 +69,75 @@ const index = ({ currentCategory }) => {
     fetchNextPage();
   };
 
-  if (!categories || !products) return <h1>chizi ni</h1>;
+  if (!categories || !products)
+    return (
+      <Flex
+        flexWrap="wrap"
+        w="100%"
+        h="100vh"
+        mt="5rem"
+        p="85px"
+        justifyContent="space-between"
+        flexDir="column"
+        dir="rtl"
+      >
+        <Flex p="2rem 0" w="20%">
+          <Skeleton
+            w="100%"
+            m="1rem 1%"
+            h="320px"
+            borderRadius=".5rem"
+          />
+        </Flex>
+        <Flex p="2rem" flexDir="column" w="75%">
+          <Skeleton
+            w="100%"
+            m="1rem 1%"
+            h="60px"
+            borderRadius=".5rem"
+          />
+          <Flex w="100%" flexWrap="wrap">
+            <Skeleton
+              h={{ base: "240px", md: "360px" }}
+              w={{ base: "160px", md: "240px" }}
+              m="1rem auto"
+              borderRadius=".5rem"
+            />
+            <Skeleton
+              h={{ base: "240px", md: "360px" }}
+              w={{ base: "160px", md: "240px" }}
+              m="1rem auto"
+              borderRadius=".5rem"
+            />
+            <Skeleton
+              h={{ base: "240px", md: "360px" }}
+              w={{ base: "160px", md: "240px" }}
+              m="1rem auto"
+              borderRadius=".5rem"
+            />
+            <Skeleton
+              h={{ base: "240px", md: "360px" }}
+              w={{ base: "160px", md: "240px" }}
+              m="1rem auto"
+              borderRadius=".5rem"
+            />
+            <Skeleton
+              h={{ base: "240px", md: "360px" }}
+              w={{ base: "160px", md: "240px" }}
+              m="1rem auto"
+              borderRadius=".5rem"
+            />
+            <Skeleton
+              h={{ base: "240px", md: "360px" }}
+              w={{ base: "160px", md: "240px" }}
+              m="1rem auto"
+              borderRadius=".5rem"
+            />
+          </Flex>
+        </Flex>
+
+      </Flex>
+    );
 
   return (
     <Flex
@@ -96,7 +165,7 @@ const index = ({ currentCategory }) => {
           {products?.pages.map((group, index) => (
             <Fragment key={index}>
               {group?.results.map(
-                ({ id, image, name, price }: IProducts, key: number) => (
+                ({ id, image, name, price, bookmarked }: IProducts, key: number) => (
                   <ProductCard
                     name={name}
                     price={price}
@@ -104,6 +173,7 @@ const index = ({ currentCategory }) => {
                     id={id}
                     margin="1rem auto"
                     key={key}
+                    bookmarked={bookmarked}
                   />
                 )
               )}

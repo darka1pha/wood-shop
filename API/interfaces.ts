@@ -42,6 +42,7 @@ export interface IProducts {
   image: string;
   price: number;
   score?: number;
+  bookmarked: boolean;
 }
 
 interface ITexture {
@@ -132,4 +133,9 @@ export interface IBanners {
   id: number;
   title: string;
   image: string;
+}
+
+export interface ISetScore {
+  value: number;
+  product: number;
 }

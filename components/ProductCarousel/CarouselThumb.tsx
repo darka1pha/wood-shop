@@ -7,7 +7,6 @@ const CarouselThumb = ({ imageUrl }) => {
       h="80px"
       w="80px"
       m=".5rem auto"
-      ngImage
       bgImage={`url(${imageUrl})`}
       bgSize="cover"
       bgRepeat="no-repeat"

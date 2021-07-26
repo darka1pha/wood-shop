@@ -28,6 +28,7 @@ const Menu = () => {
   return (
     <Box display={{ base: "none", md: "block" }}>
       <motion.div
+        layout
         animate={{
           top: visible ? "85px" : "-10px",
           opacity: visible ? 1 : 0,
