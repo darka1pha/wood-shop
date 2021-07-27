@@ -2,19 +2,22 @@ import { Button } from "@chakra-ui/button";
 import { Flex } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/spinner";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Fragment, useRef } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { useGetCategories, useGetCategoryProducts } from "../../API";
 import { IProducts } from "../../API/interfaces";
+import { Error } from "../../components";
 import CategoryMenu from "../../components/Category/CategoryMenu";
 import Filter from "../../components/Filter/Filter";
 import FilterTitle from "../../components/Filter/FilterTitle";
 import ProductCard from "../../components/ProductCard";
+import CategorySkeleton from "../../components/Skeleton/CategorySkeleton";
 import { selectCurrentCategory } from "../../redux";
 
 // const Filter = dynamic(
@@ -57,87 +60,24 @@ const index = ({ currentCategory }) => {
   const router = useRouter();
   const [order, setOrder]: any = useState(router.query.order)
   const containerRef = useRef(null);
-  const { data: categories } = useGetCategories();
+  const {
+    data: categories,
+    isLoading: isCategoryLoading,
+    isError: categoriesError
+  } = useGetCategories();
   const {
     data: products,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
+    isLoading: isProductsLoading,
+    isError: productsError
   } = useGetCategoryProducts({ id: currentCategory.id, ordering: order });
 
-  const fetchMoreItems = () => {
-    fetchNextPage();
-  };
+  if (!categories || !products || isCategoryLoading || isProductsLoading)
+    return <CategorySkeleton showCategory={true} />
 
-  if (!categories || !products)
-    return (
-      <Flex
-        flexWrap="wrap"
-        w="100%"
-        h="100vh"
-        mt="5rem"
-        p="85px"
-        justifyContent="space-between"
-        flexDir="column"
-        dir="rtl"
-      >
-        <Flex p="2rem 0" w="20%">
-          <Skeleton
-            w="100%"
-            m="1rem 1%"
-            h="320px"
-            borderRadius=".5rem"
-          />
-        </Flex>
-        <Flex p="2rem" flexDir="column" w="75%">
-          <Skeleton
-            w="100%"
-            m="1rem 1%"
-            h="60px"
-            borderRadius=".5rem"
-          />
-          <Flex w="100%" flexWrap="wrap">
-            <Skeleton
-              h={{ base: "240px", md: "360px" }}
-              w={{ base: "160px", md: "240px" }}
-              m="1rem auto"
-              borderRadius=".5rem"
-            />
-            <Skeleton
-              h={{ base: "240px", md: "360px" }}
-              w={{ base: "160px", md: "240px" }}
-              m="1rem auto"
-              borderRadius=".5rem"
-            />
-            <Skeleton
-              h={{ base: "240px", md: "360px" }}
-              w={{ base: "160px", md: "240px" }}
-              m="1rem auto"
-              borderRadius=".5rem"
-            />
-            <Skeleton
-              h={{ base: "240px", md: "360px" }}
-              w={{ base: "160px", md: "240px" }}
-              m="1rem auto"
-              borderRadius=".5rem"
-            />
-            <Skeleton
-              h={{ base: "240px", md: "360px" }}
-              w={{ base: "160px", md: "240px" }}
-              m="1rem auto"
-              borderRadius=".5rem"
-            />
-            <Skeleton
-              h={{ base: "240px", md: "360px" }}
-              w={{ base: "160px", md: "240px" }}
-              m="1rem auto"
-              borderRadius=".5rem"
-            />
-          </Flex>
-        </Flex>
-
-      </Flex>
-    );
+  if (categoriesError || productsError) return <Error />
 
   return (
     <Flex
@@ -149,8 +89,12 @@ const index = ({ currentCategory }) => {
       justifyContent="flex-end"
       bgColor="bgColor">
       <Head>
-        <title>Wood Shop</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>{`دسته بندی - ${router.query.category}`}</title>
+        <meta name="description" content="دسته بندی و نمایش محصولات درون دسته بندی" />
+        <meta name="keywords" content="خرید,فروشگاه,لوازم خانه,فروشگاه آنلاین,محصولات چوبی,میز و صندلی" />
+        <meta property="og:title" content="دسته بندی" />
+        <meta property="og:description" content="دسته بندی و نمایش محصولات درون دسته بندی" />
+        <meta property="og:type" content="website" />
       </Head>
       <Flex
         dir="rtl"
@@ -182,7 +126,7 @@ const index = ({ currentCategory }) => {
         </Flex>
         <Button
           fontFamily="Vazir"
-          onClick={fetchMoreItems}
+          onClick={() => fetchNextPage()}
           disabled={!hasNextPage}
           color="white"
           variant="outline"

@@ -4,12 +4,14 @@ import { Center, Divider, Spinner } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import { Fragment, useEffect, useRef } from "react";
 import { IoBasketOutline } from "react-icons/io5";
 import { useGetCart, useGetCartInfo } from "../../API";
-import { Text } from "../../components";
+import { Error, Text } from "../../components";
 import CartDetails from "../../components/CartDetails";
 import CartItem from "../../components/CartItem";
+import CartSkeleton from "../../components/Skeleton/CartSkeleton";
 
 // const CartItem = dynamic(
 //   () => {
@@ -32,12 +34,13 @@ import CartItem from "../../components/CartItem";
 const index = () => {
   const {
     data: products, fetchNextPage,
-    hasNextPage,
     isFetchingNextPage,
-    isSuccess
+    isLoading: isProductsLoading,
+    isError: productsError,
+    isLoadingError
   } = useGetCart();
 
-  const { data: cartInfo } = useGetCartInfo();
+  const { data: cartInfo, isLoading: isCartInfoLoading, isError: cartInfoError, isLoadingError: loadingError } = useGetCartInfo();
   const router = useRouter()
   const containerRef = useRef(null);
 
@@ -48,10 +51,9 @@ const index = () => {
   useEffect(() => {
     const trackScrolling = () => {
       if (containerRef) {
-        console.log(isBottom(containerRef))
         if (isBottom(containerRef)) {
-            fetchNextPage();
-            document.removeEventListener("scroll", trackScrolling);
+          fetchNextPage();
+          document.removeEventListener("scroll", trackScrolling);
         }
       }
     };
@@ -78,8 +80,17 @@ const index = () => {
     },
   };
 
-  if (!products && !cartInfo) return <h1>Chizi ni</h1>;
-
+  if (!products
+    || !cartInfo
+    || isProductsLoading
+    || isCartInfoLoading
+  ) return <CartSkeleton />
+  
+  if (cartInfoError
+    || productsError
+    || isLoadingError
+    || loadingError
+  ) return <Error />
   return (
     <Flex
       as="div"
@@ -91,6 +102,14 @@ const index = () => {
       flexDir="column"
       justifyContent="center"
       alignItems="center">
+      <Head>
+        <title>سبد خرید</title>
+        <meta name="description" content="جزئیات سبد خرید شما - محصولات درون سبد و قیمت" />
+        <meta property="og:title" content="سبد خرید" />
+        <meta property="og:description" content="جزئیات سبد خرید شما - محصولات درون سبد و قیمت" />
+        <meta property="og:url" content="https://Domain.ic/cart" />
+        <meta property="og:type" content="website" />
+      </Head>
       <Flex
         w="100%"
         maxW="1920px"

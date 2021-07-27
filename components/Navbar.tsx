@@ -23,14 +23,16 @@ import { selectCurrentUser } from "../redux/user/user.selectors";
 import { setAlert } from "../redux";
 import { useGetCartCount, useGetCategories } from "../API";
 import { KeyboardEventHandler } from "react";
+import LandingSkeleton from "./Skeleton/LandingSkeleton";
+import Error from "./Error";
 
 const Navbar = ({ user, setAlert }) => {
   const router = useRouter();
   const btnSearchRef = useRef(null);
   const searchRefMd = useRef(null);
   const searchRefBase = useRef(null);
-  const { data: categories } = useGetCategories();
-  const { data: countData } = useGetCartCount()
+  const { data: categories, isError: categoryError } = useGetCategories();
+  const { data: countData, isError: countDataError } = useGetCartCount()
 
 
   let condition = false;
@@ -51,7 +53,7 @@ const Navbar = ({ user, setAlert }) => {
       setIsSearchOpen(true);
       searchRefMd.current.focus();
     } else {
-      if (searchValue.length > 0) {
+      if (searchValue.replace(/\s/g, '').length > 0) {
         setIsSearchOpen(false);
         router.push({
           pathname: "/search",
@@ -59,11 +61,14 @@ const Navbar = ({ user, setAlert }) => {
             value: searchValue,
           },
         });
-      } else
+      } else {
+        setSearchValue("")
+        searchRefMd.current.focus();
         setAlert({
           content: "فیلد جستجو نمیتواند خالی باشد!",
           type: "warning",
         });
+      }
       if (isOpen) setIsOpen(false);
     }
   };
@@ -155,6 +160,8 @@ const Navbar = ({ user, setAlert }) => {
       },
     },
   };
+
+  if (countDataError || categoryError) return <Error />
 
   return (
     <>

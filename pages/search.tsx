@@ -6,9 +6,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import { useSearch } from "../API";
+import { Error } from "../components";
 import Filter from "../components/Filter/Filter";
 import FilterTitle from "../components/Filter/FilterTitle";
 import ProductCard from "../components/ProductCard";
+import CategorySkeleton from "../components/Skeleton/CategorySkeleton";
 
 // const ProductCard = dynamic(
 //   () => {
@@ -43,6 +45,8 @@ const Search = () => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
+    isLoading,
+    isError
   } = useSearch(router.query.value);
 
   const fetchMoreItems = () => {
@@ -52,7 +56,8 @@ const Search = () => {
     fetchNextPage({ pageParam: newPage + 1 });
   };
 
-  if (!products) return <h1>Chizi ni</h1>;
+  if (!products || isLoading) return <CategorySkeleton showCategory={false} />;
+  if (isError) return <Error />
   return (
     <Flex
       as="div"
@@ -80,8 +85,9 @@ const Search = () => {
           {products?.pages.map((group, index) => (
             <Fragment key={index}>
               {group?.results.map(
-                ({ id, name, image, price, score }, key: number) => (
+                ({ id, name, image, price, bookmarked }, key: number) => (
                   <ProductCard
+                    bookmarked={bookmarked}
                     name={name}
                     price={price}
                     background_image={image}

@@ -8,6 +8,7 @@ import { Spinner } from "@chakra-ui/spinner";
 import dynamic from "next/dynamic";
 import FavoriteCard from "./FavoriteCard";
 import { Skeleton } from "@chakra-ui/react";
+import FavoritesSkeleton from "../Skeleton/FavoritesSkeleton";
 
 // const FavoriteCard = dynamic(
 //   () => {
@@ -70,37 +71,7 @@ const UserFavorites = () => {
   };
 
   if (!favorites || isLoading) return (
-    <Flex
-      flexWrap="wrap" w="100%"
-      h="100vh"
-      mt="5rem"
-      p="85px"
-    >
-      <Skeleton
-        w={{ base: "100%", md: "48%" }}
-        m="1rem 1%"
-        h="160px"
-        borderRadius=".5rem"
-      />
-      <Skeleton
-        w={{ base: "100%", md: "48%" }}
-        m="1rem 1%"
-        h="160px"
-        borderRadius=".5rem"
-      />
-      <Skeleton
-        w={{ base: "100%", md: "48%" }}
-        m="1rem 1%"
-        h="160px"
-        borderRadius=".5rem"
-      />
-      <Skeleton
-        w={{ base: "100%", md: "48%" }}
-        m="1rem 1%"
-        h="160px"
-        borderRadius=".5rem"
-      />
-    </Flex>
+    <FavoritesSkeleton />
   )
 
   return (

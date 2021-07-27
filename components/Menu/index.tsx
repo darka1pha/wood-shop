@@ -4,13 +4,14 @@ import { motion } from "framer-motion";
 import { Box } from "@chakra-ui/layout";
 import { useGetCategories } from "../../API";
 import { useQueryClient } from "react-query";
+import LandingSkeleton from "../Skeleton/LandingSkeleton";
 
 const Menu = () => {
   const queryClient = useQueryClient()
-  const [categories, setCategories] = useState(null)
+  // const [categories, setCategories] = useState(null)
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-  // const { data: categories } = useGetCategories();
+  const { data: categories } = useGetCategories();
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
     setVisible(prevScrollPos > currentScrollPos);
@@ -19,11 +20,9 @@ const Menu = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-    setCategories(queryClient.getQueryData([`categories`]))
+    // setCategories(queryClient.getQueryData([`categories`]))
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollPos, visible, handleScroll, queryClient.getQueryData([`categories`])]);
-
-  if (!categories) return <h1>chizi nis</h1>;
+  }, [prevScrollPos, visible, handleScroll]);
 
   return (
     <Box display={{ base: "none", md: "block" }}>
@@ -48,7 +47,7 @@ const Menu = () => {
           backgroundColor: "#42301e",
           flexDirection: "row-reverse",
         }}>
-        {categories.map(({ title, id }, key: number) => (
+        {categories?.map(({ title, id }, key: number) => (
           <MenuItem id={id} text={title} key={key} />
         ))}
       </motion.div>

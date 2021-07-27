@@ -7,6 +7,7 @@ import Text from "../Text";
 import InfoBox from "./InfoBox";
 import { IUser } from "../../redux";
 import { useRouter } from "next/router";
+import UserInfoSkeleton from "../Skeleton/UserInfoSkeleton";
 
 const ProfileInfo = ({ currentUser }: IUser) => {
   const router = useRouter();
@@ -14,8 +15,6 @@ const ProfileInfo = ({ currentUser }: IUser) => {
   useEffect(() => {
     if (!currentUser) router.push("/auth/signin");
   }, []);
-
-  if (!currentUser) return <h1>Loading</h1>;
 
   return (
     <Flex

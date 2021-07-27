@@ -6,8 +6,6 @@ import SwiperCore, {
   Pagination, Navigation, Lazy, Autoplay
 } from 'swiper/core';
 
-
-
 SwiperCore.use([Lazy, Pagination, Navigation, Autoplay]);
 
 const BannerContainer = ({ data }) => {
@@ -38,7 +36,6 @@ const BannerContainer = ({ data }) => {
             </SwiperSlide>
           ))
         }
-
       </Swiper>
     </Flex>
   );

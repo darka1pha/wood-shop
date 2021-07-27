@@ -3,6 +3,7 @@ import {
   ColorPalette,
   Comment,
   DeliveryTime,
+  Error,
   NewComment,
   ProductDiscription,
   Text,
@@ -128,7 +129,7 @@ const index = ({ setAlert }) => {
   };
 
   if (!product || !comments) return <h1>loading</h1>;
-  if (error1 || error2) return <h1>Erooooooooooor</h1>;
+  if (error1 || error2) return <Error />;
 
   return (
     <Flex

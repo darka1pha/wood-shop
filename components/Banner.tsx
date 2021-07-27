@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/layout";
 import router from "next/router";
 import { IBanners } from "../API/interfaces";
 

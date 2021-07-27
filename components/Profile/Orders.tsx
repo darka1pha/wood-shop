@@ -2,6 +2,7 @@ import { Flex } from "@chakra-ui/layout";
 import Text from "../Text";
 import OrderLables from "./Orders/OrderLables";
 import OrderContainer, { IOrder } from "./Orders/OrderContainer";
+import OrderSkeleton from "../Skeleton/OrderSkeleton";
 
 // interface IOrders {
 //   orders?: ;
@@ -42,6 +43,7 @@ const Orders = () => {
       },
     ],
   ];
+  if (true) return <OrderSkeleton />
 
   return (
     <Flex

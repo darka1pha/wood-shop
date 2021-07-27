@@ -16,3 +16,4 @@ export { default as AlertBox } from "./AlertBox";
 export { default as PaymentAddress } from "./PaymentAddress";
 export { default as PaymentSend } from "./PaymentSend";
 export { default as BannerContainer } from "./BannerContainer";
+export { default as Error } from "./Error";

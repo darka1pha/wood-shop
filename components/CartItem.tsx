@@ -17,6 +17,7 @@ const CartItem = ({ count, form, product, id, setLoading }: ICart) => {
       console.log("Increase");
       await queryQlient.refetchQueries("cartInfo");
       await queryQlient.refetchQueries("cart");
+      await queryQlient.refetchQueries("cartCounts");
       setTimeout(() => setLoading(false), 1000);
     },
     onError: (err) => {
@@ -28,6 +29,7 @@ const CartItem = ({ count, form, product, id, setLoading }: ICart) => {
     onSuccess: async () => {
       await queryQlient.refetchQueries("cartInfo");
       await queryQlient.refetchQueries("cart");
+      await queryQlient.refetchQueries("cartCounts");
       setTimeout(() => setLoading(false), 1000);
     },
     onError: (err) => {
@@ -38,9 +40,10 @@ const CartItem = ({ count, form, product, id, setLoading }: ICart) => {
 
   const deleteMutation = useMutation(useDeleteCart, {
     onSuccess: async () => {
-      await queryQlient.refetchQueries("cart");
-      await queryQlient.refetchQueries("cartInfo");
-      setTimeout(() => setLoading(false), 1000);
+       queryQlient.refetchQueries("cart");
+       queryQlient.refetchQueries("cartInfo");
+       queryQlient.refetchQueries("cartCounts");
+      setLoading(false)
     },
     onError: (err) => {
       console.log("Delete Error: ", err);

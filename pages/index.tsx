@@ -5,7 +5,8 @@ import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useGetBanners, useGetFiltredData } from '../API'
-import { Carousel, Description, Container, BannerContainer } from '../components'
+import { Carousel, Description, Container, BannerContainer, Error } from '../components'
+import LandingSkeleton from '../components/Skeleton/LandingSkeleton'
 
 export default function Home() {
   const queryClient = useQueryClient()
@@ -26,21 +27,10 @@ export default function Home() {
     || isPopularLoading
     || isNewestLoading
   ) return (
-    <Flex
-      flexWrap="wrap" w="100%"
-      h="100vh"
-      mt="5rem"
-      p="85px"
-    >
-      <Skeleton m="1rem" flex="1 1 360px" height="280px" />
-      <Skeleton m="1rem" flex="1 1 360px" height="280px" />
-      <Skeleton m="1rem" flex="1 1 360px" height="280px" />
-      <Skeleton m="1rem" flex="1 1 360px" height="280px" />
-      <Skeleton m="1rem" flex="1 1 360px" height="280px" />
-    </Flex>
+    <LandingSkeleton />
   )
 
-  if (error1 || error2 || error3) router.push("/500")
+  if (error1 || error2 || error3) return <Error />
 
   return (
     <Flex

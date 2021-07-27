@@ -10,6 +10,7 @@ import UserFavorites from "../../components/Profile/UserFavorites";
 import Orders from "../../components/Profile/Orders";
 import { selectCurrentUser } from "../../redux";
 import WithNoUser from "../../components/HOC/withNoUser";
+import UserInfoSkeleton from "../../components/Skeleton/UserInfoSkeleton";
 interface IPageComponent {
   Component: JSX.Element;
   title: string;
@@ -21,7 +22,7 @@ const Profile = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState({
     Component:
       currentQuery === "addresses" ||
-      window.location.search.split("=")[1] === "addresses" ? (
+        window.location.search.split("=")[1] === "addresses" ? (
         <Addresses />
       ) : router.query.page === "orders" ||
         window.location.search.split("=")[1] === "orders" ? (
@@ -42,6 +43,8 @@ const Profile = ({ currentUser }) => {
     console.log(window.location.search.split("=")[1]);
     setCurrentQuery(router.query.page);
   }, [router.query.page]);
+
+  if (!currentUser) return <UserInfoSkeleton />
 
   return (
     <Flex

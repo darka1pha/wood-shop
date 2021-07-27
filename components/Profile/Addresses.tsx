@@ -26,6 +26,7 @@ import {
   useGetProvinces,
 } from "../../API";
 import { IError, IProvince } from "../../API/interfaces";
+import AddressesSkeleton from "../Skeleton/AddressesSkeleton";
 import Text from "../Text";
 import AddressItem from "./AddressItem";
 
@@ -181,7 +182,7 @@ const Addresses = () => {
     };
   }, [addresses, containerRef, provinces, cities]);
 
-  if (!provinces && addresses) return <h1>Error</h1>;
+  if (!provinces || !addresses) return <AddressesSkeleton />
   return (
     <Flex
       w="100%"
