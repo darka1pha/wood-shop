@@ -43,6 +43,7 @@ export interface IProducts {
   price: number;
   score?: number;
   bookmarked: boolean;
+  form: Object;
 }
 
 interface ITexture {
@@ -53,7 +54,7 @@ interface ITexture {
 export interface IFullProducts {
   creation_duration: number;
   description: string;
-  form: Array<ITexture>;
+  form: Array<any>;
   id: number;
   image: string;
   images: Array<string>;
@@ -99,18 +100,19 @@ export interface IVerifyResetPassword {
 export interface IAddToCart {
   product: number;
   count: number;
+  form: Object;
 }
 
 export interface ICart {
   setLoading?: (isLoading: boolean) => void;
   count: number;
-  form?: {};
   id: number;
   product: {
     id: number;
     image: string;
     name: string;
     price: number;
+    form: {};
   };
 }
 

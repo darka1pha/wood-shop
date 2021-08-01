@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import FavoriteCard from "./FavoriteCard";
 import { Skeleton } from "@chakra-ui/react";
 import FavoritesSkeleton from "../Skeleton/FavoritesSkeleton";
+import Head from "next/head";
 
 // const FavoriteCard = dynamic(
 //   () => {
@@ -86,6 +87,14 @@ const UserFavorites = () => {
       flexDir="column"
       overflow="hidden"
       p="1.5rem">
+      <Head>
+        <title>علاقه مندی ها</title>
+        <meta name="description" content="اصلاعات پروفایل کاربر" />
+        <meta name="keywords" content="پروفایل,اطلاعات کاربری,فروشگاه آنلاین" />
+        <meta property="og:title" content="علاقه مندی ها" />
+        <meta property="og:description" content="اصلاعات پروفایل کاربر" />
+        <meta property="og:type" content="website" />
+      </Head>
       <Flex
         alignItems="center"
         pb=".5rem"

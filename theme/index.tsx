@@ -19,7 +19,6 @@ export const theme = extendTheme({
 export const TextVariants = {
   heading1: {
     fontFamily: "VazirBold",
-
     fontSize: 48,
     color: "black",
   },

@@ -1,13 +1,22 @@
-import { MouseEventHandler, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Box } from "@chakra-ui/layout";
 import { useGetCategories } from "../../API";
 import { useQueryClient } from "react-query";
-import LandingSkeleton from "../Skeleton/LandingSkeleton";
-import { MenuButton, Menu as CMenu, MenuList, MenuGroup, BoxProps, Icon, Flex, FlexProps } from "@chakra-ui/react";
-import MenuItem from "./MenuItem";
+import { Icon, Flex, FlexProps } from "@chakra-ui/react";
 import Text from "../Text";
 import { FiShoppingBag } from "react-icons/fi";
+import dynamic from "next/dynamic";
+// import MenuItem from "./MenuItem";
+
+const MenuItem = dynamic(
+  () => {
+    return import("./MenuItem");
+  },
+  {
+    ssr: false,
+  }
+);
 
 const Menu = () => {
   const queryClient = useQueryClient()
@@ -61,7 +70,6 @@ const Menu = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     // setCategories(queryClient.getQueryData([`categories`]))
-    console.log("Cats: ", categories)
     return () => {
       window.removeEventListener("scroll", handleScroll);
     }
@@ -110,7 +118,8 @@ const Menu = () => {
               right: "1rem",
               position: "absolute",
               backgroundColor: "white",
-              direction: "rtl"
+              direction: "rtl",
+              boxShadow: "0 8px 32px 0 rgba(104, 98, 98, 0.37)"
             }}
           >
             {categories?.map(({ title, id, category_set }, key: number) => (

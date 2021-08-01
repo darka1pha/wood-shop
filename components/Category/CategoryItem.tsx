@@ -60,7 +60,7 @@ const CategoryItem = ({
             border: "none",
           }}>
           <AccordionIcon ml=".5rem" />
-          <Box flex="1" textAlign="right" color={color}>
+          <Box fontFamily="VazirMedium" flex="1" textAlign="right" color={color}>
             {categoryTitle}
           </Box>
         </AccordionButton>
@@ -72,11 +72,13 @@ const CategoryItem = ({
             router.push({
               pathname: "/[category]",
               query: {
+                id: categoryId,
                 category: categoryTitle,
                 order: "default"
               },
             });
           }}
+          categoryTitle={categoryTitle}
           color={color}
           id={categoryId}
           name="همه"
@@ -84,11 +86,16 @@ const CategoryItem = ({
         />
         {items.map(({ id, title }, key) => (
           <PanelItem
+            categoryTitle={title}
             onClick={() => {
               setCurrentCategory({ id, name: title });
               router.push({
                 pathname: "/[category]",
-                query: { category: categoryTitle },
+                query: {
+                  category: title,
+                  id: id,
+                  order: "default",
+                },
               });
             }}
             color={color}

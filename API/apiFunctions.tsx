@@ -212,7 +212,7 @@ export const useGetCategories = () =>
   useQuery(
     ["categories"],
     async () => {
-      const { data } = await axios.get(MAIN + CATEGORIES_FULL);
+      const { data } = await axios.get(MAIN + CATEGORIES_FULL + "?page_size=100");
       return data.results;
     },
     {
@@ -239,7 +239,7 @@ export const useAddBookmark = async (id: number) => {
   const { data } = await axios.post(
     MAIN + DELETE_BOOKMARK,
     {
-      product: id,
+      id: id,
     },
     {
       headers: {
@@ -478,15 +478,15 @@ export const useSearch = (key: string | string[]) =>
     }
   );
 
-export const useAddToCart = async ({ count, product }: IAddToCart) => {
-  console.log("DATA TO POST: ", { product, count, form: { awad: 2 } });
+export const useAddToCart = async ({ count, product, form }: IAddToCart) => {
+  console.log("DATA TO POST: ", { product, count, form });
   try {
     const { data } = await axios.post(
       MAIN + ADD_PRODUCT_TO_CART,
       {
         product,
         count,
-        form: { awad: 2 },
+        form,
       },
       {
         headers: {
@@ -578,7 +578,7 @@ export const useGetFiltredData = ({ filterOption }) =>
   useQuery(
     ["filteredData"],
     async () => {
-      console.log("Address: ", MAIN + FILTER + `?${filterOption}`)
+      // console.log("Address: ", MAIN + FILTER + `?${filterOption}&page_size=100`)
       const { data } = await axios.get(MAIN + FILTER + `?${filterOption}&page_size=100`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("accessToken")}`,

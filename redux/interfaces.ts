@@ -4,6 +4,6 @@ export interface ISetAlert {
 }
 
 export interface ISetCurrentCategory {
-  name: string;
+  name: string|string[];
   id: number;
 }

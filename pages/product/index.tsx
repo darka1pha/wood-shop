@@ -1,14 +1,8 @@
 import { Flex } from "@chakra-ui/layout";
 import {
-  ColorPalette,
-  Comment,
-  DeliveryTime,
-  Error,
-  NewComment,
-  ProductDiscription,
-  Text,
+  ProductForm,
+  Text
 } from "../../components";
-import ReactStars from "react-rating-stars-component";
 import Icon from "@chakra-ui/icon";
 import { Button } from "@chakra-ui/button";
 import { FiShoppingCart } from "react-icons/fi";
@@ -17,44 +11,97 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Spinner } from "@chakra-ui/spinner";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { connect } from "react-redux";
 import { ISetAlert, setAlert } from "../../redux";
-import ProductCarousel from "../../components/ProductCarousel";
 import { IError } from "../../API/interfaces";
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
-import { Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal } from "@chakra-ui/react";
+import {
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Portal
+} from "@chakra-ui/react";
 import Rating from "../../components/ProductRating/ProductRating";
+import dynamic from "next/dynamic";
 
 //TODO Dynamic Import for Components 
 
-// const ProductCarousel = dynamic(
-//   () => {
-//     return import("../../components/ProductCarousel");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+const ProductDiscription = dynamic(
+  () => {
+    return import("../../components/ProductDiscription");
+  },
+  {
+    ssr: false,
+  }
+);
 
-// const NewComment = dynamic(
-//   () => {
-//     return import("../../components/Comment/NewComment");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+const Error = dynamic(
+  () => {
+    return import("../../components/Error");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const Comment = dynamic(
+  () => {
+    return import("../../components/Comment/index");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const DeliveryTime = dynamic(
+  () => {
+    return import("../../components/DeliveryTime");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const ColorPalette = dynamic(
+  () => {
+    return import("../../components/ColorPalette");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const ProductCarousel = dynamic(
+  () => {
+    return import("../../components/ProductCarousel");
+  },
+  {
+    ssr: false,
+  }
+);
+
+const NewComment = dynamic(
+  () => {
+    return import("../../components/Comment/NewComment");
+  },
+  {
+    ssr: false,
+  }
+);
 
 const index = ({ setAlert }) => {
   const router = useRouter();
-
+  const queryClient = useQueryClient()
   const containerRef = useRef(null);
 
   const addToCartMutation = useMutation(useAddToCart, {
     onSuccess: () => {
       setAlert({ content: "محصول به سبد خرید اضافه شد", type: "success" });
+      queryClient.refetchQueries("cartCounts");
     },
     onError: () => {
       setAlert({ content: "خطایی رخ داده است", type: "error" });
@@ -77,6 +124,7 @@ const index = ({ setAlert }) => {
       product: Number(
         router.query.id ? router.query.id : window.location.search.split("=")[1]
       ),
+      form: product.form
     });
   };
 
@@ -142,6 +190,12 @@ const index = ({ setAlert }) => {
       flexDir="column"
       justifyContent="center"
       alignItems="center">
+      <title>{product.name}</title>
+      <meta name="description" content="اطلاعات محصول" />
+      <meta name="keywords" content="محصول,محصولات چوبی,میز و صندلی,لوازم اداری,لوازم خانه" />
+      <meta property="og:title" content={`${product.name}`} />
+      <meta property="og:description" content="اطلاعات محصول" />
+      <meta property="og:type" content="website" />
       <Flex
         w="100%"
         maxW="1920px"
@@ -219,7 +273,6 @@ const index = ({ setAlert }) => {
                 </PopoverContent>
               </Portal>
             </Popover>
-
           </Flex>
           <Flex
             dir="rtl"
@@ -277,6 +330,7 @@ const index = ({ setAlert }) => {
         alignItems="center"
         flexDir="column"
         justifyContent="center">
+        <ProductForm productForm={product.form} />
         <ProductDiscription description={product.description} />
         <NewComment
           productId={Number(

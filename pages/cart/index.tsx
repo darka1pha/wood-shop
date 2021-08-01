@@ -9,27 +9,30 @@ import { Fragment, useEffect, useRef } from "react";
 import { IoBasketOutline } from "react-icons/io5";
 import { useGetCart, useGetCartInfo } from "../../API";
 import { Error, Text } from "../../components";
-import CartDetails from "../../components/CartDetails";
-import CartItem from "../../components/CartItem";
 import CartSkeleton from "../../components/Skeleton/CartSkeleton";
 
-// const CartItem = dynamic(
-//   () => {
-//     return import("../../components/CartItem");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+// import CartDetails from "../../components/CartDetails";
+// import CartItem from "../../components/CartItem";
 
-// const CartDetails = dynamic(
-//   () => {
-//     return import("../../components/CartDetails");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+const CartItem = dynamic(
+  () => {
+    return import("../../components/CartItem");
+  },
+  {
+    ssr: false,
+    loading: () => <CartSkeleton />
+  }
+);
+
+const CartDetails = dynamic(
+  () => {
+    return import("../../components/CartDetails");
+  },
+  {
+    ssr: false,
+    loading: () => <CartSkeleton />
+  }
+);
 
 const index = () => {
   const {
@@ -85,7 +88,7 @@ const index = () => {
     || isProductsLoading
     || isCartInfoLoading
   ) return <CartSkeleton />
-  
+
   if (cartInfoError
     || productsError
     || isLoadingError
@@ -149,7 +152,7 @@ const index = () => {
             products?.pages.map((group, index) => (
               <Fragment key={index}>
                 {group?.results.map(
-                  ({ count, id, product, form }, key: number) => (
+                  ({ count, id, product}, key: number) => (
                     <CartItem
                       count={count}
                       id={id}

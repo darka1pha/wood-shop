@@ -1,13 +1,21 @@
-import { IconButton } from "@chakra-ui/button";
-import Icon from "@chakra-ui/icon";
-import { Flex, FlexProps } from "@chakra-ui/layout";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  Link as CLink,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Flex,
+  FlexProps,
+  Icon,
+  IconButton,
+  Text
+} from "@chakra-ui/react";
+import Link from 'next/link'
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { FiChevronLeft } from "react-icons/fi";
 import { IoMdMore } from "react-icons/io";
 import { useMutation, useQueryClient } from "react-query";
-import { Text } from "..";
 import { useDeleteBookmark } from "../../API";
 
 interface IQD {
@@ -52,14 +60,14 @@ const FavoriteCard = ({ id, image, name, price }: IFavoriteCard) => {
     },
   };
 
-  const onWatchProduct = () => {
-    router.push({
-      pathname: "/product",
-      query: {
-        id: id
-      }
-    })
-  };
+  // const onWatchProduct = () => {
+  //   router.push({
+  //     pathname: "/product",
+  //     query: {
+  //       id: id
+  //     }
+  //   })
+  // };
 
   const queryClient = useQueryClient();
 
@@ -93,23 +101,43 @@ const FavoriteCard = ({ id, image, name, price }: IFavoriteCard) => {
         />
         <Flex alignItems="flex-end" flexDir="column">
           <Flex p="1rem 2rem">
-            <Text color="black" variant="normalExt">
+            <Text
+              fontFamily="Vazir"
+              fontWeight="400"
+              fontSize="14px"
+              color="black">
               {name}
             </Text>
           </Flex>
           <Flex p="1rem 2rem">
-            <Text dir="rtl" color="black" variant="normalExt">
+            <Text dir="rtl"
+              fontFamily="Vazir"
+              fontWeight="400"
+              fontSize="14px"
+              color="black"
+            >
               {price + " ریال"}
             </Text>
           </Flex>
           <Flex
-            onClick={onWatchProduct}
+            // onClick={onWatchProduct}
             cursor="pointer"
             alignItems="center"
             p="0 2rem"
             flexDir="row-reverse">
-            <Text dir="rtl" color="#47C0DF" variant="normalExt">
-              مشاهده محصول
+            <Text dir="rtl" color="#47C0DF" 
+            fontFamily="Vazir"
+            fontWeight="400"
+            fontSize="14px"
+            >
+              <Link href={{
+                pathname: "/product",
+                query: {
+                  id: id
+                }
+              }}>
+                مشاهده محصول
+              </Link>
             </Text>
             <Icon color="#47C0DF" as={FiChevronLeft} />
           </Flex>

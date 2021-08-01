@@ -1,10 +1,11 @@
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, Text } from "@chakra-ui/react";
 import { ISetCurrentCategory, setCurrentCategory } from "../../redux";
-import Text from "../Text";
+// import Text from "../Text";
 
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { Dispatch, useEffect } from "react";
+import Link from "next/link";
 
 interface MenuItem {
   text: string;
@@ -16,9 +17,6 @@ interface MenuItem {
 
 const MenuItem = ({ text, id, setCurrentCategory, category_set, setIsMenuOpen }: MenuItem) => {
   const router = useRouter();
-  useEffect(() => {
-    console.log(category_set)
-  }, [])
   return (
     <Flex minW="80px" m="0.5rem 0" flexDir="column">
       <Button
@@ -45,13 +43,32 @@ const MenuItem = ({ text, id, setCurrentCategory, category_set, setIsMenuOpen }:
           router.push({
             pathname: "/[category]",
             query: {
+              id: id,
               category: text,
               order: "default"
             },
           });
           setCurrentCategory({ name: text, id });
-        }}>
-        <Text color="black" variant="heading6">{text}</Text>
+        }}
+      >
+        <Text
+          color="black"
+          fontFamily="VazirBold"
+          fontSize="12px"
+        >
+          <Link
+            href={{
+              pathname: "/[category]",
+              query: {
+                id: id,
+                category: text,
+                order: "default"
+              }
+            }}
+          >
+            {text}
+          </Link>
+        </Text>
       </Button>
       <Flex flexDir="column">
         {
@@ -82,13 +99,28 @@ const MenuItem = ({ text, id, setCurrentCategory, category_set, setIsMenuOpen }:
                 router.push({
                   pathname: "/[category]",
                   query: {
-                    category: text,
+                    id: id,
+                    category: title,
                     order: "default"
                   },
                 });
-                setCurrentCategory({ name: text, id });
-              }}>
-              <Text color="#4a4a4a" variant="normalMedium">{title}</Text>
+                setCurrentCategory({ name: title, id });
+              }}
+            >
+              <Text color="#4a4a4a" fontFamily="VazirMedium" fontSize="12px" fontWeight="500">
+                <Link
+                  href={{
+                    pathname: "/[category]",
+                    query: {
+                      id: id,
+                      category: title,
+                      order: "default"
+                    }
+                  }}
+                >
+                  {title}
+                </Link>
+              </Text>
             </Button>
           ))
         }

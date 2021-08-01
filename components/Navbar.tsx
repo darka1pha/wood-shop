@@ -8,11 +8,11 @@ import {
   Input,
   InputRightElement,
   InputLeftAddon,
+  Text,
 } from "@chakra-ui/react";
 import { FiUser, FiShoppingCart, FiSearch } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { AiOutlineMenu } from "react-icons/ai";
-import Text from "./Text";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import CategoryMenu from "./Category/CategoryMenu";
@@ -23,8 +23,8 @@ import { selectCurrentUser } from "../redux/user/user.selectors";
 import { setAlert } from "../redux";
 import { useGetCartCount, useGetCategories } from "../API";
 import { KeyboardEventHandler } from "react";
-import LandingSkeleton from "./Skeleton/LandingSkeleton";
 import Error from "./Error";
+import Link from "next/link";
 
 const Navbar = ({ user, setAlert }) => {
   const router = useRouter();
@@ -199,7 +199,7 @@ const Navbar = ({ user, setAlert }) => {
         />
         <Text
           w={{ base: "100%", md: "auto" }}
-          variant="heading4"
+          fontFamily="VazirBold"
           color="white"
           textAlign="center"
           pl="40px"
@@ -210,7 +210,9 @@ const Navbar = ({ user, setAlert }) => {
             setIsOpen(false);
             router.push("/");
           }}>
-          مصنوعات چوبی فرحبخش
+          <Link href={{ pathname: "/" }}>
+            مصنوعات چوبی فرحبخش
+          </Link>
         </Text>
         <Box
           flex={1}
@@ -252,23 +254,27 @@ const Navbar = ({ user, setAlert }) => {
           </InputGroup>
         </Box>
         <Box alignItems="center" pos="relative" display={{ base: "none", md: "block" }}>
-          <IconButton
-            display={user ? "auto" : "none"}
-            aria-label="Shoping Cart"
-            icon={<Icon as={FiShoppingCart} color="white" fontSize={22} />}
-            variant="ghost"
-            mr="8"
-            _hover={{
-              bg: "transparent",
-            }}
-            _active={{
-              bg: "transparent",
-            }}
-            _focus={{
-              outline: "none",
-            }}
-            onClick={onCartClicked}
-          />
+          <Link href={{
+            pathname: "/cart"
+          }}>
+            <IconButton
+              display={user ? "auto" : "none"}
+              aria-label="Shoping Cart"
+              icon={<Icon as={FiShoppingCart} color="white" fontSize={22} />}
+              variant="ghost"
+              mr="8"
+              _hover={{
+                bg: "transparent",
+              }}
+              _active={{
+                bg: "transparent",
+              }}
+              _focus={{
+                outline: "none",
+              }}
+              onClick={onCartClicked}
+            />
+          </Link>
           <Flex
             display={user && countData && countData.count !== 0 ? "flex" : "none"}
             alignItems="center"
@@ -312,12 +318,16 @@ const Navbar = ({ user, setAlert }) => {
               isOpen ? setIsOpen(false) : null;
             }}>
             {user ? (
-              <Text variant="normalLight" mr="2">
-                {user.first_name + " " + user.last_name}
+              <Text fontFamily="VazirLight" fontSize="12" mr="2">
+                <Link href={{ pathname: "/profile" }}>
+                  {user.first_name + " " + user.last_name}
+                </Link>
               </Text>
             ) : (
-              <Text variant="normalLight" mr="2">
-                حساب کاربری
+              <Text fontFamily="VazirLight" fontSize="12" mr="2">
+                <Link href={{ pathname: "/auth/signin" }}>
+                  حساب کاربری
+                </Link>
               </Text>
             )}
           </Button>

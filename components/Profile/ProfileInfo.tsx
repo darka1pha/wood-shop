@@ -8,6 +8,7 @@ import InfoBox from "./InfoBox";
 import { IUser } from "../../redux";
 import { useRouter } from "next/router";
 import UserInfoSkeleton from "../Skeleton/UserInfoSkeleton";
+import Head from "next/head";
 
 const ProfileInfo = ({ currentUser }: IUser) => {
   const router = useRouter();
@@ -28,6 +29,14 @@ const ProfileInfo = ({ currentUser }: IUser) => {
       flexDir="column"
       overflow="hidden"
       p="1.5rem">
+      <Head>
+        <title>اطلاعات حساب کاربری</title>
+        <meta name="description" content="اصلاعات پروفایل کاربر" />
+        <meta name="keywords" content="پروفایل,اطلاعات کاربری,فروشگاه آنلاین" />
+        <meta property="og:title" content="اطلاعات حساب کاربری" />
+        <meta property="og:description" content="اصلاعات پروفایل کاربر" />
+        <meta property="og:type" content="website" />
+      </Head>
       <Flex
         alignItems="center"
         pb=".5rem"

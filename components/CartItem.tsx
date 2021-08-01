@@ -9,12 +9,11 @@ import { useDeleteCart, useUpdateCart } from "../API";
 import { ICart } from "../API/interfaces";
 import { setLoading } from "../redux";
 
-const CartItem = ({ count, form, product, id, setLoading }: ICart) => {
-  const { id: productID, image, name, price } = product;
+const CartItem = ({ count, product, id, setLoading }: ICart) => {
+  const { id: productID, image, name, price, form } = product;
   const queryQlient = useQueryClient();
   const increaseMutation = useMutation(useUpdateCart, {
     onSuccess: async () => {
-      console.log("Increase");
       await queryQlient.refetchQueries("cartInfo");
       await queryQlient.refetchQueries("cart");
       await queryQlient.refetchQueries("cartCounts");
@@ -40,9 +39,9 @@ const CartItem = ({ count, form, product, id, setLoading }: ICart) => {
 
   const deleteMutation = useMutation(useDeleteCart, {
     onSuccess: async () => {
-       queryQlient.refetchQueries("cart");
-       queryQlient.refetchQueries("cartInfo");
-       queryQlient.refetchQueries("cartCounts");
+      queryQlient.refetchQueries("cart");
+      queryQlient.refetchQueries("cartInfo");
+      queryQlient.refetchQueries("cartCounts");
       setLoading(false)
     },
     onError: (err) => {
@@ -86,6 +85,24 @@ const CartItem = ({ count, form, product, id, setLoading }: ICart) => {
             variant="normal">
             سلامت فیزیکی
           </Text>
+          {
+            form && Object.keys(form).slice(0, 4).map((key, index) => (
+              <Flex>
+                <Text
+                  fontSize={{ base: "10px", md: "12px" }}
+                  color="#717171"
+                  variant="normal">
+                  {key}
+                </Text>
+                <Text
+                  fontSize={{ base: "10px", md: "12px" }}
+                  color="#717171"
+                  variant="normal">
+                  {form[key]}
+                </Text>
+              </Flex>
+            ))
+          }
         </Flex>
         <Flex h="45px" alignItems="center">
           <Text

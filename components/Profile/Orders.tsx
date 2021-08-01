@@ -3,6 +3,7 @@ import Text from "../Text";
 import OrderLables from "./Orders/OrderLables";
 import OrderContainer, { IOrder } from "./Orders/OrderContainer";
 import OrderSkeleton from "../Skeleton/OrderSkeleton";
+import Head from "next/head";
 
 // interface IOrders {
 //   orders?: ;
@@ -57,6 +58,14 @@ const Orders = () => {
       flexDir="column"
       overflow="hidden"
       p={{ base: "1.5rem .5rem", md: "1.5rem" }}>
+      <Head>
+        <title>سفارشات</title>
+        <meta name="description" content="اصلاعات پروفایل کاربر" />
+        <meta name="keywords" content="پروفایل,اطلاعات کاربری,فروشگاه آنلاین" />
+        <meta property="og:title" content="سفارشات" />
+        <meta property="og:description" content="اصلاعات پروفایل کاربر" />
+        <meta property="og:type" content="website" />
+      </Head>
       <Flex
         alignItems="center"
         pb=".5rem"

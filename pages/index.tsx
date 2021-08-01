@@ -1,12 +1,62 @@
 import { Flex } from '@chakra-ui/layout'
-import { Skeleton } from '@chakra-ui/react'
+import { Button, Link, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList } from '@chakra-ui/react'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useGetBanners, useGetFiltredData } from '../API'
-import { Carousel, Description, Container, BannerContainer, Error } from '../components'
 import LandingSkeleton from '../components/Skeleton/LandingSkeleton'
+// import { Carousel, Description, Container, BannerContainer, Error } from '../components'
+
+const Carousel = dynamic(
+  () => {
+    return import("../components/Carousel/index");
+  },
+  {
+    ssr: false,
+    loading: () => <LandingSkeleton />
+  }
+);
+
+const Error = dynamic(
+  () => {
+    return import("../components/Error");
+  },
+  {
+    ssr: false,
+    loading: () => <LandingSkeleton />
+  }
+);
+
+const BannerContainer = dynamic(
+  () => {
+    return import("../components/BannerContainer");
+  },
+  {
+    ssr: false,
+    loading: () => <LandingSkeleton />
+  }
+);
+
+const Container = dynamic(
+  () => {
+    return import("../components/Container/index");
+  },
+  {
+    ssr: false,
+    loading: () => <LandingSkeleton />
+  }
+);
+
+const Description = dynamic(
+  () => {
+    return import("../components/Description");
+  },
+  {
+    ssr: false,
+    loading: () => <LandingSkeleton />
+  }
+);
 
 export default function Home() {
   const queryClient = useQueryClient()
@@ -18,6 +68,7 @@ export default function Home() {
 
   useEffect(() => {
     setCategories(queryClient.getQueryData([`categories`]))
+    console.log(queryClient.getQueryData([`categories`]))
   }, [queryClient.getQueryData([`categories`])])
 
   if (!newest
@@ -46,7 +97,8 @@ export default function Home() {
         <title>Wood Shop</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container data={categories.slice(0, 4)} />
+      
+      <Container data={categories.slice(0, 5)} />
       <Carousel data={newest} title="جدیدترین ها" />
       <BannerContainer data={banners} />
       <Carousel data={popular} title="پرطرفدار ترین ها" />

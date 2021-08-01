@@ -43,6 +43,7 @@ const Filter = ({ setOrder }) => {
 			pathname: '/[category]',
 			query: {
 				category: router.query.category,
+				id: router.query.id,
 				order: ordering
 			}
 		})

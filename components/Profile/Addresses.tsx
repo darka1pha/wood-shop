@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/modal";
 import { Select } from "@chakra-ui/select";
 import { motion } from "framer-motion";
+import Head from "next/head";
 import React, { useEffect, useRef, useState, Fragment } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { RiMapPinAddLine } from "react-icons/ri";
@@ -196,6 +197,14 @@ const Addresses = () => {
       overflow="hidden"
       p="1.5rem"
       ref={containerRef}>
+      <Head>
+        <title>آدرس ها</title>
+        <meta name="description" content="اصلاعات پروفایل کاربر" />
+        <meta name="keywords" content="پروفایل,اطلاعات کاربری,فروشگاه آنلاین" />
+        <meta property="og:title" content="آدرس ها" />
+        <meta property="og:description" content="اصلاعات پروفایل کاربر" />
+        <meta property="og:type" content="website" />
+      </Head>
       <Flex
         alignItems="center"
         pb=".5rem"

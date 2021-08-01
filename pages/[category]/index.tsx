@@ -1,62 +1,65 @@
 import { Button } from "@chakra-ui/button";
 import { Flex } from "@chakra-ui/layout";
-import { Skeleton } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/spinner";
-import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { Fragment, useRef } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { useGetCategories, useGetCategoryProducts } from "../../API";
 import { IProducts } from "../../API/interfaces";
 import { Error } from "../../components";
-import CategoryMenu from "../../components/Category/CategoryMenu";
-import Filter from "../../components/Filter/Filter";
-import FilterTitle from "../../components/Filter/FilterTitle";
-import ProductCard from "../../components/ProductCard";
 import CategorySkeleton from "../../components/Skeleton/CategorySkeleton";
-import { selectCurrentCategory } from "../../redux";
+import { selectCurrentCategory, setCurrentCategory } from "../../redux";
+// import CategoryMenu from "../../components/Category/CategoryMenu";
+// import Filter from "../../components/Filter/Filter";
+// import FilterTitle from "../../components/Filter/FilterTitle";
+// import ProductCard from "../../components/ProductCard";
 
-// const Filter = dynamic(
-//   () => {
-//     return import("../../components/Filter/Filter");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+const Filter = dynamic(
+  () => {
+    return import("../../components/Filter/Filter");
+  },
+  {
+    ssr: false,
+    loading: () => <CategorySkeleton showCategory={true} />
+  }
+);
 
-// const CategoryMenu = dynamic(
-//   () => {
-//     return import("../../components/Category/CategoryMenu");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+const CategoryMenu = dynamic(
+  () => {
+    return import("../../components/Category/CategoryMenu");
+  },
+  {
+    ssr: false,
+    loading: () => <CategorySkeleton showCategory={true} />
+  }
+);
 
-// const FilterTitle = dynamic(
-//   () => {
-//     return import("../../components/Filter/FilterTitle");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+const FilterTitle = dynamic(
+  () => {
+    return import("../../components/Filter/FilterTitle");
+  },
+  {
+    ssr: false,
+    loading: () => <CategorySkeleton showCategory={true} />
+  }
+);
 
-// const ProductCard = dynamic(
-//   () => {
-//     return import("../../components/ProductCard");
-//   },
-//   {
-//     ssr: false,
-//   }
-// );
+const ProductCard = dynamic(
+  () => {
+    return import("../../components/ProductCard");
+  },
+  {
+    ssr: false,
+    loading: () => <CategorySkeleton showCategory={true} />
+  }
+);
 
-const index = ({ currentCategory }) => {
+const index = ({ currentCategory, setCategory }) => {
   const router = useRouter();
   const [order, setOrder]: any = useState(router.query.order)
   const containerRef = useRef(null);
@@ -72,7 +75,12 @@ const index = ({ currentCategory }) => {
     hasNextPage,
     isLoading: isProductsLoading,
     isError: productsError
-  } = useGetCategoryProducts({ id: currentCategory.id, ordering: order });
+  } = useGetCategoryProducts({ id: Number(router.query.id), ordering: order });
+
+  useEffect(() => {
+    setCategory({ id: Number(router.query.id), name: router.query.category })
+    console.log("Products", products)
+  }, [router.query.category, router.query.id, products])
 
   if (!categories || !products || isCategoryLoading || isProductsLoading)
     return <CategorySkeleton showCategory={true} />
@@ -109,7 +117,7 @@ const index = ({ currentCategory }) => {
           {products?.pages.map((group, index) => (
             <Fragment key={index}>
               {group?.results.map(
-                ({ id, image, name, price, bookmarked }: IProducts, key: number) => (
+                ({ id, image, name, price, bookmarked, form }: IProducts, key: number) => (
                   <ProductCard
                     name={name}
                     price={price}
@@ -167,4 +175,8 @@ const mapStateToProps = createStructuredSelector({
   currentCategory: selectCurrentCategory,
 });
 
-export default connect(mapStateToProps)(index);
+const mapDispatchToProps = (dispatch) => ({
+  setCategory: ({ id, name }) => dispatch(setCurrentCategory({ id, name }))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);
