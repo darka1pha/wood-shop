@@ -1,7 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 
 const FormItem = ({ name, value, index }) => {
-  console.log({ name, value, index })
   return (
     <Flex h="45px" w="100%">
       <Flex

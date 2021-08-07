@@ -1,4 +1,5 @@
 import { Flex } from "@chakra-ui/layout";
+import { Image, Link } from "@chakra-ui/react";
 import router from "next/router";
 import { Text } from "..";
 
@@ -43,6 +44,12 @@ const ContainerItem = ({ image_url, title, id }: IContainerItem) => {
 				bgRepeat="no-repeat"
 				bgPos="center"
 			/>
+			{/* <Image
+				h="100%"
+				w="100%"
+				alt={title}
+				objectFit="cover"
+			/> */}
 			<Flex
 				h="20%"
 				alignItems="center"

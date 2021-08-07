@@ -77,6 +77,13 @@ class MyDocument extends Document {
 						charSet="UTF-8"
 						href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
 					/>
+					{/* <link
+						rel="stylesheet"
+						href="https://cdnjs.cloudflare.com/ajax/libs/vazir-font/29.1.0/Farsi-Digits/font-face-FD.min.css"
+						integrity="sha512-6nW+UAwlasZKihZecQzbBBL6V0It8xL4eovbWaxp4wpZH0XK0EPnpFKiLJ2zj2PcZt6eBqKPHCJgWYMH811xIA=="
+						crossOrigin="anonymous"
+						referrerPolicy="no-referrer"
+					/> */}
 					<link
 						rel="stylesheet"
 						type="text/css"

@@ -1,256 +1,255 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
+	overflow-x: hidden;
 }
 
 *:focus {
-  outline: 0;
-  outline: none;
+	outline: 0;
+	outline: none;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .customArrow {
-  -webkit-transform: translate(0, -50%);
-  -ms-transform: translate(0, -50%);
-  transform: translate(0, -50%);
-  z-index: 2;
+	-webkit-transform: translate(0, -50%);
+	-ms-transform: translate(0, -50%);
+	transform: translate(0, -50%);
+	z-index: 2;
 }
 
 .slick-dots.slick-thumb li {
-  transition: all 0.5s ease-in-out;
-  will-change: width;
+	transition: all 0.5s ease-in-out;
+	will-change: width;
 }
 
 .slick-thumb li {
-  height: 45px;
-  width: 45px;
+	height: 45px;
+	width: 45px;
 }
 
 .slick-thumb {
-  display: flex;
-  justify-content: space-between;
-  height: 100px;
+	display: flex;
+	justify-content: space-between;
+	height: 100px;
 }
 
 .slider {
-  padding: 1rem;
+	padding: 1rem;
 }
 
 @font-face {
-  font-family: "Vazir";
-  src: local("Vazir-Regular-FD"),
-    url(../public/fonts/Vazir-Regular-FD.ttf) format("ttf"),
-    url(../public/fonts/Vazir-Regular-FD.woff2) format("woff2");
-  font-display: swap;
+	font-family: "Vazir";
+	src: local("Vazir-Regular-FD"),
+		url(../public/fonts/Vazir-Regular-FD.ttf) format("ttf"),
+		url(../public/fonts/Vazir-Regular-FD.woff2) format("woff2");
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "VazirBold";
-  src: local("Vazir-Bold-FD"),
-    url(../public/fonts/Vazir-Bold-FD.ttf) format("ttf"),
-    url(../public/fonts/Vazir-Bold-FD.woff2) format("woff2");
-  font-display: swap;
+	font-family: "VazirBold";
+	src: local("Vazir-Bold-FD"),
+		url(../public/fonts/Vazir-Bold-FD.ttf) format("ttf"),
+		url(../public/fonts/Vazir-Bold-FD.woff2) format("woff2");
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "VazirLight";
-  src: local("Vazir-Light-FD"),
-    url(../public/fonts/Vazir-Light-FD.ttf) format("ttf"),
-    url(../public/fonts/Vazir-Light-FD.woff2) format("woff2");
-  font-display: swap;
+	font-family: "VazirLight";
+	src: local("Vazir-Light-FD"),
+		url(../public/fonts/Vazir-Light-FD.ttf) format("ttf"),
+		url(../public/fonts/Vazir-Light-FD.woff2) format("woff2");
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "VazirMedium";
-  src: local("Vazir-Medium-FD"),
-    url(../public/fonts/Vazir-Medium-FD.ttf) format("ttf"),
-    url(../public/fonts/Vazir-Medium-FD.woff2) format("woff2");
-  font-display: swap;
+	font-family: "VazirMedium";
+	src: local("Vazir-Medium-FD"),
+		url(../public/fonts/Vazir-Medium-FD.ttf) format("ttf"),
+		url(../public/fonts/Vazir-Medium-FD.woff2) format("woff2");
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "VazirThin";
-  src: local("Vazir-Thin-FD"),
-    url(../public/fonts/Vazir-Thin-FD.ttf) format("ttf"),
-    url(../public/fonts/Vazir-Thin-FD.woff2) format("woff2");
-  font-display: swap;
+	font-family: "VazirThin";
+	src: local("Vazir-Thin-FD"),
+		url(../public/fonts/Vazir-Thin-FD.ttf) format("ttf"),
+		url(../public/fonts/Vazir-Thin-FD.woff2) format("woff2");
+	font-display: swap;
 }
 
 .wrap {
-  text-align: center;
-  margin: 15px 2px;
-  height: 40px;
-  position: relative;
+	text-align: center;
+	margin: 15px 2px;
+	height: 40px;
+	position: relative;
 }
 
 .wrap:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  border-top: 1px solid #bdbdbd;
-  background: #bdbdbd;
-  width: 100%;
-  transform: translateY(-50%);
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	border-top: 1px solid #bdbdbd;
+	background: #bdbdbd;
+	width: 100%;
+	transform: translateY(-50%);
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 32px 0 rgba(104, 98, 98, 0.37);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border-radius: 10px;
+	background: rgba(255, 255, 255, 0.5);
+	box-shadow: 0 8px 32px 0 rgba(104, 98, 98, 0.37);
+	backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(5px);
+	border-radius: 10px;
 }
 
 .blur {
-  filter: blur(8px);
-  -webkit-filter: blur(8px);
+	filter: blur(8px);
+	-webkit-filter: blur(8px);
 }
 
 .glass2 {
-  background: rgba(70, 64, 64, 0.5);
-  box-shadow: 0 8px 32px 0 rgba(104, 98, 98, 0.37);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+	background: rgba(70, 64, 64, 0.5);
+	box-shadow: 0 8px 32px 0 rgba(104, 98, 98, 0.37);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
 }
 
 ::-webkit-scrollbar {
-  height: auto;
-  width: 10px;
-  background-color: rgb(32, 32, 32);
+	height: auto;
+	width: 10px;
+	background-color: rgb(32, 32, 32);
 }
 
 ::-webkit-scrollbar-thumb {
-  width: 10px;
-  height: 10px;
-  background-color: rgb(216, 201, 191);
-  border-radius: 10px;
+	width: 10px;
+	height: 10px;
+	background-color: rgb(216, 201, 191);
+	border-radius: 10px;
 }
 
 /* Swiper js */
 
 .swiper-container {
-  width: 100%;
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
+	width: 100%;
+	height: 300px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .mySwiper2 {
-  height: 80%;
-  width: 80%;
+	height: 80%;
+	width: 80%;
 }
 
 .mySwiper {
-  box-sizing: border-box;
-  padding: 10px 0;
-  margin-top: 0.5rem;
+	box-sizing: border-box;
+	padding: 10px 0;
+	margin-top: 0.5rem;
 }
 
 .mySwiper .swiper-slide {
-  height: 100%;
-  opacity: 0.4;
+	height: 100%;
+	opacity: 0.4;
 }
 
 .mySwiper .swiper-slide-thumb-active {
-  opacity: 1;
+	opacity: 1;
 }
 
 .swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .mainSwiper {
-  box-sizing: border-box;
-  height: 420px;
+	box-sizing: border-box;
+	height: 420px;
 }
 
 .mainSwiper .swiper-slide {
-  height: 100%;
-  width: auto;
+	height: 100%;
+	width: auto;
 }
 
 .mainSwiper .swiper-button-next,
 .mainSwiper .swiper-button-prev {
-  width: 37px;
-  height: 108px;
-  text-align: center;
-  display: block;
+	width: 37px;
+	height: 108px;
+	text-align: center;
+	display: block;
 }
-
 
 .mainSwiper .swiper-button-next,
 .mainSwiper .swiper-button-prev {
-  position: absolute;
-  top: 50%;
-  margin-top: calc(0px - (var(--swiper-navigation-size)/ 2));
-  z-index: 120;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--swiper-navigation-color, var(--swiper-theme-color));
-  background-color: white;
-  height: 45px;
-  width: 45px;
-  border-radius: 100%;
-  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
+	position: absolute;
+	top: 50%;
+	margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+	z-index: 120;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--swiper-navigation-color, var(--swiper-theme-color));
+	background-color: white;
+	height: 45px;
+	width: 45px;
+	border-radius: 100%;
+	box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
 }
 
 .mainSwiper .swiper-button-next:after,
 .mainSwiper .swiper-button-prev:after {
-  font-family: swiper-icons;
-  font-size: 1.2rem;
-  font-weight: bolder;
-  text-transform: none !important;
-  letter-spacing: 0;
-  text-transform: none;
-  font-variant: initial;
-  line-height: 1;
-  color: black;
+	font-family: swiper-icons;
+	font-size: 1.2rem;
+	font-weight: bolder;
+	text-transform: none !important;
+	letter-spacing: 0;
+	text-transform: none;
+	font-variant: initial;
+	line-height: 1;
+	color: black;
 }
-
 
 .mySwiper2 .swiper-button-next,
 .mySwiper2 .swiper-button-prev {
-  position: absolute;
-  top: 50%;
-  margin-top: calc(0px - (var(--swiper-navigation-size)/ 2));
-  z-index: 120;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--swiper-navigation-color, var(--swiper-theme-color));
-  background-color: white;
-  height: 45px;
-  width: 45px;
-  border-radius: 100%;
-  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
+	position: absolute;
+	top: 50%;
+	margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+	z-index: 120;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--swiper-navigation-color, var(--swiper-theme-color));
+	background-color: white;
+	height: 45px;
+	width: 45px;
+	border-radius: 100%;
+	box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
 }
 
 .mySwiper2 .swiper-button-next:after,
 .mySwiper2 .swiper-button-prev:after {
-  font-family: swiper-icons;
-  font-size: 1.2rem;
-  font-weight: bolder;
-  text-transform: none !important;
-  letter-spacing: 0;
-  text-transform: none;
-  font-variant: initial;
-  line-height: 1;
-  color: black;
+	font-family: swiper-icons;
+	font-size: 1.2rem;
+	font-weight: bolder;
+	text-transform: none !important;
+	letter-spacing: 0;
+	text-transform: none;
+	font-variant: initial;
+	line-height: 1;
+	color: black;
 }

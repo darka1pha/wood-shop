@@ -35,7 +35,7 @@ const ProductCarousel = ({ product }: ICarousel) => {
           <ProductCarouselItem imageUrl={image} />
         </SwiperSlide>
         {images.map((imageUrl, key) => (
-          <SwiperSlide>
+          <SwiperSlide key={key}>
             <ProductCarouselItem key={key} imageUrl={imageUrl} />
           </SwiperSlide>
         ))}

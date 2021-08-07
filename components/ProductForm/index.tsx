@@ -7,8 +7,6 @@ import FormItem from "./FormItem";
 
 const Description = ({ productForm }) => {
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
-  console.log(Object.keys(productForm).map((name, index) => console.log("Key:", name, "index ", index)))
-
   return (
     <Flex
       flexDir="column"

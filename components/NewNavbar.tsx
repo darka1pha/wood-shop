@@ -9,6 +9,15 @@ import {
 	InputRightElement,
 	InputLeftAddon,
 	Text,
+	DrawerContent,
+	DrawerCloseButton,
+	DrawerOverlay,
+	DrawerBody,
+	Drawer,
+	useDisclosure,
+	Collapse,
+	ScaleFade,
+	SlideFade,
 } from "@chakra-ui/react"
 import {FiUser, FiShoppingCart, FiSearch} from "react-icons/fi"
 import {FaTimes} from "react-icons/fa"
@@ -26,7 +35,7 @@ import {KeyboardEventHandler} from "react"
 import Error from "./Error"
 import Link from "next/link"
 
-const Navbar = ({user, setAlert}) => {
+const NewNavbar = ({user, setAlert}) => {
 	const router = useRouter()
 	const btnSearchRef = useRef(null)
 	const searchRefMd = useRef(null)
@@ -36,10 +45,13 @@ const Navbar = ({user, setAlert}) => {
 
 	let condition = false
 
-	const [isOpen, setIsOpen] = useState(false)
+	// const [isOpen, setIsOpen] = useState(false)
 	const [isSearchActive, setIsSearchActive] = useState(false)
 	const [isSearchOpen, setIsSearchOpen] = useState(false)
 	const [searchValue, setSearchValue] = useState("")
+
+	const {isOpen, onOpen, onClose} = useDisclosure()
+	const btnRef = React.useRef()
 
 	const onCartClicked = () => {
 		if (!user) {
@@ -68,7 +80,6 @@ const Navbar = ({user, setAlert}) => {
 					type: "warning",
 				})
 			}
-			if (isOpen) setIsOpen(false)
 		}
 	}
 
@@ -113,7 +124,6 @@ const Navbar = ({user, setAlert}) => {
 	const variants = {
 		visible: {
 			opacity: 1,
-			left: 0,
 			transition: {
 				ease: "easeInOut",
 				duration: 0.4,
@@ -122,13 +132,8 @@ const Navbar = ({user, setAlert}) => {
 		hidden: {
 			type: "spring",
 			opacity: 0,
-			left: "100%",
-			display: "none",
 			transition: {
 				duration: 0.4,
-				display: {
-					delay: 0.4,
-				},
 			},
 		},
 	}
@@ -178,6 +183,7 @@ const Navbar = ({user, setAlert}) => {
 				w='100%'
 				zIndex='100'>
 				<IconButton
+					ref={btnRef}
 					display={{base: "block", md: "none"}}
 					variant='none'
 					aria-label='Search'
@@ -188,7 +194,7 @@ const Navbar = ({user, setAlert}) => {
 							color='white'
 						/>
 					}
-					onClick={() => setIsOpen(!isOpen)}
+					onClick={onOpen}
 					_focus={{
 						borderColor: "transparent",
 					}}
@@ -206,7 +212,6 @@ const Navbar = ({user, setAlert}) => {
 					m='auto'
 					cursor='pointer'
 					onClick={() => {
-						setIsOpen(false)
 						router.push("/")
 					}}>
 					<Link href={{pathname: "/"}}>مصنوعات چوبی فرحبخش</Link>
@@ -336,188 +341,197 @@ const Navbar = ({user, setAlert}) => {
 					</Button>
 				</Box>
 			</Flex>
-			<motion.div
-				layout
-				style={{
-					width: "100%",
-					minHeight: "100vh",
-					zIndex: 99,
-					position: "fixed",
-					left: "100%",
-					top: 0,
-					backgroundColor: "#42301e",
-					paddingTop: "60px",
-				}}
-				variants={variants}
-				animate={isOpen ? "visible" : "hidden"}>
-				<Flex w='100%' h='100%' p='2rem' alignItems='center' flexDir='column'>
-					<Button
-						color='white'
-						variant={isSearchActive ? "none" : "outline"}
-						_hover={{
-							bg: "transparent",
-						}}
-						_active={{
-							bg: "transparent",
-						}}
+
+			<Drawer
+				size='full'
+				isOpen={isOpen}
+				placement='right'
+				onClose={onClose}
+				finalFocusRef={btnRef}>
+				<DrawerOverlay />
+				<DrawerContent bgColor='#42301e'>
+					<DrawerCloseButton
 						_focus={{
-							outline: "none",
+							outline: 0,
 						}}
-						display='flex'
-						w='240px'
-						borderRadius='2rem'
-						ref={btnSearchRef}
-						p='0'
-						overflow='hidden'
-						height='40px'
-						alignItems='center'>
-						<motion.p
-							layout
-							style={{
-								height: "100%",
-								width: "100%",
-								alignItems: "center",
-								justifyContent: "center",
-								fontSize: "12px",
-								fontFamily: "Vazir",
-								fontWeight: 300,
-								display: "flex",
-								textAlign: "center",
-							}}
-							animate={{
-								opacity: isSearchActive ? 0 : 1,
-								display: isSearchActive ? "none" : "flex",
-							}}
-							transition={{
-								type: "tween",
-								delay: 0.02,
-							}}
-							onClick={() => {
-								setIsSearchActive(true)
-								searchRefBase.current.focus()
-							}}>
-							جستجو
-						</motion.p>
-						<motion.div
-							style={{
-								height: "100%",
-								width: "100%",
-							}}
-							animate={{
-								opacity: isSearchActive ? 1 : 0,
-								display: isSearchActive ? "block" : "none",
-							}}
-							transition={{
-								type: "tween",
-								delay: 0.02,
-							}}>
-							<InputGroup w='100%'>
-								<InputLeftAddon
-									children={<Icon as={FiSearch} color='black' />}
-									onClick={onSearchCliked}
-								/>
-								<Input
-									w='100%'
-									ref={searchRefBase}
-									value={searchValue}
-									onChange={onSearchValueChanged}
-									bg='white'
-									placeholder='جستجو'
-									color='black'
-									fontFamily='VazirMedium'
-									_focus={{
-										borderColor: "transparent",
-									}}
-									borderRadius='2rem'
-									dir='rtl'
-									type='text'
-								/>
-							</InputGroup>
-						</motion.div>
-					</Button>
-					<Flex w='240px'>
-						<CategoryMenu
-							color='white'
-							background='#4d3723'
-							containerMargin='1rem 0 1rem 0'
-							defaultIndex={false}
-							itemsMargin='.5rem 0 .5rem 0'
-							itemsBorder='none'
-							items={categories ? categories : null}
-						/>
-					</Flex>
-					<Flex flexDir='column' bottom='2rem'>
+						top='.8rem'
+						right='1rem'
+						color='white'
+						bgColor='#ffffff10'
+						borderRadius='50%'
+					/>
+					<DrawerBody p='2rem'>
 						<Button
-							borderRadius='2rem'
-							w='200px'
-							mb='1rem'
-							rightIcon={<Icon as={FiUser} fontSize={22} />}
 							color='white'
-							variant='outline'
+							variant={isSearchActive ? "none" : "outline"}
 							_hover={{
 								bg: "transparent",
-								outline: 0,
 							}}
 							_active={{
 								bg: "transparent",
-								outline: 0,
 							}}
 							_focus={{
-								bg: "transparent",
-								outline: 0,
+								outline: "none",
 							}}
-							onClick={() => {
-								user
-									? router.push({
-											pathname: "/profile",
-											query: {page: "profileinfo"},
-									  })
-									: router.push("/auth/signin")
-								isOpen ? setIsOpen(false) : null
-							}}>
-							{user ? (
-								<Text variant='normalLight' mr='2'>
-									{user.first_name + " " + user.last_name}
-								</Text>
-							) : (
-								<Text variant='normalLight' mr='2'>
-									حساب کاربری
-								</Text>
-							)}
-						</Button>
-						<Button
-							w='200px'
+							display='block'
+							w='95%'
 							borderRadius='2rem'
-							rightIcon={<Icon as={FiShoppingCart} fontSize={22} />}
-							color='primary'
-							variant='outline'
-							bgColor='white'
-							_hover={{
-								bg: "transparent",
-								outline: 0,
-							}}
-							_active={{
-								bg: "transparent",
-								outline: 0,
-							}}
-							_focus={{
-								bg: "transparent",
-								outline: 0,
-							}}>
-							<Text
-								onClick={() => {
-									router.push("/cart")
-									isOpen ? setIsOpen(false) : null
+							ref={btnSearchRef}
+							p='0'
+							overflow='hidden'
+							height='40px'
+							alignItems='center'>
+							<motion.p
+								layout
+								style={{
+									height: "100%",
+									width: "100%",
+									alignItems: "center",
+									justifyContent: "center",
+									fontSize: "12px",
+									fontFamily: "Vazir",
+									fontWeight: 300,
+									display: "flex",
+									textAlign: "center",
 								}}
-								variant='normal'
-								mr='2'
-								color='primary'>
-								سبد خرید
-							</Text>
+								animate={{
+									opacity: isSearchActive ? 0 : 1,
+									display: isSearchActive ? "none" : "flex",
+								}}
+								transition={{
+									type: "tween",
+									delay: 0.02,
+								}}
+								onClick={() => {
+									setIsSearchActive(true)
+									searchRefBase.current.focus()
+								}}>
+								جستجو
+							</motion.p>
+							<motion.div
+								style={{
+									height: "100%",
+									width: "100%",
+								}}
+								animate={{
+									opacity: isSearchActive ? 1 : 0,
+									display: isSearchActive ? "block" : "none",
+								}}
+								transition={{
+									type: "tween",
+									delay: 0.02,
+								}}>
+								<InputGroup w='100%'>
+									<InputLeftAddon
+										children={<Icon as={FiSearch} color='black' />}
+										onClick={onSearchCliked}
+									/>
+									<Input
+										w='100%'
+										ref={searchRefBase}
+										value={searchValue}
+										onChange={onSearchValueChanged}
+										bg='white'
+										placeholder='جستجو'
+										color='black'
+										fontFamily='VazirMedium'
+										_focus={{
+											borderColor: "transparent",
+										}}
+										borderRadius='2rem'
+										dir='rtl'
+										type='text'
+									/>
+								</InputGroup>
+							</motion.div>
 						</Button>
-					</Flex>
-				</Flex>
-			</motion.div>
+						<Flex justifyContent='center' alignItems='center' w='100%'>
+							<CategoryMenu
+								w='240px'
+								color='white'
+								background='#4d3723'
+								containerMargin='1rem 0 1rem 0'
+								defaultIndex={false}
+								itemsMargin='.5rem 0 .5rem 0'
+								itemsBorder='none'
+								items={categories ? categories : null}
+							/>
+						</Flex>
+						<Flex
+							justifyContent='center'
+							alignItems='center'
+							flexDir='column'
+							bottom='2rem'>
+							<Button
+								borderRadius='2rem'
+								w='200px'
+								mb='1rem'
+								rightIcon={<Icon as={FiUser} fontSize={22} />}
+								color='white'
+								variant='outline'
+								_hover={{
+									bg: "transparent",
+									outline: 0,
+								}}
+								_active={{
+									bg: "transparent",
+									outline: 0,
+								}}
+								_focus={{
+									bg: "transparent",
+									outline: 0,
+								}}
+								onClick={() => {
+									user
+										? router.push({
+												pathname: "/profile",
+												query: {page: "profileinfo"},
+										  })
+										: router.push("/auth/signin")
+								}}>
+								{user ? (
+									<Text variant='normalLight'>
+										{user.first_name + " " + user.last_name}
+									</Text>
+								) : (
+									<Text variant='normalLight'>حساب کاربری</Text>
+								)}
+							</Button>
+							<Button
+								w='200px'
+								borderRadius='2rem'
+								rightIcon={<Icon as={FiShoppingCart} fontSize={22} />}
+								color='primary'
+								variant='outline'
+								bgColor='white'
+								_hover={{
+									bg: "transparent",
+									outline: 0,
+								}}
+								_active={{
+									bg: "transparent",
+									outline: 0,
+								}}
+								_focus={{
+									bg: "transparent",
+									outline: 0,
+								}}>
+								<Text
+									onClick={() => {
+										router.push("/cart")
+									}}
+									variant='normal'
+									color='primary'>
+									سبد خرید
+								</Text>
+							</Button>
+						</Flex>
+					</DrawerBody>
+				</DrawerContent>
+			</Drawer>
+			{/* <Flex w='100%' h='100%' p='2rem' alignItems='center' flexDir='column'>
+					
+				</Flex> */}
 		</>
 	)
 }
@@ -529,4 +543,4 @@ const mapDispatchToProps = (dispatch) => ({
 	setAlert: ({content, type}) => dispatch(setAlert({content, type})),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(NewNavbar)

@@ -20,6 +20,9 @@ interface IProductCard {
 	price: number;
 	bookmarked: boolean;
 	form: Object;
+	off_id: {
+		percentage: number;
+	}
 }
 
 interface ICarousel {
@@ -79,11 +82,13 @@ const Carousel = ({ data, title }: ICarousel) => {
 								id,
 								image,
 								price,
-								bookmarked
+								bookmarked,
+								off_id
 							}, key: number) => (
 								<>
 									<SwiperSlide>
 										<ProductCard
+											off_id={off_id}
 											bookmarked={bookmarked}
 											key={key}
 											price={price}
