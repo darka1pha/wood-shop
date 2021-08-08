@@ -65,7 +65,6 @@ const Menu = () => {
 	}
 
 	useEffect(() => {
-		console.log("isMenuOpen?", isMenuOpen)
 		window.addEventListener("scroll", handleScroll)
 		// setCategories(queryClient.getQueryData([`categories`]))
 		return () => {

@@ -13,11 +13,13 @@ import {
 	ModalOverlay,
 } from "@chakra-ui/modal"
 import {RadioGroup} from "@chakra-ui/radio"
+import {Spinner} from "@chakra-ui/react"
 import {Select} from "@chakra-ui/select"
 import {useRouter} from "next/router"
 import {useEffect, useState} from "react"
 import {RiMapPinAddLine} from "react-icons/ri"
 import {useMutation, useQueryClient} from "react-query"
+import {connect} from "react-redux"
 import {
 	useAddAddress,
 	useGetAddresses,
@@ -31,6 +33,7 @@ import {
 import {IError, IProvince} from "../../API/interfaces"
 import {PaymentAddress, PaymentSend, Text} from "../../components"
 import {IRecivedAddress} from "../../components/Profile/Addresses"
+import {ISetAlert, setAlert} from "../../redux"
 
 interface IAddress {
 	receiver_name?: string
@@ -45,9 +48,10 @@ interface IAddress {
 	id?: number
 }
 
-const payment = () => {
+const payment = ({setAlert}) => {
 	const [selectedAddress, setSelectedAddress] = useState()
 	const [selectedSendMethod, setSelectedSendMethod] = useState()
+	const [isLoading, setIsLoading] = useState(false)
 	const [sendCost, setSendCost] = useState(0)
 	const router = useRouter()
 
@@ -60,8 +64,11 @@ const payment = () => {
 	const {isOpen, onOpen, onClose} = useDisclosure()
 	const paymentMutation = useMutation(usePayment, {
 		onSuccess: (res) => {
-			// window.location.replace(res.redirect_url);
+			setIsLoading(false)
 			router.replace(res.redirect_url)
+		},
+		onError: (err) => {
+			setIsLoading(false)
 		},
 	})
 
@@ -132,6 +139,10 @@ const payment = () => {
 			},
 			onError: (err: IError) => {
 				console.log(err.response)
+				setAlert({
+					type: "error",
+					content: "خطایی رخ داده است!",
+				})
 			},
 		},
 	)
@@ -153,20 +164,31 @@ const payment = () => {
 	}
 
 	const onConfirmOrder = () => {
-		paymentMutation.mutate()
+		if (selectedSendMethod && selectedAddress) {
+			setIsLoading(true)
+			paymentMutation.mutate({
+				address: Number(selectedAddress),
+				delivery_type: Number(selectedSendMethod),
+			})
+		} else {
+			setAlert({
+				type: "error",
+				content: "لطفا آدرس و شیوه ارسال را انتخاب کنید",
+			})
+		}
 	}
 
-	const onSendMethodChange = (e) => {
-		setSelectedSendMethod(e)
+	const onSendMethodChange = (sendMethodID) => {
+		setSelectedSendMethod(sendMethodID)
 		deliveryStats.map(({id, range_start}) => {
-			if (id === Number(e)) {
+			if (id === Number(sendMethodID)) {
 				setSendCost(range_start)
 			}
 		})
 	}
 
-	const onSelectedAddressChange = (e) => {
-		setSelectedAddress(e)
+	const onSelectedAddressChange = (addressID) => {
+		setSelectedAddress(addressID)
 	}
 
 	if (!deliveryStats || !cartInfo || !addresses || !provinces)
@@ -204,7 +226,7 @@ const payment = () => {
 							value={selectedSendMethod}>
 							{deliveryStats.map(({id, range_end, range_start, title}) => (
 								<PaymentSend
-									isChecked={selectedSendMethod === id}
+									isChecked={Number(selectedSendMethod) === id}
 									id={id}
 									range_end={range_end}
 									range_start={range_start}
@@ -221,6 +243,7 @@ const payment = () => {
 						value={selectedAddress}>
 						{addresses?.map(({street_address, city, province, id}, key) => (
 							<PaymentAddress
+								isChecked={Number(selectedAddress) === id}
 								address={street_address}
 								state={province}
 								city={city}
@@ -242,11 +265,13 @@ const payment = () => {
 					</Flex>
 				</Flex>
 				<Flex
+					h='260px'
 					w={{base: "100%", md: "38%"}}
 					p='2rem 1.5rem'
 					flexDirection='column'
 					border='1px solid #CFCFCF'
-					borderRadius='.5rem'>
+					borderRadius='.5rem'
+					m={{base: "1rem 0", md: "0"}}>
 					<Flex dir='rtl' p='0 1rem' flexDirection='column'>
 						<Text dir='rtl' color='#545454' variant='heading6'>
 							ریز فاکتور
@@ -288,6 +313,25 @@ const payment = () => {
 								&nbsp;ریال
 							</Text>
 						</Flex>
+						<Button
+							disabled={!selectedAddress || !selectedSendMethod}
+							fontFamily='Vazir'
+							fontSize='12px'
+							bgColor='#348541'
+							color='white'
+							_hover={{
+								bgColor: "#2f783a",
+							}}
+							_focus={{
+								outline: 0,
+								bgColor: "#348541",
+							}}
+							_active={{
+								bgColor: "#286632",
+							}}
+							onClick={onConfirmOrder}>
+							{isLoading ? <Spinner color='white' /> : "پرداخت"}
+						</Button>
 					</Flex>
 				</Flex>
 			</Flex>
@@ -489,4 +533,8 @@ const payment = () => {
 	)
 }
 
-export default payment
+const mapDispatchToProps = (dispatch) => ({
+	setAlert: ({type, content}: ISetAlert) => dispatch(setAlert({content, type})),
+})
+
+export default connect(null, mapDispatchToProps)(payment)

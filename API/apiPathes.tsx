@@ -4,7 +4,7 @@ export const apiPathes = {
 	// MAIN: "http://192.168.1.178:8000/api/v0/",
 	AUTH: "accounts/",
 	RESET_VERIFY: "reset/verify",
-	RESET: "reset",
+	RESET: "reset/",
 	UPDATE_PROFILE: "profile/update",
 	UPDATE_PASSWORD: "profile/update/password",
 	SIGN_IN_PASSWORD: "signin/password",

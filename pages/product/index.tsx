@@ -179,7 +179,7 @@ const index = ({setAlert}) => {
 	}
 
 	useEffect(() => {
-		console.log("Off: ", product?.off_id.percentage)
+		console.log("PRODUCT: ", product)
 		const trackScrolling = () => {
 			if (containerRef) {
 				if (isBottom(containerRef)) {

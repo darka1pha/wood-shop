@@ -154,3 +154,8 @@ export interface IDeliveryStats {
 	range_start: number
 	range_end: number
 }
+
+export interface IPayment {
+	delivery_type: number
+	addresses: number
+}

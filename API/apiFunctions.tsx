@@ -172,7 +172,7 @@ export const profileUpdatePassword = async (data: {
 	const token = Cookies.get("accessToken")
 	console.log("DATA: ", {...data})
 	const res = await axios.patch(
-		MAIN + AUTH + UPDATE_PROFILE,
+		MAIN + AUTH + UPDATE_PASSWORD,
 		{
 			confirm_password,
 			new_password,
@@ -583,19 +583,6 @@ export const useGetCartInfo = () =>
 		{refetchOnWindowFocus: false},
 	)
 
-export const usePayment = async () => {
-	const {data} = await axios.post(
-		MAIN + PAYMENT,
-		{},
-		{
-			headers: {
-				Authorization: `Bearer ${Cookies.get("accessToken")}`,
-			},
-		},
-	)
-	return data
-}
-
 export const useGetFiltredData = ({filterOption}) =>
 	useQuery(
 		["filteredData"],
@@ -707,3 +694,17 @@ export const useGetCartCount = () =>
 		},
 		{refetchOnWindowFocus: false},
 	)
+
+export const usePayment = async ({delivery_type, address}) => {
+	console.log({delivery_type, address})
+	const {data} = await axios.post(
+		MAIN + PAYMENT,
+		{delivery_type, address},
+		{
+			headers: {
+				Authorization: `Bearer ${Cookies.get("accessToken")}`,
+			},
+		},
+	)
+	return data
+}

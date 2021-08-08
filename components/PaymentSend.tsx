@@ -25,8 +25,10 @@ const PaymentSend = ({
 			p='1rem'
 			borderRadius='.5rem'
 			m='1rem'
-			fontFamily='Vazir'>
+			fontFamily='Vazir'
+			transition='ease-in-out all 200ms'>
 			<Radio
+				transition='ease-in-out all 300ms'
 				cursor='pointer'
 				display='flex'
 				flexDir='row-reverse'

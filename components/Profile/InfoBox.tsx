@@ -83,7 +83,7 @@ const InfoBox = ({
 		{
 			onSuccess: (res: any) => {
 				// queryClient.refetchQueries();
-				setCurrentUser({...res.data})
+				console.log("Password Update Response: ", ...res.data)
 				setAlert({content: "پروفایل با موفقیت آپدیت شد", type: "success"})
 			},
 			onError: (error: IError) => {
