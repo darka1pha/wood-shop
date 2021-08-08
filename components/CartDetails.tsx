@@ -96,7 +96,7 @@ const CartDetails = ({final_cost, total_cost, total_off}: ICartDetails) => {
 						bgColor: "#E3122A",
 					}}
 					w='100%'>
-					{isLoading ? <Spinner color='white' /> : " ادامه فرایند خرید"}
+					{loading ? <Spinner color='white' /> : " ادامه فرایند خرید"}
 				</Button>
 			</Flex>
 		</Flex>
