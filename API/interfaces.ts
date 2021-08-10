@@ -159,3 +159,9 @@ export interface IPayment {
 	delivery_type: number
 	addresses: number
 }
+
+export interface IBrands {
+	id: number
+	title_fa: string
+	title_en: string
+}

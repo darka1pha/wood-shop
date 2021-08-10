@@ -12,16 +12,9 @@ interface MenuItem {
 	id: number
 	setCurrentCategory: ({name, id}: ISetCurrentCategory) => void
 	category_set: Array<any>
-	// setIsMenuOpen: Dispatch<boolean>
 }
 
-const MenuItem = ({
-	text,
-	id,
-	setCurrentCategory,
-	category_set,
-}: // setIsMenuOpen,
-MenuItem) => {
+const MenuItem = ({text, id, setCurrentCategory, category_set}: MenuItem) => {
 	const router = useRouter()
 	return (
 		<Flex minW='80px' m='0.5rem 0' flexDir='column'>
@@ -45,7 +38,6 @@ MenuItem) => {
 				}}
 				variant='ghost'
 				onClick={() => {
-					// setIsMenuOpen(false)
 					router.push({
 						pathname: "/[category]",
 						query: {
@@ -94,7 +86,6 @@ MenuItem) => {
 						}}
 						variant='ghost'
 						onClick={() => {
-							setIsMenuOpen(false)
 							router.push({
 								pathname: "/[category]",
 								query: {

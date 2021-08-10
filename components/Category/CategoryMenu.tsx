@@ -1,6 +1,7 @@
 import {Accordion} from "@chakra-ui/react"
 import {useRouter} from "next/router"
 import {useEffect} from "react"
+import CategoryMenuSkeleton from "../Skeleton/CategoryMenuSkeleton"
 import CategoryItem from "./CategoryItem"
 
 interface ICategories {
@@ -36,7 +37,7 @@ const CategoryMenu = ({
 	activeIndex,
 	w,
 }: ICatItem) => {
-	if (!items) return <h1>chizi ni</h1>
+	if (!items) return <CategoryMenuSkeleton />
 
 	return (
 		<Accordion

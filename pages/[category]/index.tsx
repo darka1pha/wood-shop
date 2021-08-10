@@ -12,6 +12,8 @@ import {createStructuredSelector} from "reselect"
 import {useGetCategories, useGetCategoryProducts} from "../../API"
 import {IFullProducts, IProducts} from "../../API/interfaces"
 import {Error} from "../../components"
+import BrandsContainer from "../../components/Brands/BrandsContainer"
+import MobileBrands from "../../components/Brands/MobileBrands"
 import CategorySkeleton from "../../components/Skeleton/CategorySkeleton"
 import {selectCurrentCategory, setCurrentCategory} from "../../redux"
 // import CategoryMenu from "../../components/Category/CategoryMenu";
@@ -121,7 +123,10 @@ const index = ({currentCategory, setCategory}) => {
 				justifyContent='flex-start'
 				ref={containerRef}>
 				<FilterTitle title={router.query.category} />
-				<Filter setOrder={setOrder} />
+				<Flex w='100%' flexDir='row'>
+					<Filter setOrder={setOrder} />
+					<MobileBrands />
+				</Flex>
 				<Flex pb='2rem' flexWrap='wrap' w='100%' justifyItems='center'>
 					{products?.pages.map((group, index) => (
 						<Fragment key={index}>
@@ -180,13 +185,14 @@ const index = ({currentCategory, setCategory}) => {
 					)}
 				</Button>
 			</Flex>
-			<Flex w='25%' h='auto' display={{base: "none", md: "block"}}>
+			<Flex w='25%' display={{base: "none", md: "block"}}>
 				<CategoryMenu
 					activeIndex={categories?.findIndex(
 						({title}) => title === router.query.category,
 					)}
 					items={categories}
 				/>
+				<BrandsContainer />
 			</Flex>
 		</Flex>
 	)
