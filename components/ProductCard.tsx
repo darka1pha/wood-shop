@@ -1,17 +1,15 @@
 import Icon from "@chakra-ui/icon"
 import {Flex} from "@chakra-ui/layout"
-import {useEffect, useState} from "react"
-import {FiShoppingCart} from "react-icons/fi"
+import {useState} from "react"
 import {AiFillHeart, AiOutlineHeart} from "react-icons/ai"
-import {useAddBookmark, useAddToCart, useDeleteBookmark} from "../API"
+import {useAddBookmark, useDeleteBookmark} from "../API"
 import {useMutation, useQueryClient} from "react-query"
 import {ISetAlert, setAlert} from "../redux"
 import {connect} from "react-redux"
 import {useRouter} from "next/router"
 import {MouseEventHandler} from "react"
 import Link from "next/link"
-import {Image, Text} from "@chakra-ui/react"
-import {BiBadge} from "react-icons/bi"
+import {Text} from "@chakra-ui/react"
 
 interface CarouselItem {
 	background_image?: string
@@ -42,7 +40,7 @@ const ProductCard = ({
 	const queryClient = useQueryClient()
 
 	const bgImage =
-		"https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjF8fHRhYmxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+		"https://dkstatics-public.digikala.com/digikala-products/2d444f136ee744d8960a031576f360f39df6ebed_1611226401.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/quality,q_90"
 
 	// Mutation
 	const bookmarkMutation = useMutation(useAddBookmark, {
@@ -105,32 +103,18 @@ const ProductCard = ({
 			}}
 			// onClick={onCardClicked}
 			pos='relative'>
-			<Flex
-				h='75%'
-				w='100%'
-				cursor='pointer'
-				// bgImage={`url(${bgImage})`}
-				bgRepeat='no-repeat'
-				bgSize='cover'
-				borderRadius='.5rem .5rem 0 0 / .5rem .5rem 0 0'>
-				<Link
-					href={{
-						pathname: "/product",
-						query: {
-							id,
-						},
-					}}>
-					<a style={{width: "100%"}}>
-						<Image
-							borderRadius='.5rem .5rem 0 0 / .5rem .5rem 0 0'
-							width='100%'
-							maxH='100%'
-							src={bgImage}
-							alt={name}
-						/>
-					</a>
-				</Link>
-			</Flex>
+			<img
+				// borderRadius='.5rem .5rem 0 0 / .5rem .5rem 0 0'
+				src={bgImage}
+				alt={name}
+				// w='100%'
+				// h='auto'
+				style={{
+					objectFit: "scale-down",
+					height: "60%",
+				}}
+			/>
+
 			<Link
 				href={{
 					pathname: "/product",
@@ -148,54 +132,68 @@ const ProductCard = ({
 							m='.1rem'
 							color='black'
 							fontFamily='Vazir'
-							fontSize='12'
+							fontSize={{base: "12px", md: "14px"}}
 							dir='rtl'>
 							{name}
 						</Text>
-						{/* <Text
-							m='.1rem'
-							dir='rtl'
-							color='black'
-							fontFamily='VazirThin'
-							fontSize='12px'>
-							{` ${price?.toLocaleString()} ریال`}
-						</Text> */}
-						<Flex m='0' flexDir='column'>
+						<Flex px='.5rem' w='100%' mt='1rem' flexDir='column'>
+							<Flex flexDir='row-reverse' alignItems='center'>
+								<Text
+									textAlign='left'
+									pos='relative'
+									whiteSpace='nowrap'
+									color='black'
+									fontFamily={off_id ? "Vazir" : "VazirMedium"}
+									fontSize={
+										off_id
+											? {base: "12px", md: "14px"}
+											: {base: "12px", md: "18px"}
+									}
+									_after={
+										off_id
+											? {
+													content: '" "',
+													borderRadius: "2rem",
+													height: "1.2px",
+													width: "105%",
+													backgroundColor: "red",
+													position: "absolute",
+													transform: "rotate(-5deg)",
+													top: "50%",
+													left: "-3%",
+													display: off_id,
+											  }
+											: null
+									}>
+									{off_id
+										? price.toLocaleString()
+										: `${price.toLocaleString()} ریال`}
+								</Text>
+								<Flex
+									ml='.3rem'
+									display={off_id ? "flex" : "none"}
+									bgColor='orange'
+									borderRadius='.2rem'
+									p='0.3rem'>
+									<Text fontSize='.6rem' fontFamily='Vazir' fontWeight='700'>
+										%{off_id?.percentage}
+									</Text>
+								</Flex>
+							</Flex>
 							<Text
+								mt='.5rem'
+								dir='rtl'
+								textAlign='left'
 								display={off_id ? "block" : "none"}
 								m='0'
 								whiteSpace='nowrap'
 								color='black'
-								fontFamily='VazirThin'
-								fontSize='12px'>
+								fontFamily='VazirMedium'
+								fontSize={{base: "12px", md: "18px"}}>
 								{`${(
 									price -
 									price * (off_id?.percentage / 100)
 								).toLocaleString()} ریال`}
-							</Text>
-							<Text
-								pos='relative'
-								whiteSpace='nowrap'
-								color='black'
-								fontFamily='VazirThin'
-								fontSize='12px'
-								_after={
-									off_id
-										? {
-												content: '" "',
-												borderRadius: "2rem",
-												height: "1.2px",
-												width: "80px",
-												backgroundColor: "red",
-												position: "absolute",
-												transform: "rotate(-5deg)",
-												top: "50%",
-												left: "-5%",
-												display: off_id,
-										  }
-										: null
-								}>
-								{`${price.toLocaleString()} ریال`}
 							</Text>
 						</Flex>
 						<Flex
@@ -208,7 +206,7 @@ const ProductCard = ({
 							<Icon
 								zIndex={1}
 								h='25px'
-								w='25px'
+								w={{base: "20px", md: "25px"}}
 								onClick={onBookmarkClicked}
 								as={isLiked ? AiFillHeart : AiOutlineHeart}
 								color='red'
@@ -217,18 +215,6 @@ const ProductCard = ({
 					</Flex>
 				</a>
 			</Link>
-			<Flex
-				display={off_id ? "flex" : "none"}
-				bgColor='orange'
-				borderRadius='100% 0% 100% 0% / 100% 85% 100% 0% '
-				pos='absolute'
-				bottom='.5rem'
-				left='0.5rem'
-				p='0.5rem'>
-				<Text fontSize='.7rem' fontFamily='Vazir' fontWeight='700'>
-					%{off_id?.percentage}
-				</Text>
-			</Flex>
 		</Flex>
 	)
 }

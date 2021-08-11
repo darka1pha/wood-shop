@@ -170,6 +170,7 @@ const NewNavbar = ({user, setAlert}) => {
 	return (
 		<>
 			<Flex
+				display={router.pathname.includes("/payment/") ? "none" : "flex"}
 				bgColor='primary'
 				direction='row-reverse'
 				pt={{base: "4", md: "6"}}

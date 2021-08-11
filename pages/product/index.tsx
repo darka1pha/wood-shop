@@ -339,7 +339,7 @@ const index = ({setAlert}) => {
 									variant='heading5'>
 									{`${(
 										product.price -
-										product.price * (product.off_id.percentage / 100)
+										product.price * (product.off_id?.percentage / 100)
 									).toLocaleString()} ریال`}
 								</Text>
 								<Text

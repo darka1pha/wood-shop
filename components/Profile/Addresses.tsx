@@ -262,7 +262,6 @@ const Addresses = () => {
 				</Flex>
 				<Icon as={FiChevronLeft} />
 			</Flex>
-
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent

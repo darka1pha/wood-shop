@@ -1,4 +1,5 @@
 import {
+	Button,
 	CheckboxGroup,
 	Flex,
 	Icon,
@@ -8,10 +9,16 @@ import {
 	InputRightElement,
 	Text,
 } from "@chakra-ui/react"
+import {useState} from "react"
 import {FiSearch} from "react-icons/fi"
 import BrandItem from "./BrandItem"
 
 const BrandsContainer = () => {
+	const [filters, setFilters] = useState([])
+	const onCheckboxGroupChange = (selectedFilter) => {
+		console.log(selectedFilter)
+		setFilters(selectedFilter)
+	}
 	return (
 		<Flex
 			p='1rem'
@@ -46,7 +53,7 @@ const BrandsContainer = () => {
 				</InputGroup>
 			</Flex>
 			<Flex flexDir='column' w='100%' my='.5rem'>
-				<CheckboxGroup>
+				<CheckboxGroup onChange={onCheckboxGroupChange}>
 					<BrandItem title_en='Test' title_fa='تست' id={1} />
 					<BrandItem title_en='Test' title_fa='تست' id={2} />
 					<BrandItem title_en='Test' title_fa='تست' id={3} />
@@ -55,6 +62,26 @@ const BrandsContainer = () => {
 					<BrandItem title_en='Test' title_fa='تست' id={6} />
 					<BrandItem title_en='Test' title_fa='تست' id={7} />
 				</CheckboxGroup>
+				<Button
+					fontFamily='Vazir'
+					bgColor='#EF394E'
+					color='white'
+					_hover={{
+						bgColor: "#EF394E",
+					}}
+					_focus={{
+						outline: 0,
+						bgColor: "#EF394E",
+					}}
+					_active={{
+						bgColor: "#E3122A",
+					}}
+					display='flex'
+					h='35px'
+					onClick={() => console.log(filters)}
+					disabled={filters.length === 0}>
+					اعمال فیلتر
+				</Button>
 			</Flex>
 		</Flex>
 	)

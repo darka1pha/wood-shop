@@ -272,6 +272,7 @@ export const useGetAddresses = () =>
 	useInfiniteQuery(
 		["userAddresses"],
 		async ({pageParam = 1}) => {
+			console.log("GetAdresses")
 			if (typeof pageParam === typeof 1) {
 				const {data} = await axios.get(
 					MAIN + ADDRESSES + "?page=" + pageParam,

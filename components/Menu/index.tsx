@@ -7,6 +7,7 @@ import {Icon, Flex, FlexProps} from "@chakra-ui/react"
 import Text from "../Text"
 import {FiShoppingBag} from "react-icons/fi"
 import dynamic from "next/dynamic"
+import {useRouter} from "next/dist/client/router"
 // import MenuItem from "./MenuItem";
 
 const MenuItem = dynamic(
@@ -19,14 +20,12 @@ const MenuItem = dynamic(
 )
 
 const Menu = () => {
-	const queryClient = useQueryClient()
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
-	const MotionFlex = motion<FlexProps>(Flex)
-
-	// const [categories, setCategories] = useState(null)
 	const [prevScrollPos, setPrevScrollPos] = useState(0)
 	const [visible, setVisible] = useState(true)
 	const {data: categories} = useGetCategories()
+	const router = useRouter()
+
 	const handleScroll = () => {
 		const currentScrollPos = window.pageYOffset
 		setVisible(prevScrollPos > currentScrollPos)
@@ -71,9 +70,13 @@ const Menu = () => {
 			window.removeEventListener("scroll", handleScroll)
 		}
 	}, [prevScrollPos, visible, handleScroll, isMenuOpen])
-
 	return (
-		<Box display={{base: "none", md: "block"}}>
+		<Box
+			display={
+				router.pathname.includes("/payment/")
+					? "none"
+					: {base: "none", md: "block"}
+			}>
 			<motion.div
 				layout
 				animate={{
@@ -95,6 +98,7 @@ const Menu = () => {
 					alignItems: "center",
 					backgroundColor: "#42301e",
 					flexDirection: "row-reverse",
+					boxShadow: "0px 5px 20px 5px rgba(0,0,0,0.2)",
 				}}>
 				<Box
 					onMouseLeave={() => setIsMenuOpen(false)}

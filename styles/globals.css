@@ -87,13 +87,6 @@ a {
 	font-display: swap;
 }
 
-.wrap {
-	text-align: center;
-	margin: 15px 2px;
-	height: 40px;
-	position: relative;
-}
-
 .wrap:before {
 	content: "";
 	position: absolute;
@@ -176,7 +169,7 @@ a {
 
 .mainSwiper {
 	box-sizing: border-box;
-	height: 420px;
+	height: 100%;
 }
 
 .mainSwiper .swiper-slide {
@@ -198,14 +191,14 @@ a {
 	top: 50%;
 	margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
 	z-index: 120;
+	height: 45px;
+	width: 45px;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	color: var(--swiper-navigation-color, var(--swiper-theme-color));
 	background-color: white;
-	height: 45px;
-	width: 45px;
 	border-radius: 100%;
 	box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
 }
