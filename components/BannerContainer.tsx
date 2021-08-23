@@ -24,8 +24,8 @@ const BannerContainer = ({data}) => {
 				navigation={true}
 				lazy={true}
 				pagination={true}>
-				{data.map(({id, image, title, url}) => (
-					<SwiperSlide>
+				{data.map(({id, image, title, url}, key: number) => (
+					<SwiperSlide key={key}>
 						<Banner url={url} id={id} image={image} title={title} />
 					</SwiperSlide>
 				))}

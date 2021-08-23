@@ -437,17 +437,17 @@ const Addresses = () => {
 						<Button
 							fontFamily='Vazir'
 							fontSize='12px'
-							bgColor='#EF394E'
 							color='white'
+							bgColor='btnBg'
 							_hover={{
-								bgColor: "#EF394E",
+								bgColor: "btnHover",
 							}}
 							_focus={{
 								outline: 0,
-								bgColor: "#EF394E",
+								bgColor: "btnBg",
 							}}
 							_active={{
-								bgColor: "#E3122A",
+								bgColor: "btnActive",
 							}}
 							mr={3}
 							onClick={() => addAddress(tempAddress)}>

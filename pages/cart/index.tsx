@@ -148,7 +148,7 @@ const index = () => {
 						<Text whiteSpace='nowrap' variant='heading5'>
 							سبد خرید
 						</Text>
-						<Flex mt='.5rem' w='85px' h='2px' bgColor='#EF394E' />
+						<Flex mt='.5rem' w='85px' h='2px' bgColor='primary' />
 					</Flex>
 					{products?.pages[0].results.length !== 0 ? (
 						products?.pages.map((group, index) => (

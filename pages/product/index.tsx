@@ -333,7 +333,6 @@ const index = ({setAlert}) => {
 							<Flex m='0 2rem' flexDir='column'>
 								<Text
 									display={product.off_id ? "block" : "none"}
-									m='0 1rem'
 									whiteSpace='nowrap'
 									color='black'
 									variant='heading5'>
@@ -353,12 +352,12 @@ const index = ({setAlert}) => {
 													content: '" "',
 													borderRadius: "2rem",
 													height: "2px",
-													width: "120px",
-													backgroundColor: "red",
+													width: "120%",
+													backgroundColor: "#0072A3",
 													position: "absolute",
-													transform: "rotate(-5deg)",
-													top: "40%",
-													left: "15%",
+													transform: "rotate(-10deg)",
+													top: "45%",
+													left: "-10%",
 													display: product?.off_id,
 											  }
 											: null
@@ -424,7 +423,7 @@ const index = ({setAlert}) => {
 							justifyContent: "center",
 							margin: "1rem 0",
 						}}>
-						<Spinner color='red.200' />
+						<Spinner color='title' />
 					</motion.div>
 				</Flex>
 			</Flex>

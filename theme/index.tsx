@@ -2,17 +2,16 @@ import {extendTheme} from "@chakra-ui/react"
 
 export const theme = extendTheme({
 	colors: {
-		primary: "#42301e",
+		primary: "#0072A3",
+		secondary:"#edf2f7",
 		rust: "#A44200",
-		bloodRed: "#69140E",
-		dark: "#3C1518",
 		bgColor: "#F2F2F2",
 		itemsBg: "#ECECEC",
 		itemsBorder: "#C6C6C6",
-		btnActive: "#ed3247",
-		btnBg: "#EF394E",
-		btnHover: "#f04a5e",
-		active: "#EF394E",
+		btnActive: "#00648f",
+		btnBg: "#0072A3",
+		btnHover: "#0088c2",
+		active: "#0fb6fc",
 		BlueButton: {
 			100: "#0E668B",
 			200: "#0E668B",

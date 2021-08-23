@@ -83,17 +83,17 @@ const CartDetails = ({final_cost, total_cost, total_off}: ICartDetails) => {
 					disabled={final_cost === 0}
 					fontFamily='Vazir'
 					fontSize='12px'
-					bgColor='#EF394E'
 					color='white'
+					bgColor='btnBg'
 					_hover={{
-						bgColor: "#EF394E",
+						bgColor: "btnHover",
 					}}
 					_focus={{
 						outline: 0,
-						bgColor: "#EF394E",
+						bgColor: "btnBg",
 					}}
 					_active={{
-						bgColor: "#E3122A",
+						bgColor: "btnActive",
 					}}
 					w='100%'>
 					{loading ? <Spinner color='white' /> : " ادامه فرایند خرید"}

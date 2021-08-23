@@ -30,6 +30,7 @@ interface CategoryItem {
   setCurrentCategory: ({ id, name }: ISetCurrentCategory) => void;
   currentCategory: any;
   categoryId: number;
+  borderRadius?:string;
 }
 
 const CategoryItem = ({
@@ -42,6 +43,7 @@ const CategoryItem = ({
   setCurrentCategory,
   currentCategory,
   categoryId,
+  borderRadius
 }: CategoryItem) => {
   const router = useRouter();
   if (!items) return <h1>chizi ni</h1>;
@@ -52,7 +54,9 @@ const CategoryItem = ({
       fontSize="12px"
       m={margin}
       color={color}
-      border={border}>
+      border={border}
+      borderRadius={borderRadius}
+      >
       <h2>
         <AccordionButton
           dir="rtl"

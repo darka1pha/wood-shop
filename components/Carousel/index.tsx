@@ -66,11 +66,10 @@ const Carousel = ({data, title}: ICarousel) => {
 						{data?.map(
 							({name, id, image, price, bookmarked, off_id}, key: number) => (
 								<>
-									<SwiperSlide>
+									<SwiperSlide key={key}>
 										<ProductCard
 											off_id={off_id}
 											bookmarked={bookmarked}
-											key={key}
 											price={price}
 											name={name}
 											id={id}

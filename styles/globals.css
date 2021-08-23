@@ -121,14 +121,22 @@ a {
 ::-webkit-scrollbar {
 	height: auto;
 	width: 10px;
-	background-color: rgb(32, 32, 32);
+	background-color: white;
 }
 
 ::-webkit-scrollbar-thumb {
 	width: 10px;
 	height: 10px;
-	background-color: rgb(216, 201, 191);
+	background-color: rgb(35, 141, 190);
 	border-radius: 10px;
+}
+
+.menu::-webkit-scrollbar {
+	display: none;
+}
+
+.menu::-webkit-scrollbar-thumb {
+	display: none;
 }
 
 /* Swiper js */

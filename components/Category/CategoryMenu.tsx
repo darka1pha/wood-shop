@@ -23,7 +23,8 @@ interface ICatItem {
 	defaultIndex?: boolean
 	itemsBorder?: string
 	activeIndex?: number
-	w?: string
+	w?: string,
+	borderRadius?:string;
 }
 
 const CategoryMenu = ({
@@ -35,6 +36,7 @@ const CategoryMenu = ({
 	defaultIndex = true,
 	itemsBorder,
 	activeIndex,
+	borderRadius="0",
 	w,
 }: ICatItem) => {
 	if (!items) return <CategoryMenuSkeleton />
@@ -49,6 +51,7 @@ const CategoryMenu = ({
 			allowToggle>
 			{items.map(({title, id, category_set}, key) => (
 				<CategoryItem
+				borderRadius={borderRadius}
 					items={category_set}
 					categoryTitle={title}
 					background={background}

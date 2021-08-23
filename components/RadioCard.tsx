@@ -50,9 +50,9 @@ const RadioCard = ({
             : ""
         }
         _checked={{
-          bg: use_as_color_pallete ? null : "red.500",
+          bg: use_as_color_pallete ? null : "active",
           color: "white",
-          borderColor: "red.500",
+          borderColor: "active",
         }}
         _focus={{
           boxShadow: 0,

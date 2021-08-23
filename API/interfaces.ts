@@ -42,6 +42,12 @@ export interface IProducts {
 	bookmarked: boolean
 	form: Object
 	score_value: number
+	off_id: {
+		end_date: string
+		id: number
+		percentage: number
+		start_date: string
+	}
 }
 
 interface ITexture {

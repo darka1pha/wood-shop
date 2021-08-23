@@ -15,57 +15,57 @@ import {useEffect, useState} from "react"
 import {useQueryClient} from "react-query"
 import {useGetBanners, useGetFiltredData} from "../API"
 import LandingSkeleton from "../components/Skeleton/LandingSkeleton"
-// import { Carousel, Description, Container, BannerContainer, Error } from '../components'
+import { Carousel, Description, Container, BannerContainer, Error } from '../components'
 
-const Carousel = dynamic(
-	() => {
-		return import("../components/Carousel/index")
-	},
-	{
-		ssr: false,
-		loading: () => <LandingSkeleton />,
-	},
-)
+// const Carousel = dynamic(
+// 	() => {
+// 		return import("../components/Carousel/index")
+// 	},
+// 	{
+// 		ssr: false,
+// 		loading: () => <LandingSkeleton />,
+// 	},
+// )
 
-const Error = dynamic(
-	() => {
-		return import("../components/Error")
-	},
-	{
-		ssr: false,
-		loading: () => <LandingSkeleton />,
-	},
-)
+// const Error = dynamic(
+// 	() => {
+// 		return import("../components/Error")
+// 	},
+// 	{
+// 		ssr: false,
+// 		loading: () => <LandingSkeleton />,
+// 	},
+// )
 
-const BannerContainer = dynamic(
-	() => {
-		return import("../components/BannerContainer")
-	},
-	{
-		ssr: false,
-		loading: () => <LandingSkeleton />,
-	},
-)
+// const BannerContainer = dynamic(
+// 	() => {
+// 		return import("../components/BannerContainer")
+// 	},
+// 	{
+// 		ssr: false,
+// 		loading: () => <LandingSkeleton />,
+// 	},
+// )
 
-const Container = dynamic(
-	() => {
-		return import("../components/Container/index")
-	},
-	{
-		ssr: false,
-		loading: () => <LandingSkeleton />,
-	},
-)
+// const Container = dynamic(
+// 	() => {
+// 		return import("../components/Container/index")
+// 	},
+// 	{
+// 		ssr: false,
+// 		loading: () => <LandingSkeleton />,
+// 	},
+// )
 
-const Description = dynamic(
-	() => {
-		return import("../components/Description")
-	},
-	{
-		ssr: false,
-		loading: () => <LandingSkeleton />,
-	},
-)
+// const Description = dynamic(
+// 	() => {
+// 		return import("../components/Description")
+// 	},
+// 	{
+// 		ssr: false,
+// 		loading: () => <LandingSkeleton />,
+// 	},
+// )
 
 export default function Home() {
 	const queryClient = useQueryClient()

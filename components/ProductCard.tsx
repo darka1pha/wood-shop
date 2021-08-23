@@ -35,10 +35,6 @@ const ProductCard = ({
 	off_id,
 }: CarouselItem) => {
 	const [isLiked, setIsLiked] = useState(bookmarked)
-	const router = useRouter()
-
-	const queryClient = useQueryClient()
-
 	const bgImage =
 		"https://dkstatics-public.digikala.com/digikala-products/2d444f136ee744d8960a031576f360f39df6ebed_1611226401.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/quality,q_90"
 
@@ -103,18 +99,6 @@ const ProductCard = ({
 			}}
 			// onClick={onCardClicked}
 			pos='relative'>
-			<img
-				// borderRadius='.5rem .5rem 0 0 / .5rem .5rem 0 0'
-				src={bgImage}
-				alt={name}
-				// w='100%'
-				// h='auto'
-				style={{
-					objectFit: "scale-down",
-					height: "60%",
-				}}
-			/>
-
 			<Link
 				href={{
 					pathname: "/product",
@@ -122,20 +106,41 @@ const ProductCard = ({
 						id,
 					},
 				}}>
-				<a>
-					<Flex
-						flexDir='column'
-						padding='.5rem'
-						justifyContent='center'
-						alignItems='center'>
-						<Text
-							m='.1rem'
-							color='black'
-							fontFamily='Vazir'
-							fontSize={{base: "12px", md: "14px"}}
-							dir='rtl'>
-							{name}
-						</Text>
+				<a style={{height: "60%", display: "flex", justifyContent: "center"}}>
+					<img
+						// borderRadius='.5rem .5rem 0 0 / .5rem .5rem 0 0'
+						src={bgImage}
+						alt={name}
+						// w='100%'
+						// h='auto'
+						style={{
+							objectFit: "scale-down",
+							height: "100%",
+						}}
+					/>
+				</a>
+			</Link>
+			<Flex
+				flexDir='column'
+				padding='.5rem'
+				justifyContent='center'
+				alignItems='center'>
+				<Text
+					m='.1rem'
+					color='black'
+					fontFamily='Vazir'
+					fontSize={{base: "12px", md: "14px"}}
+					dir='rtl'>
+					{name}
+				</Text>
+				<Link
+					href={{
+						pathname: "/product",
+						query: {
+							id,
+						},
+					}}>
+					<a style={{width: "100%"}}>
 						<Flex px='.5rem' w='100%' mt='1rem' flexDir='column'>
 							<Flex flexDir='row-reverse' alignItems='center'>
 								<Text
@@ -196,25 +201,25 @@ const ProductCard = ({
 								).toLocaleString()} ریال`}
 							</Text>
 						</Flex>
-						<Flex
-							m='.1rem'
-							justifyContent='space-evenly'
-							pos='absolute'
-							bottom='.5rem'
-							right='0.5rem'>
-							{/* <Icon onClick={onAddToCart} as={FiShoppingCart} color="black" h="20px" w="20px" /> */}
-							<Icon
-								zIndex={1}
-								h='25px'
-								w={{base: "20px", md: "25px"}}
-								onClick={onBookmarkClicked}
-								as={isLiked ? AiFillHeart : AiOutlineHeart}
-								color='red'
-							/>
-						</Flex>
-					</Flex>
-				</a>
-			</Link>
+					</a>
+				</Link>
+				<Flex
+					m='.1rem'
+					justifyContent='space-evenly'
+					pos='absolute'
+					bottom='.5rem'
+					right='0.5rem'>
+					{/* <Icon onClick={onAddToCart} as={FiShoppingCart} color="black" h="20px" w="20px" /> */}
+					<Icon
+						zIndex={1}
+						h='25px'
+						w={{base: "20px", md: "25px"}}
+						onClick={onBookmarkClicked}
+						as={isLiked ? AiFillHeart : AiOutlineHeart}
+						color='red'
+					/>
+				</Flex>
+			</Flex>
 		</Flex>
 	)
 }

@@ -317,17 +317,17 @@ const payment = ({setAlert}) => {
 							disabled={!selectedAddress || !selectedSendMethod}
 							fontFamily='Vazir'
 							fontSize='12px'
-							bgColor='#348541'
 							color='white'
+							bgColor='btnBg'
 							_hover={{
-								bgColor: "#2f783a",
+								bgColor: "btnHover",
 							}}
 							_focus={{
 								outline: 0,
-								bgColor: "#348541",
+								bgColor: "btnBg",
 							}}
 							_active={{
-								bgColor: "#286632",
+								bgColor: "btnActive",
 							}}
 							onClick={onConfirmOrder}>
 							{isLoading ? <Spinner color='white' /> : "پرداخت"}
@@ -510,17 +510,17 @@ const payment = ({setAlert}) => {
 						<Button
 							fontFamily='Vazir'
 							fontSize='12px'
-							bgColor='#EF394E'
 							color='white'
+							bgColor='btnBg'
 							_hover={{
-								bgColor: "#EF394E",
+								bgColor: "btnHover",
 							}}
 							_focus={{
 								outline: 0,
-								bgColor: "#EF394E",
+								bgColor: "btnBg",
 							}}
 							_active={{
-								bgColor: "#E3122A",
+								bgColor: "btnActive",
 							}}
 							mr={3}
 							onClick={() => addAddress(tempAddress)}>

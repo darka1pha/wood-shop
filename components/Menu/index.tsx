@@ -48,7 +48,7 @@ const Menu = () => {
 			},
 		},
 		hidden: {
-			x: "100px",
+			x: "150px",
 			display: "none",
 			opacity: 0,
 			transition: {
@@ -96,15 +96,17 @@ const Menu = () => {
 					left: "0",
 					display: "flex",
 					alignItems: "center",
-					backgroundColor: "#42301e",
+					backgroundColor: "#0072A3",
+					background:"linear-gradient(to right,#0072A3,#005d85)",
 					flexDirection: "row-reverse",
 					boxShadow: "0px 5px 20px 5px rgba(0,0,0,0.2)",
 				}}>
 				<Box
 					onMouseLeave={() => setIsMenuOpen(false)}
 					onMouseOver={() => setIsMenuOpen(true)}
-					pos='relative'>
-					<Flex alignItems='center' mr='1rem' cursor='pointer'>
+					pos='relative'
+					h='100%'>
+					<Flex h="100%" alignItems='center' mr='1rem' cursor='pointer'>
 						<Text color='white' variant='heading6'>
 							دسته بندی ها
 						</Text>
@@ -120,8 +122,11 @@ const Menu = () => {
 						animate={isMenuOpen ? "visible" : "hidden"}
 						variants={variants}
 						style={{
+							width:"93vw",
+							flexWrap:"wrap",
+							display:"flex",
 							borderRadius: "0.5rem",
-							top: "2rem",
+							top: "3.5rem",
 							right: "1rem",
 							position: "absolute",
 							backgroundColor: "white",

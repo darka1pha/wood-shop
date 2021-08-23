@@ -171,7 +171,7 @@ const NewNavbar = ({user, setAlert}) => {
 		<>
 			<Flex
 				display={router.pathname.includes("/payment/") ? "none" : "flex"}
-				bgColor='primary'
+				bgColor='white'
 				direction='row-reverse'
 				pt={{base: "4", md: "6"}}
 				pl='4'
@@ -192,7 +192,7 @@ const NewNavbar = ({user, setAlert}) => {
 						<Icon
 							fontSize='1.5rem'
 							as={isOpen ? FaTimes : AiOutlineMenu}
-							color='white'
+							color='primary'
 						/>
 					}
 					onClick={onOpen}
@@ -204,18 +204,18 @@ const NewNavbar = ({user, setAlert}) => {
 					}}
 				/>
 				<Text
+					color='primary'
 					w={{base: "100%", md: "auto"}}
 					fontFamily='VazirBold'
-					color='white'
 					textAlign='center'
-					pl='40px'
+					px='2rem'
 					fontSize={{base: "20px", md: "24px"}}
 					m='auto'
 					cursor='pointer'
 					onClick={() => {
 						router.push("/")
 					}}>
-					<Link href={{pathname: "/"}}>مصنوعات چوبی فرحبخش</Link>
+					<Link href={{pathname: "/"}}>آرکـــالــا</Link>
 				</Text>
 				<Box
 					flex={1}
@@ -231,6 +231,7 @@ const NewNavbar = ({user, setAlert}) => {
 							style={{
 								height: "40px",
 								fontFamily: "Vazir",
+								backgroundColor: "#EDEDED",
 							}}
 							value={searchValue}
 							onChange={onSearchValueChanged}
@@ -251,15 +252,12 @@ const NewNavbar = ({user, setAlert}) => {
 									outline: 0,
 								}}
 								aria-label='Search'
-								icon={<Icon as={FiSearch} color='black' />}
+								icon={<Icon as={FiSearch} color='primary' />}
 							/>
 						</InputRightElement>
 					</InputGroup>
 				</Box>
-				<Box
-					alignItems='center'
-					pos='relative'
-					display={{base: "none", md: "block"}}>
+				<Flex alignItems='center' pos='relative'>
 					<Link
 						href={{
 							pathname: "/cart",
@@ -268,7 +266,13 @@ const NewNavbar = ({user, setAlert}) => {
 							<IconButton
 								display={user ? "auto" : "none"}
 								aria-label='Shoping Cart'
-								icon={<Icon as={FiShoppingCart} color='white' fontSize={22} />}
+								icon={
+									<Icon
+										as={FiShoppingCart}
+										color='primary'
+										fontSize={{base: 25, md: 30}}
+									/>
+								}
 								variant='ghost'
 								mr='8'
 								_hover={{
@@ -281,6 +285,20 @@ const NewNavbar = ({user, setAlert}) => {
 									outline: "none",
 								}}
 								// onClick={onCartClicked}
+							/>
+						</a>
+					</Link>
+					<Link
+						href={{
+							pathname: "/profile?page=profileinfo",
+						}}>
+						<a>
+							<Icon
+								cursor='pointer'
+								display={{base: "block", md: "none"}}
+								color='primary'
+								as={FiUser}
+								fontSize={{base: 25, md: "auto"}}
 							/>
 						</a>
 					</Link>
@@ -303,9 +321,11 @@ const NewNavbar = ({user, setAlert}) => {
 						{countData?.count}
 					</Flex>
 					<Button
+						display={{base: "none", md: "flex"}}
 						rightIcon={<Icon as={FiUser} fontSize={22} />}
-						color='white'
-						variant='outline'
+						color='primary'
+						bg='transparent'
+						border='2px solid #0072A3'
 						_focus={{
 							outline: 0,
 						}}
@@ -340,9 +360,8 @@ const NewNavbar = ({user, setAlert}) => {
 							</Text>
 						)}
 					</Button>
-				</Box>
+				</Flex>
 			</Flex>
-
 			<Drawer
 				size='full'
 				isOpen={isOpen}
@@ -350,20 +369,24 @@ const NewNavbar = ({user, setAlert}) => {
 				onClose={onClose}
 				finalFocusRef={btnRef}>
 				<DrawerOverlay />
-				<DrawerContent bgColor='#42301e'>
+				<DrawerContent bgColor='white'>
 					<DrawerCloseButton
-						_focus={{
-							outline: 0,
-						}}
 						top='.8rem'
 						right='1rem'
 						color='white'
-						bgColor='#ffffff10'
+						bgColor='primary'
 						borderRadius='50%'
+						_hover={{
+							bgColor: "primary",
+						}}
+						_focus={{
+							bgColor: "primary",
+							outline: 0,
+						}}
 					/>
-					<DrawerBody p='2rem'>
+					<DrawerBody className='menu' p='2rem'>
 						<Button
-							color='white'
+							color='primary'
 							variant={isSearchActive ? "none" : "outline"}
 							_hover={{
 								bg: "transparent",
@@ -389,8 +412,8 @@ const NewNavbar = ({user, setAlert}) => {
 									width: "100%",
 									alignItems: "center",
 									justifyContent: "center",
-									fontSize: "12px",
-									fontFamily: "Vazir",
+									fontSize: "16px",
+									fontFamily: "VazirMedium",
 									fontWeight: 300,
 									display: "flex",
 									textAlign: "center",
@@ -438,6 +461,7 @@ const NewNavbar = ({user, setAlert}) => {
 										fontFamily='VazirMedium'
 										_focus={{
 											borderColor: "transparent",
+											bgColor: "secondary",
 										}}
 										borderRadius='2rem'
 										dir='rtl'
@@ -446,86 +470,26 @@ const NewNavbar = ({user, setAlert}) => {
 								</InputGroup>
 							</motion.div>
 						</Button>
-						<Flex justifyContent='center' alignItems='center' w='100%'>
+						<Flex
+							mt='1rem'
+							flexDir='column'
+							justifyContent='center'
+							alignItems='center'
+							w='100%'>
+							<Text fontFamily='VazirMedium' color='primary' fontSize='1.2rem'>
+								دسته بندی ها
+							</Text>
 							<CategoryMenu
 								w='240px'
 								color='white'
-								background='#4d3723'
+								background='primary'
 								containerMargin='1rem 0 1rem 0'
 								defaultIndex={false}
-								itemsMargin='.5rem 0 .5rem 0'
+								itemsMargin='0 0 .5rem 0'
 								itemsBorder='none'
 								items={categories ? categories : null}
+								borderRadius='.5rem'
 							/>
-						</Flex>
-						<Flex
-							justifyContent='center'
-							alignItems='center'
-							flexDir='column'
-							bottom='2rem'>
-							<Button
-								borderRadius='2rem'
-								w='200px'
-								mb='1rem'
-								rightIcon={<Icon as={FiUser} fontSize={22} />}
-								color='white'
-								variant='outline'
-								_hover={{
-									bg: "transparent",
-									outline: 0,
-								}}
-								_active={{
-									bg: "transparent",
-									outline: 0,
-								}}
-								_focus={{
-									bg: "transparent",
-									outline: 0,
-								}}
-								onClick={() => {
-									user
-										? router.push({
-												pathname: "/profile",
-												query: {page: "profileinfo"},
-										  })
-										: router.push("/auth/signin")
-								}}>
-								{user ? (
-									<Text variant='normalLight'>
-										{user.first_name + " " + user.last_name}
-									</Text>
-								) : (
-									<Text variant='normalLight'>حساب کاربری</Text>
-								)}
-							</Button>
-							<Button
-								w='200px'
-								borderRadius='2rem'
-								rightIcon={<Icon as={FiShoppingCart} fontSize={22} />}
-								color='primary'
-								variant='outline'
-								bgColor='white'
-								_hover={{
-									bg: "transparent",
-									outline: 0,
-								}}
-								_active={{
-									bg: "transparent",
-									outline: 0,
-								}}
-								_focus={{
-									bg: "transparent",
-									outline: 0,
-								}}>
-								<Text
-									onClick={() => {
-										router.push("/cart")
-									}}
-									variant='normal'
-									color='primary'>
-									سبد خرید
-								</Text>
-							</Button>
 						</Flex>
 					</DrawerBody>
 				</DrawerContent>
