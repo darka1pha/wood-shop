@@ -1,71 +1,32 @@
 import {Flex} from "@chakra-ui/layout"
-import {
-	Button,
-	Link,
-	Menu,
-	MenuButton,
-	MenuDivider,
-	MenuGroup,
-	MenuItem,
-	MenuList,
-} from "@chakra-ui/react"
-import dynamic from "next/dynamic"
 import Head from "next/head"
 import {useEffect, useState} from "react"
-import {useQueryClient} from "react-query"
+import {QueryClient, useQueryClient} from "react-query"
 import {useGetBanners, useGetFiltredData} from "../API"
 import LandingSkeleton from "../components/Skeleton/LandingSkeleton"
-import { Carousel, Description, Container, BannerContainer, Error } from '../components'
+import {
+	Carousel,
+	Description,
+	Container,
+	BannerContainer,
+	Error,
+} from "../components"
+import {dehydrate} from "react-query/hydration"
+import {prefetchFiltered} from "../API/prefetchFunctions"
 
-// const Carousel = dynamic(
-// 	() => {
-// 		return import("../components/Carousel/index")
-// 	},
-// 	{
-// 		ssr: false,
-// 		loading: () => <LandingSkeleton />,
-// 	},
-// )
+// export async function getStaticProps() {
+// 	const queryClient = new QueryClient()
 
-// const Error = dynamic(
-// 	() => {
-// 		return import("../components/Error")
-// 	},
-// 	{
-// 		ssr: false,
-// 		loading: () => <LandingSkeleton />,
-// 	},
-// )
+// 	await queryClient.prefetchQuery("filteredData-score", () =>
+// 		prefetchFiltered({filterOption: "score"}),
+// 	)
 
-// const BannerContainer = dynamic(
-// 	() => {
-// 		return import("../components/BannerContainer")
-// 	},
-// 	{
-// 		ssr: false,
-// 		loading: () => <LandingSkeleton />,
-// 	},
-// )
-
-// const Container = dynamic(
-// 	() => {
-// 		return import("../components/Container/index")
-// 	},
-// 	{
-// 		ssr: false,
-// 		loading: () => <LandingSkeleton />,
-// 	},
-// )
-
-// const Description = dynamic(
-// 	() => {
-// 		return import("../components/Description")
-// 	},
-// 	{
-// 		ssr: false,
-// 		loading: () => <LandingSkeleton />,
-// 	},
-// )
+// 	return {
+// 		props: {
+// 			dehydratedState: dehydrate(queryClient),
+// 		},
+// 	}
+// }
 
 export default function Home() {
 	const queryClient = useQueryClient()

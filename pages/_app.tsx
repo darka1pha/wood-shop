@@ -14,7 +14,6 @@ import dynamic from "next/dynamic"
 
 import "nprogress/nprogress.css"
 import Loading from "../components/Loading"
-import NewNavbar from "../components/NewNavbar"
 
 const TopProgressBar = dynamic(
 	() => {
@@ -44,7 +43,7 @@ function MyApp({Component, pageProps}) {
 					<QueryClientProvider client={queryClientRef.current}>
 						<Hydrate state={pageProps.dehydratedState}>
 							<ChakraProvider theme={theme}>
-								<NewNavbar />
+								<Navbar />
 								<Menu />
 								<AlertBox />
 								<TopProgressBar />

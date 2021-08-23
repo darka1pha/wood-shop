@@ -586,7 +586,7 @@ export const useGetCartInfo = () =>
 
 export const useGetFiltredData = ({filterOption}) =>
 	useQuery(
-		["filteredData"],
+		[`filteredData-${filterOption}`],
 		async () => {
 			// console.log("Address: ", MAIN + FILTER + `?${filterOption}&page_size=100`)
 			const {data} = await axios.get(
