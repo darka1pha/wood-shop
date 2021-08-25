@@ -1,0 +1,128 @@
+import {Box, Button, Divider, Flex, Icon, Spinner, Text} from "@chakra-ui/react"
+import Link from "next/link"
+import {CgDanger} from "react-icons/cg"
+import {FiChevronLeft} from "react-icons/fi"
+
+interface OrderCardProps {
+	isPending?: boolean
+}
+
+const OrderCard = ({isPending}: OrderCardProps) => {
+	return (
+		<Flex
+			my='1rem'
+			border='1px solid #E1E1E1'
+			borderRadius='.5rem'
+			p='1rem '
+			justifyContent='center'
+			w='100%'
+			flexDir='column'>
+			<Flex flexDir='column' w='100%'>
+				<Flex
+					fontFamily='Vazir'
+					fontSize={14}
+					alignItems={{base: "start", md: "center"}}
+					justifyContent='space-between'
+					flexDir={{base: "column", md: "row"}}>
+					<Flex>
+						<Text>تاریخ &#8226; &nbsp;</Text>
+						<Text>شماره سفارش &#8226; &nbsp;</Text>
+						<Text>وضعیت سفارش</Text>
+					</Flex>
+					<Flex cursor='pointer' alignItems='center'>
+						<Text
+							dir='rtl'
+							color='#47C0DF'
+							fontFamily='Vazir'
+							fontWeight='400'
+							fontSize='14px'>
+							<Link
+								href={{
+									pathname: "orders/[orderId]",
+									query: {
+										orderId: 1,
+									},
+								}}>
+								مشاهده سفارش
+							</Link>
+						</Text>
+						<Icon color='#47C0DF' as={FiChevronLeft} />
+					</Flex>
+				</Flex>
+				<Flex fontSize={12} my='.5rem'>
+					<Text color='#81858b'>مبلغ کل : &nbsp;</Text>
+					<Text>{(20000).toLocaleString()}&nbsp;</Text>
+					<Text>ریال</Text>
+				</Flex>
+			</Flex>
+			<Divider my='.5rem' />
+			<Flex flexDir='column'>
+				<Flex>
+					<Text fontSize={14}>محصولات</Text>
+				</Flex>
+				<Flex flexWrap='wrap'>
+					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
+					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
+					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
+					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
+					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
+					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
+				</Flex>
+			</Flex>
+			<Divider display={isPending ? "none" : "auto"} my='.5rem' />
+			<Flex
+				display={isPending ? "none" : "flex"}
+				alignItems={{base: "start", md: "center"}}
+				justifyContent='space-between'
+				flexDir={{base: "column", md: "row"}}>
+				<Flex mb={{base: ".5rem", md: 0}}>
+					<Icon ml='.5rem' fontSize={25} color='orange.300' as={CgDanger} />
+					<Text color='orange.300'>
+						در صورت عدم پرداخت تمام این سفارش به‌صورت خودکار لغو خواهد شد.
+					</Text>
+				</Flex>
+				<Flex>
+					<Button
+					ml=".5rem"
+						fontFamily='Vazir'
+						fontSize='12px'
+						color='white'
+						bgColor='btnBg'
+						_hover={{
+							bgColor: "btnHover",
+						}}
+						_focus={{
+							outline: 0,
+							bgColor: "btnBg",
+						}}
+						_active={{
+							bgColor: "btnActive",
+						}}
+						onClick={() => console.log("Do Somthing")}>
+						ویرایش آدرس و شیوه ارسال
+					</Button>
+					<Button
+						fontFamily='Vazir'
+						fontSize='12px'
+						color='white'
+						bgColor='btnBg'
+						_hover={{
+							bgColor: "btnHover",
+						}}
+						_focus={{
+							outline: 0,
+							bgColor: "btnBg",
+						}}
+						_active={{
+							bgColor: "btnActive",
+						}}
+						onClick={() => console.log("Do Somthing")}>
+						پرداخت
+					</Button>
+				</Flex>
+			</Flex>
+		</Flex>
+	)
+}
+
+export default OrderCard

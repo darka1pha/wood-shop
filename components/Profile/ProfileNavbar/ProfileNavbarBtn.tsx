@@ -1,5 +1,6 @@
 import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import { IconType } from "react-icons/lib";
@@ -40,7 +41,9 @@ const ProfileNavbarBtn = ({
 
   const onLogout = () => {
     clearCurrentUser(null);
-    router.push("/auth/signin");
+    Cookies.remove("accessToken")
+    Cookies.remove("refreshToken")
+    router.push("/");
   };
 
   return (

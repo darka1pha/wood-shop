@@ -1,22 +1,12 @@
-import { Flex } from "@chakra-ui/layout";
-import { useEffect } from "react";
+import { Flex,Text } from "@chakra-ui/layout";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
-import Text from "../Text";
 import InfoBox from "./InfoBox";
 import { IUser } from "../../redux";
-import { useRouter } from "next/router";
-import UserInfoSkeleton from "../Skeleton/UserInfoSkeleton";
 import Head from "next/head";
 
 const ProfileInfo = ({ currentUser }: IUser) => {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!currentUser) router.push("/auth/signin");
-  }, []);
-
   return (
     <Flex
       w="100%"
@@ -43,7 +33,7 @@ const ProfileInfo = ({ currentUser }: IUser) => {
         borderBottom="2px solid #0E668B"
         h={{ base: "35px", md: "35px" }}
         mb="2rem">
-        <Text variant="heading5">اطلاعات شخصی</Text>
+        <Text fontFamily="VazirBold" fontSize={18}>اطلاعات شخصی</Text>
       </Flex>
       <Flex h="45%" w="100%" flexDir={{ base: "column", md: "row" }}>
         <InfoBox

@@ -1,29 +1,18 @@
 import {
-	Link as CLink,
 	Menu,
 	MenuButton,
 	MenuItem,
 	MenuList,
 	Flex,
-	FlexProps,
 	Icon,
 	IconButton,
 	Text,
 } from "@chakra-ui/react"
 import Link from "next/link"
-import {motion} from "framer-motion"
-import {useRouter} from "next/router"
 import {FiChevronLeft} from "react-icons/fi"
 import {IoMdMore} from "react-icons/io"
 import {useMutation, useQueryClient} from "react-query"
 import {useDeleteBookmark} from "../../API"
-
-interface IQD {
-	pageParams: Array<number>
-	pages: Array<{
-		results: Array<{id: number}>
-	}>
-}
 
 export interface IFavoriteCard {
 	id: number
@@ -33,42 +22,6 @@ export interface IFavoriteCard {
 }
 
 const FavoriteCard = ({id, image, name, price}: IFavoriteCard) => {
-	const MotionFlex = motion<FlexProps>(Flex)
-	const router = useRouter()
-	const variants = {
-		visible: {
-			opacity: 1,
-			scale: 1,
-			transition: {
-				type: "easeInOut",
-				duration: 0.6,
-				opacity: {
-					delay: 0.3,
-				},
-			},
-		},
-		hidden: {
-			opacity: 0,
-			scale: 0.2,
-			transition: {
-				type: "easeInOut",
-				duration: 0.6,
-				opacity: {
-					delay: 0.3,
-				},
-			},
-		},
-	}
-
-	// const onWatchProduct = () => {
-	//   router.push({
-	//     pathname: "/product",
-	//     query: {
-	//       id: id
-	//     }
-	//   })
-	// };
-
 	const queryClient = useQueryClient()
 
 	const {mutateAsync} = useMutation(useDeleteBookmark, {
@@ -121,7 +74,6 @@ const FavoriteCard = ({id, image, name, price}: IFavoriteCard) => {
 						</Text>
 					</Flex>
 					<Flex
-						// onClick={onWatchProduct}
 						cursor='pointer'
 						alignItems='center'
 						p='0 2rem'

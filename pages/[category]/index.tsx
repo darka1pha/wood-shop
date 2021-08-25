@@ -10,10 +10,10 @@ import {Fragment, useRef} from "react"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"
 import {useGetCategories, useGetCategoryProducts} from "../../API"
-import {IFullProducts, IProducts} from "../../API/interfaces"
+import {IFullProducts} from "../../API/interfaces"
 import {Error} from "../../components"
-import BrandsContainer from "../../components/Brands/BrandsContainer"
-import MobileBrands from "../../components/Brands/MobileBrands"
+// import BrandsContainer from "../../components/Brands/BrandsContainer"
+// import MobileBrands from "../../components/Brands/MobileBrands"
 import CategorySkeleton from "../../components/Skeleton/CategorySkeleton"
 import {selectCurrentCategory, setCurrentCategory} from "../../redux"
 // import CategoryMenu from "../../components/Category/CategoryMenu";
@@ -21,6 +21,24 @@ import {selectCurrentCategory, setCurrentCategory} from "../../redux"
 // import FilterTitle from "../../components/Filter/FilterTitle";
 // import ProductCard from "../../components/ProductCard";
 
+const BrandsContainer = dynamic(
+	() => {
+		return import("../../components/Brands/BrandsContainer")
+	},
+	{
+		ssr: false,
+		loading: () => <CategorySkeleton showCategory={true} />,
+	},
+)
+const MobileBrands = dynamic(
+	() => {
+		return import("../../components/Brands/MobileBrands")
+	},
+	{
+		ssr: false,
+		loading: () => <CategorySkeleton showCategory={true} />,
+	},
+)
 const Filter = dynamic(
 	() => {
 		return import("../../components/Filter/Filter")

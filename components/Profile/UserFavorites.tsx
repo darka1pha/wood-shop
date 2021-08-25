@@ -29,6 +29,7 @@ const UserFavorites = () => {
 		isFetchingNextPage,
 		isSuccess,
 		isError,
+		hasNextPage,
 	} = useGetFavorites()
 
 	const isBottom = (el) => {
@@ -36,11 +37,12 @@ const UserFavorites = () => {
 	}
 
 	useEffect(() => {
-		console.log("Favorite Data: ", favorites)
 		const trackScrolling = () => {
 			if (containerRef) {
 				if (isBottom(containerRef)) {
-					fetchMoreItems()
+					if (hasNextPage) {
+						fetchMoreItems()
+					}
 					document.removeEventListener("scroll", trackScrolling)
 				}
 			}

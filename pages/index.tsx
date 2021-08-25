@@ -14,19 +14,19 @@ import {
 import {dehydrate} from "react-query/hydration"
 import {prefetchFiltered} from "../API/prefetchFunctions"
 
-// export async function getStaticProps() {
-// 	const queryClient = new QueryClient()
+export async function getStaticProps() {
+	const queryClient = new QueryClient()
 
-// 	await queryClient.prefetchQuery("filteredData-score", () =>
-// 		prefetchFiltered({filterOption: "score"}),
-// 	)
+	await queryClient.prefetchQuery("filteredData-score", () =>
+		prefetchFiltered({filterOption: "score"}),
+	)
 
-// 	return {
-// 		props: {
-// 			dehydratedState: dehydrate(queryClient),
-// 		},
-// 	}
-// }
+	return {
+		props: {
+			dehydratedState: dehydrate(queryClient),
+		},
+	}
+}
 
 export default function Home() {
 	const queryClient = useQueryClient()
@@ -49,7 +49,10 @@ export default function Home() {
 
 	useEffect(() => {
 		setCategories(queryClient.getQueryData([`categories`]))
-		console.log(queryClient.getQueryData([`categories`]))
+		console.log(
+			"prefetchData: ",
+			prefetchFiltered({filterOption: "score"}),
+		)
 	}, [queryClient.getQueryData([`categories`])])
 
 	if (

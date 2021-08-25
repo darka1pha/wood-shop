@@ -4,7 +4,7 @@ import {ChakraProvider} from "@chakra-ui/react"
 import Head from "next/head"
 import {Hydrate} from "react-query/hydration"
 import {theme} from "../theme/index"
-import {Navbar, Menu, AlertBox} from "../components"
+// import {Navbar, Menu, AlertBox} from "../components"
 import {QueryClient, QueryClientProvider} from "react-query"
 import {Provider} from "react-redux"
 import {useRef} from "react"
@@ -13,11 +13,36 @@ import {persistStore} from "redux-persist"
 import dynamic from "next/dynamic"
 
 import "nprogress/nprogress.css"
-import Loading from "../components/Loading"
+// import Loading from "../components/Loading"
 
 const TopProgressBar = dynamic(
 	() => {
 		return import("../components/TopProgressBar")
+	},
+	{ssr: false},
+)
+
+const Navbar = dynamic(
+	() => {
+		return import("../components/Navbar")
+	},
+	{ssr: false},
+)
+const Menu = dynamic(
+	() => {
+		return import("../components/Menu/index")
+	},
+	{ssr: false},
+)
+const AlertBox = dynamic(
+	() => {
+		return import("../components/AlertBox")
+	},
+	{ssr: false},
+)
+const Loading = dynamic(
+	() => {
+		return import("../components/Loading")
 	},
 	{ssr: false},
 )

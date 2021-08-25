@@ -167,14 +167,14 @@ const Addresses = () => {
 	}
 
 	useEffect(() => {
-		console.log("Cities: ", cities)
+		console.log("Addresses")
 		const trackScrolling = () => {
 			if (containerRef) {
 				if (isBottom(containerRef)) {
 					if (hasNextPage) {
 						fetchMoreItems()
-						document.removeEventListener("scroll", trackScrolling)
 					}
+					document.removeEventListener("scroll", trackScrolling)
 				}
 			}
 		}

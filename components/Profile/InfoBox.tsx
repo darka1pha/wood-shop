@@ -59,9 +59,19 @@ const InfoBox = ({
 
 	const queryClient = useQueryClient()
 
-	const [input1, setInput1] = useState(null)
-	const [input2, setInput2] = useState(null)
-	const [input3, setInput3] = useState(null)
+	const [input1, setInput1] = useState(
+		info_box_for === "name_lastname"
+			? currentUser.first_name
+			: info_box_for === "phonenumber"
+			? currentUser.phone_number
+			: info_box_for === "change_password"
+			? ""
+			: currentUser.national_id,
+	)
+	const [input2, setInput2] = useState(
+		info_box_for === "name_lastname" ? currentUser.last_name : "",
+	)
+	const [input3, setInput3] = useState(undefined)
 
 	const updateMutation = useMutation((data: any) => profileUpdate(data), {
 		onSuccess: (res: any) => {
@@ -196,15 +206,15 @@ const InfoBox = ({
 						) : null}
 						<Input
 							fontFamily='Vazir'
-							defaultValue={
-								info_box_for === "name_lastname"
-									? currentUser.first_name
-									: info_box_for === "phonenumber"
-									? currentUser.phone_number
-									: info_box_for === "change_password"
-									? ""
-									: currentUser.national_id
-							}
+							// defaultValue={
+							// 	info_box_for === "name_lastname"
+							// 		? currentUser.first_name
+							// 		: info_box_for === "phonenumber"
+							// 		? currentUser.phone_number
+							// 		: info_box_for === "change_password"
+							// 		? ""
+							// 		: currentUser.national_id
+							// }
 							type={inputType}
 							_focus={{
 								outline: "none",
@@ -221,7 +231,7 @@ const InfoBox = ({
 								</Text>
 								<Input
 									fontFamily='Vazir'
-									defaultValue={currentUser.last_name}
+									// defaultValue={currentUser.last_name}
 									type={inputType}
 									_focus={{
 										outline: "none",

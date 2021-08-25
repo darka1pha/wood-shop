@@ -35,14 +35,18 @@ const {
 	DELIVERY_STATUS,
 } = apiPathes
 
-export const prefetchFiltered = ({filterOption}) => {
-	axios
-		.get(MAIN + FILTER + `?${filterOption}&page_size=100`, {
-			headers: {
-				Authorization: `Bearer ${Cookies.get("accessToken")}`,
-			},
-		})
-		.then(({data}) => {
-			return data.results
-		})
+export const prefetchFiltered = async ({filterOption}) => {
+	await new Promise((r) => setTimeout(r, 500))
+	const {data} = await axios.get(
+		MAIN + FILTER + `?${filterOption}&page_size=100`,
+	)
+	return data.results
+}
+
+const getCharacter = async (selectedChar) => {
+	await new Promise((r) => setTimeout(r, 500))
+	const {data} = await axios.get(
+		`https://rickandmortyapi.com/api/character/${selectedChar}`,
+	)
+	return data
 }

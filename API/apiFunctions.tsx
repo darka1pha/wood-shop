@@ -109,7 +109,15 @@ export const useVerifySignup = async (props: IVerifySignup) => {
 
 export const useMainSignin = async (props: IMainSignup) => {
 	const {phone_number} = props
-	// console.log("phone_number" + phone_number);
+	console.log(
+		"Data: ",
+		{
+			phone_number,
+		},
+		"\n",
+		"API: ",
+		MAIN + AUTH + SIGN_IN_PHONENUMBER,
+	)
 	const {data} = await axios.post(MAIN + AUTH + SIGN_IN_PHONENUMBER, {
 		phone_number,
 	})
@@ -118,11 +126,12 @@ export const useMainSignin = async (props: IMainSignup) => {
 
 export const useVerifySignin = async (props: IVerifySignup) => {
 	const {token} = props
-	const {data} = await axios.post(MAIN + AUTH + SIGN_IN_VERIFY, {
+	const response = await axios.post(MAIN + AUTH + SIGN_IN_VERIFY, {
 		token: token,
 		phone_number: localStorage.getItem("phone_number"),
 	})
-	return data
+	localStorage.setItem("APIRes", JSON.stringify(response))
+	return response.data
 }
 
 export const useSigninPassword = async (props: ISigninPassword) => {

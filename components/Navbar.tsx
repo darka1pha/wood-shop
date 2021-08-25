@@ -289,9 +289,7 @@ const NewNavbar = ({user, setAlert}) => {
 						</a>
 					</Link>
 					<Link
-						href={{
-							pathname: "/profile?page=profileinfo",
-						}}>
+						href={{pathname: "/profile", query: {page: "profileinfo"}}}>
 						<a>
 							<Icon
 								cursor='pointer'

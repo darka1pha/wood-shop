@@ -1,5 +1,5 @@
 import {Flex} from "@chakra-ui/layout"
-import {ProductForm, Text} from "../../components"
+import {ColorPalette, Comment, DeliveryTime, Error, NewComment, ProductDiscription, ProductForm, Text} from "../../components"
 import Icon from "@chakra-ui/icon"
 import {Button} from "@chakra-ui/button"
 import {FiShoppingCart} from "react-icons/fi"
@@ -18,7 +18,6 @@ import {useMutation, useQueryClient} from "react-query"
 import {connect} from "react-redux"
 import {ISetAlert, setAlert} from "../../redux"
 import {IError} from "../../API/interfaces"
-import {useState} from "react"
 import {AiFillStar} from "react-icons/ai"
 import {
 	Popover,
@@ -30,69 +29,70 @@ import {
 } from "@chakra-ui/react"
 import Rating from "../../components/ProductRating/ProductRating"
 import dynamic from "next/dynamic"
+import ProductCarousel from "../../components/ProductCarousel"
 
-const ProductDiscription = dynamic(
-	() => {
-		return import("../../components/ProductDiscription")
-	},
-	{
-		ssr: false,
-	},
-)
+// const ProductDiscription = dynamic(
+// 	() => {
+// 		return import("../../components/ProductDiscription")
+// 	},
+// 	{
+// 		ssr: false,
+// 	},
+// )
 
-const Error = dynamic(
-	() => {
-		return import("../../components/Error")
-	},
-	{
-		ssr: false,
-	},
-)
+// const Error = dynamic(
+// 	() => {
+// 		return import("../../components/Error")
+// 	},
+// 	{
+// 		ssr: false,
+// 	},
+// )
 
-const Comment = dynamic(
-	() => {
-		return import("../../components/Comment/index")
-	},
-	{
-		ssr: false,
-	},
-)
+// const Comment = dynamic(
+// 	() => {
+// 		return import("../../components/Comment/index")
+// 	},
+// 	{
+// 		ssr: false,
+// 	},
+// )
 
-const DeliveryTime = dynamic(
-	() => {
-		return import("../../components/DeliveryTime")
-	},
-	{
-		ssr: false,
-	},
-)
+// const DeliveryTime = dynamic(
+// 	() => {
+// 		return import("../../components/DeliveryTime")
+// 	},
+// 	{
+// 		ssr: false,
+// 	},
+// )
 
-const ColorPalette = dynamic(
-	() => {
-		return import("../../components/ColorPalette")
-	},
-	{
-		ssr: false,
-	},
-)
+// const ColorPalette = dynamic(
+// 	() => {
+// 		return import("../../components/ColorPalette")
+// 	},
+// 	{
+// 		ssr: false,
+// 	},
+// )
 
-const ProductCarousel = dynamic(
-	() => {
-		return import("../../components/ProductCarousel")
-	},
-	{
-		ssr: false,
-	},
-)
+// const ProductCarousel = dynamic(
+// 	() => {
+// 		return import("../../components/ProductCarousel")
+// 	},
+// 	{
+// 		ssr: false,
+// 	},
+// )
 
-const NewComment = dynamic(
-	() => {
-		return import("../../components/Comment/NewComment")
-	},
-	{
-		ssr: false,
-	},
-)
+// const NewComment = dynamic(
+// 	() => {
+// 		return import("../../components/Comment/NewComment")
+// 	},
+// 	{
+// 		ssr: false,
+// 	},
+// )
 
 const index = ({setAlert}) => {
 	const router = useRouter()
