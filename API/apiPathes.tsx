@@ -34,4 +34,7 @@ export const apiPathes = {
 	SCORE: "shop/score/",
 	CART_COUNT: "shop/cart/info/count",
 	DELIVERY_STATUS: "shop/delivery/",
+	COMPELETE:"payment/order/complete/",
+	PROGRESS:"payment/order/progress/",
+	PENDING:"shop/cart/pending/"
 }

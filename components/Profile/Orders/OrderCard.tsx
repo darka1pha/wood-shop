@@ -1,13 +1,50 @@
-import {Box, Button, Divider, Flex, Icon, Spinner, Text} from "@chakra-ui/react"
+import {
+	Image,
+	Button,
+	Divider,
+	Flex,
+	Icon,
+	Spinner,
+	Text,
+	Tooltip,
+} from "@chakra-ui/react"
+import {useRouter} from "next/dist/client/router"
 import Link from "next/link"
 import {CgDanger} from "react-icons/cg"
 import {FiChevronLeft} from "react-icons/fi"
+import useMonthToString from "../../../utils/monthToString"
 
 interface OrderCardProps {
 	isPending?: boolean
+	id: number
+	items: [
+		{
+			name: string
+			image: string
+		},
+	]
+	ordered_date: string
+	delivery_cost: number
+	cost: number
 }
 
-const OrderCard = ({isPending}: OrderCardProps) => {
+const OrderCard = ({
+	isPending,
+	cost,
+	delivery_cost,
+	id,
+	items,
+	ordered_date,
+}: OrderCardProps) => {
+	const router = useRouter()
+	const _date = ordered_date.split("-")
+	const stringMonth = useMonthToString({month: _date[1]})
+	console.log("MONTH: ", stringMonth)
+	const newDate = `${_date[2].split("T")[0]} ${stringMonth} ${_date[0]}`
+
+	const image_url =
+		"https://images.unsplash.com/photo-1629887571501-ac588e591d56?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+
 	return (
 		<Flex
 			my='1rem'
@@ -25,9 +62,8 @@ const OrderCard = ({isPending}: OrderCardProps) => {
 					justifyContent='space-between'
 					flexDir={{base: "column", md: "row"}}>
 					<Flex>
-						<Text>تاریخ &#8226; &nbsp;</Text>
-						<Text>شماره سفارش &#8226; &nbsp;</Text>
-						<Text>وضعیت سفارش</Text>
+						<Text dir='rtl'>{newDate} &nbsp;&#8226;</Text>
+						<Text> &nbsp;ARC-{id} &nbsp;</Text>
 					</Flex>
 					<Flex cursor='pointer' alignItems='center'>
 						<Text
@@ -40,7 +76,8 @@ const OrderCard = ({isPending}: OrderCardProps) => {
 								href={{
 									pathname: "orders/[orderId]",
 									query: {
-										orderId: 1,
+										orderId: id,
+										prev: router.query.activeTab,
 									},
 								}}>
 								مشاهده سفارش
@@ -51,7 +88,7 @@ const OrderCard = ({isPending}: OrderCardProps) => {
 				</Flex>
 				<Flex fontSize={12} my='.5rem'>
 					<Text color='#81858b'>مبلغ کل : &nbsp;</Text>
-					<Text>{(20000).toLocaleString()}&nbsp;</Text>
+					<Text>{(delivery_cost + cost).toLocaleString()}&nbsp;</Text>
 					<Text>ریال</Text>
 				</Flex>
 			</Flex>
@@ -60,30 +97,30 @@ const OrderCard = ({isPending}: OrderCardProps) => {
 				<Flex>
 					<Text fontSize={14}>محصولات</Text>
 				</Flex>
-				<Flex flexWrap='wrap'>
-					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
-					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
-					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
-					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
-					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
-					<Box h='45px' w='45px' bgColor='red' m='.5rem' />
+				<Flex m='1rem' flexWrap='wrap'>
+					{items?.map(({image, name}) => (
+						<Tooltip label={name}>
+							<Image src={image_url} h='80px' w='auto' />
+						</Tooltip>
+					))}
 				</Flex>
 			</Flex>
 			<Divider display={isPending ? "none" : "auto"} my='.5rem' />
 			<Flex
+				flexWrap='wrap'
 				display={isPending ? "none" : "flex"}
 				alignItems={{base: "start", md: "center"}}
 				justifyContent='space-between'
 				flexDir={{base: "column", md: "row"}}>
-				<Flex mb={{base: ".5rem", md: 0}}>
+				<Flex alignItems='center' mb={{base: ".5rem", md: "0.5rem"}}>
 					<Icon ml='.5rem' fontSize={25} color='orange.300' as={CgDanger} />
-					<Text color='orange.300'>
+					<Text fontSize={14} color='orange.300'>
 						در صورت عدم پرداخت تمام این سفارش به‌صورت خودکار لغو خواهد شد.
 					</Text>
 				</Flex>
 				<Flex>
 					<Button
-					ml=".5rem"
+						ml='.5rem'
 						fontFamily='Vazir'
 						fontSize='12px'
 						color='white'

@@ -15,6 +15,10 @@ import {
 	IBanners,
 	ISetScore,
 	IDeliveryStats,
+	IPendingOrder,
+	IProgressOrder,
+	IDoneOrder,
+	IGetOrders,
 } from "./interfaces"
 import {apiPathes} from "."
 import Cookies from "js-cookie"
@@ -53,6 +57,9 @@ const {
 	SCORE,
 	CART_COUNT,
 	DELIVERY_STATUS,
+	COMPELETE,
+	PENDING,
+	PROGRESS,
 } = apiPathes
 
 export const getToken = async () => {
@@ -718,3 +725,57 @@ export const usePayment = async ({delivery_type, address}) => {
 	)
 	return data
 }
+
+export const useGetCompeleteOrders = () =>
+	useInfiniteQuery(
+		[`compelete`],
+		async ({pageParam = 1}): Promise<IPaginatedData<IGetOrders>> => {
+			const {data} = await axios.get(MAIN + COMPELETE + `?page=${pageParam}`, {
+				headers: {
+					Authorization: `Bearer ${Cookies.get("accessToken")}`,
+				},
+			})
+			return data
+		},
+		{
+			getNextPageParam: (lastPage) =>
+				lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+			refetchOnWindowFocus: false,
+		},
+	)
+
+export const useGetPendingOrders = () =>
+	useInfiniteQuery(
+		[`pending`],
+		async ({pageParam = 1}): Promise<IPaginatedData<IGetOrders>> => {
+			const {data} = await axios.get(MAIN + PENDING + `?page=${pageParam}`, {
+				headers: {
+					Authorization: `Bearer ${Cookies.get("accessToken")}`,
+				},
+			})
+			return data
+		},
+		{
+			getNextPageParam: (lastPage) =>
+				lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+			refetchOnWindowFocus: false,
+		},
+	)
+
+export const useGetProgressOrders = () =>
+	useInfiniteQuery(
+		[`progress`],
+		async ({pageParam = 1}): Promise<IPaginatedData<IGetOrders>> => {
+			const {data} = await axios.get(MAIN + PROGRESS + `?page=${pageParam}`, {
+				headers: {
+					Authorization: `Bearer ${Cookies.get("accessToken")}`,
+				},
+			})
+			return data
+		},
+		{
+			getNextPageParam: (lastPage) =>
+				lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+			refetchOnWindowFocus: false,
+		},
+	)

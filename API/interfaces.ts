@@ -171,3 +171,17 @@ export interface IBrands {
 	title_fa: string
 	title_en: string
 }
+
+export interface IGetOrders {
+	id: number
+	cart_count: number
+	items: [
+		{
+			name: string
+			image: string
+		},
+	]
+	ordered_date: string
+	delivery_cost: number
+	cost: number
+}

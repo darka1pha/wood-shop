@@ -1,12 +1,14 @@
-import {Box, Flex, HStack, Stack} from "@chakra-ui/layout"
-import {Text} from "@chakra-ui/react"
+import {Flex} from "@chakra-ui/layout"
+import {Divider, Icon, Text} from "@chakra-ui/react"
 import Head from "next/head"
+import Link from "next/link"
 import {useRouter} from "next/router"
-import {useEffect, useState} from "react"
+import {BsArrowRightShort} from "react-icons/bs"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"
 import {ProfileNavbar} from "../../components"
 import WithNoUser from "../../components/HOC/withNoUser"
+import OrderDetailHeader from "../../components/Profile/Orders/OrderDetailHeader"
 import {selectCurrentUser} from "../../redux"
 
 interface IPageComponent {
@@ -16,11 +18,6 @@ interface IPageComponent {
 
 const OrderId = ({currentUser}) => {
 	const router = useRouter()
-	const [currentQuery, setCurrentQuery] = useState(null)
-
-	useEffect(() => {
-		setCurrentQuery(router.query.page)
-	}, [router.query.page])
 
 	return (
 		<Flex
@@ -76,10 +73,16 @@ const OrderId = ({currentUser}) => {
 						pb='.5rem'
 						h={{base: "35px", md: "35px"}}
 						mb='2rem'>
-							<Text fontSize={{base: "14px", md: "18px"}} fontFamily="VazirBold">
-								جزئیات سفارش
-							</Text>
+						<Text fontSize={{base: "14px", md: "18px"}} fontFamily='VazirBold'>
+							جزئیات سفارش
+						</Text>
+						<Link href={`/profile?page=orders&activeTab=${router.query.prev}`}>
+							<Icon cursor='pointer' fontSize={30} as={BsArrowRightShort} />
+						</Link>
 					</Flex>
+					<Divider />
+					<OrderDetailHeader />
+					<Divider />
 				</Flex>
 			</Flex>
 		</Flex>

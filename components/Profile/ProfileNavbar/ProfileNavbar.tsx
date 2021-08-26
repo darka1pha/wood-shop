@@ -91,7 +91,7 @@ const ProfileNavbar = ({
 					icon={GoNote}
 					onClick={
 						forOrders
-							? () => router.push("/profile?page=orders")
+							? () => router.push("/profile?page=orders&activeTab=pending")
 							: setCurrentPage
 					}
 					iconSize='1.5rem'
