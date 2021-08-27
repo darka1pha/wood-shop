@@ -15,10 +15,8 @@ import {
 	IBanners,
 	ISetScore,
 	IDeliveryStats,
-	IPendingOrder,
-	IProgressOrder,
-	IDoneOrder,
 	IGetOrders,
+	IGetPendingOrders,
 } from "./interfaces"
 import {apiPathes} from "."
 import Cookies from "js-cookie"
@@ -747,7 +745,7 @@ export const useGetCompeleteOrders = () =>
 export const useGetPendingOrders = () =>
 	useInfiniteQuery(
 		[`pending`],
-		async ({pageParam = 1}): Promise<IPaginatedData<IGetOrders>> => {
+		async ({pageParam = 1}): Promise<IPaginatedData<IGetPendingOrders>> => {
 			const {data} = await axios.get(MAIN + PENDING + `?page=${pageParam}`, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,

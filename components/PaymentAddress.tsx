@@ -20,6 +20,7 @@ const PaymentAddress = ({
 	return (
 		<Flex justifyContent='flex-end' m='1rem' fontFamily='Vazir'>
 			<Radio
+				isChecked={isChecked}
 				cursor='pointer'
 				display='flex'
 				flexDir='row-reverse'

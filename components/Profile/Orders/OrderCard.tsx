@@ -26,6 +26,7 @@ interface OrderCardProps {
 	ordered_date: string
 	delivery_cost: number
 	cost: number
+	openModal?: () => void
 }
 
 const OrderCard = ({
@@ -35,6 +36,7 @@ const OrderCard = ({
 	id,
 	items,
 	ordered_date,
+	openModal,
 }: OrderCardProps) => {
 	const router = useRouter()
 	const _date = ordered_date.split("-")
@@ -105,10 +107,10 @@ const OrderCard = ({
 					))}
 				</Flex>
 			</Flex>
-			<Divider display={isPending ? "none" : "auto"} my='.5rem' />
+			<Divider display={isPending ? "auto" : "none"} my='.5rem' />
 			<Flex
 				flexWrap='wrap'
-				display={isPending ? "none" : "flex"}
+				display={isPending ? "flex" : "none"}
 				alignItems={{base: "start", md: "center"}}
 				justifyContent='space-between'
 				flexDir={{base: "column", md: "row"}}>
@@ -135,8 +137,8 @@ const OrderCard = ({
 						_active={{
 							bgColor: "btnActive",
 						}}
-						onClick={() => console.log("Do Somthing")}>
-						ویرایش آدرس و شیوه ارسال
+						onClick={openModal}>
+						ویرایش اطلاعات و پرداخت
 					</Button>
 					<Button
 						fontFamily='Vazir'

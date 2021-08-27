@@ -185,3 +185,28 @@ export interface IGetOrders {
 	delivery_cost: number
 	cost: number
 }
+
+export interface IGetPendingOrders {
+	id: number
+	cart_count: number
+	items: [
+		{
+			name: string
+			image: string
+		},
+	]
+	address: {
+		id: 0
+		province: string
+		city: string
+		street_address: string
+		postal_code: string
+		receiver_name: string
+		receiver_family: string
+		receiver_number: string
+	}
+	ordered_date: string
+	delivery_cost: number
+	cost: number
+	delivery_type: number
+}

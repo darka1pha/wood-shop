@@ -8,6 +8,7 @@ interface IPaymentAddress {
 	title: string
 	range_start: number
 	range_end: number
+	m?: string
 }
 
 const PaymentSend = ({
@@ -16,18 +17,20 @@ const PaymentSend = ({
 	range_start,
 	range_end,
 	id,
+	m = "1rem",
 }: IPaymentAddress) => {
 	return (
 		<Flex
 			alignItems='flex-start'
 			border={isChecked ? "2px solid #0E668B" : "none"}
 			justifyContent='flex-end'
-			p='1rem'
+			p='.5rem 1rem'
 			borderRadius='.5rem'
-			m='1rem'
+			m={m}
 			fontFamily='Vazir'
 			transition='ease-in-out all 200ms'>
 			<Radio
+				isChecked={isChecked}
 				transition='ease-in-out all 300ms'
 				cursor='pointer'
 				display='flex'
