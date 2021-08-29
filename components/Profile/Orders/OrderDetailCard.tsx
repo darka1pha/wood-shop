@@ -1,21 +1,25 @@
 import {Flex} from "@chakra-ui/layout"
+import {Image} from "@chakra-ui/react"
 import {ICart} from "../../../API/interfaces"
 import Text from "../../Text"
 
 const OrderDetailCard = ({count, product, form}: ICart) => {
 	const {id: productID, image, name, price} = product
-
+	const image_url =
+		"https://images.unsplash.com/photo-1629887571501-ac588e591d56?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
 	return (
-		<Flex m='.5rem 0' h={{base: "100px", md: "120px"}}>
+		<Flex
+			m='.5rem 0'
+			h={{base: "100px", md: "120px"}}
+			border='1px solid #bfbfbf'
+			borderRadius='.5rem'
+			overflow='hidden'>
+			<Image h={{base: "100px", md: "120px"}} src={image_url} />
 			<Flex
-				h='100%'
 				w={{base: "100px", md: "120px"}}
-				bgImage={`url(${image})`}
-				bgSize='contain'
-				bgRepeat='no-repeat'
-			/>
-			<Flex w='100%' justifyContent='space-between'>
-				<Flex mr='.5rem' flexDir='column'>
+				h='auto'
+				justifyContent='space-between'>
+				<Flex bgColor="red"  mr='.5rem' flexDir='column'>
 					<Text fontSize={{base: "12px", md: "16px"}} variant='heading6'>
 						{name}
 					</Text>

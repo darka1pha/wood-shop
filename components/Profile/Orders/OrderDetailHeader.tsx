@@ -1,6 +1,29 @@
 import {Flex, Text} from "@chakra-ui/react"
 
-const OrderDetailHeader = () => {
+interface IOrder {
+	address: {
+		province: string
+		city: string
+		street_address: string
+		receiver_name: string
+		receiver_family: string
+		receiver_number: string
+	}
+	ordered_date: string
+	delivery_cost: number
+	cost: number
+}
+
+const OrderDetailHeader = ({address, delivery_cost, cost}: IOrder) => {
+	const finalCost = delivery_cost + cost
+	const {
+		city,
+		province,
+		receiver_family,
+		receiver_name,
+		receiver_number,
+		street_address,
+	} = address
 	return (
 		<Flex dir='rtl' flexDir='column'>
 			<Flex m='1rem'>
@@ -9,15 +32,15 @@ const OrderDetailHeader = () => {
 						تحویل گیرنده :
 					</Text>
 					<Text fontFamily='VazirMedium' fontSize={14}>
-						&nbsp;ابوالفضل عمرانی
+						&nbsp;{receiver_name + " " + receiver_family}
 					</Text>
 				</Flex>
 				<Flex>
 					<Text color='#81858b' fontFamily='VazirMedium' fontSize={14}>
-						شماره تلفن :
+						شماره تلفن : &nbsp;
 					</Text>
-					<Text fontFamily='VazirMedium' fontSize={14}>
-						&nbsp;09378239855
+					<Text dir="ltr" fontFamily='VazirMedium' fontSize={14}>
+						&nbsp;{receiver_number}
 					</Text>
 				</Flex>
 			</Flex>
@@ -26,7 +49,7 @@ const OrderDetailHeader = () => {
 					ارسال به آدرس :
 				</Text>
 				<Text fontFamily='VazirMedium' fontSize={14}>
-					&nbsp;کرمان,خیابان هزار و یک شب,کوچه 22
+					&nbsp;{province + " , " + city + " , " + street_address}
 				</Text>
 			</Flex>
 			<Flex m='1rem'>
@@ -34,7 +57,7 @@ const OrderDetailHeader = () => {
 					مبلغ سفارش :
 				</Text>
 				<Text fontFamily='VazirMedium' fontSize={14}>
-					&nbsp;{(32540000).toLocaleString()}&nbsp;ریال
+					&nbsp;{finalCost.toLocaleString()}&nbsp;ریال
 				</Text>
 			</Flex>
 		</Flex>

@@ -9,11 +9,18 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	RadioGroup,
+	Spinner,
 	Text,
 } from "@chakra-ui/react"
+import {useRouter} from "next/dist/client/router"
 import {memo} from "react"
 import {useState} from "react"
-import {useGetDeliveryStats, useGetPaymentAddresses} from "../../../API"
+import {useMutation} from "react-query"
+import {
+	useBuyPendings,
+	useGetDeliveryStats,
+	useGetPaymentAddresses,
+} from "../../../API"
 import PaymentAddress from "../../PaymentAddress"
 import PaymentSend from "../../PaymentSend"
 
@@ -44,6 +51,20 @@ const EditModal = ({
 	const {data: addresses} = useGetPaymentAddresses()
 	const {data: deliveries} = useGetDeliveryStats()
 
+	const router = useRouter()
+
+	const [isLoading, setIsLoading] = useState(false)
+
+	const buyMutation = useMutation(useBuyPendings, {
+		onSuccess: (res) => {
+			setIsLoading(false)
+			router.replace(res.redirect_url)
+		},
+		onError: (err) => {
+			setIsLoading(false)
+		},
+	})
+
 	const [selectedSendMethod, setSelectedSendMethod] = useState(
 		delivery_type.toString(),
 	)
@@ -57,7 +78,13 @@ const EditModal = ({
 		setSelectedAddress(addressID)
 	}
 
-	console.log("Selected :", delivery_type)
+	const onBuyClick = () => {
+		buyMutation.mutate({
+			address: Number(selectedAddress),
+			delivery: Number(selectedSendMethod),
+			order: orderId,
+		})
+	}
 
 	if (!addresses || !deliveries) return <h1></h1>
 	return (
@@ -112,8 +139,9 @@ const EditModal = ({
 						</RadioGroup>
 					</Flex>
 				</ModalBody>
-				<ModalFooter display="flex" justifyContent="flex-start">
+				<ModalFooter display='flex' justifyContent='flex-start'>
 					<Button
+						onClick={onBuyClick}
 						fontFamily='Vazir'
 						color='white'
 						bgColor='btnBg'
@@ -127,7 +155,7 @@ const EditModal = ({
 						_active={{
 							bgColor: "btnActive",
 						}}>
-						تایید و پرداخت
+						{isLoading ? <Spinner color='white' /> : "تایید و پرداخت}"}
 					</Button>
 				</ModalFooter>
 			</ModalContent>
