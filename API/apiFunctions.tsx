@@ -17,6 +17,8 @@ import {
 	IDeliveryStats,
 	IGetOrders,
 	IGetPendingOrders,
+	IBuyPendings,
+	IOrder,
 } from "./interfaces"
 import {apiPathes} from "."
 import Cookies from "js-cookie"
@@ -58,6 +60,8 @@ const {
 	COMPELETE,
 	PENDING,
 	PROGRESS,
+	BUY_PENDINGS,
+	GET_ORDER,
 } = apiPathes
 
 export const getToken = async () => {
@@ -282,6 +286,7 @@ export const useGetPaymentAddresses = () =>
 			refetchOnWindowFocus: false,
 		},
 	)
+
 export const useGetAddresses = () =>
 	useInfiniteQuery(
 		["userAddresses"],
@@ -696,6 +701,7 @@ export const useGetDeliveryStats = () =>
 		},
 		{refetchOnWindowFocus: false},
 	)
+
 export const useGetCartCount = () =>
 	useQuery(
 		["cartCounts"],
@@ -774,6 +780,40 @@ export const useGetProgressOrders = () =>
 		{
 			getNextPageParam: (lastPage) =>
 				lastPage && lastPage.next ? Number(lastPage.next.split("=")[1]) : null,
+			refetchOnWindowFocus: false,
+		},
+	)
+
+export const useBuyPendings = async ({
+	order,
+	address,
+	delivery,
+}: IBuyPendings) => {
+	const {data} = await axios.post(
+		MAIN + BUY_PENDINGS,
+		{order, address, delivery_type: delivery},
+		{
+			headers: {
+				Authorization: `Bearer ${Cookies.get("accessToken")}`,
+			},
+		},
+	)
+	return data
+}
+
+export const useGetOrder = ({id}) =>
+	useQuery<IOrder>(
+		[`Order-${id}`],
+		async () => {
+			console.log("ID: ", id)
+			const {data} = await axios.get(MAIN + GET_ORDER + id, {
+				headers: {
+					Authorization: `Bearer ${Cookies.get("accessToken")}`,
+				},
+			})
+			return data.result
+		},
+		{
 			refetchOnWindowFocus: false,
 		},
 	)
