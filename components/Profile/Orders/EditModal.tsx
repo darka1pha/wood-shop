@@ -29,7 +29,7 @@ interface EditModalprops {
 	onClose: () => void
 	orderId: number
 	address: {
-		id: 0
+		id: Number
 		province: string
 		city: string
 		street_address: string
