@@ -1,6 +1,6 @@
 export const apiPathes = {
-	// MAIN: "http://192.168.1.114:8003/api/v0/",
-	MAIN: "http://185.176.34.207:8003/api/v0/",
+	MAIN: "http://192.168.1.114:8003/api/v0/",
+	// MAIN: "http://185.176.34.207:8003/api/v0/",
 	// MAIN: "http://192.168.1.178:8000/api/v0/",
 	AUTH: "accounts/",
 	RESET_VERIFY: "reset/verify",
@@ -34,7 +34,9 @@ export const apiPathes = {
 	SCORE: "shop/score/",
 	CART_COUNT: "shop/cart/info/count",
 	DELIVERY_STATUS: "shop/delivery/",
-	COMPELETE:"payment/order/complete/",
-	PROGRESS:"payment/order/progress/",
-	PENDING:"shop/cart/pending/"
+	COMPELETE: "payment/order/complete/",
+	PROGRESS: "payment/order/progress/",
+	PENDING: "shop/cart/pending/",
+	BUY_PENDINGS: "payment/request/pendings/",
+	GET_ORDER: "payment/order/complete/",
 }
