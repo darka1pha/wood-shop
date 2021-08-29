@@ -112,12 +112,12 @@ export interface IAddToCart {
 export interface ICart {
 	setLoading?: (isLoading: boolean) => void
 	count: number
-	id: number
+	id?: number
 	product: {
 		id: number
 		image: string
 		name: string
-		price: number
+		price: number | string
 	}
 	form: {}
 }
@@ -176,7 +176,7 @@ export interface IGetOrders {
 	id: number
 	cart_count: number
 	items: [
-		{
+		product: {
 			name: string
 			image: string
 		},
@@ -190,13 +190,13 @@ export interface IGetPendingOrders {
 	id: number
 	cart_count: number
 	items: [
-		{
+		product: {
 			name: string
 			image: string
 		},
 	]
 	address: {
-		id: 0
+		id: number
 		province: string
 		city: string
 		street_address: string
@@ -205,6 +205,42 @@ export interface IGetPendingOrders {
 		receiver_family: string
 		receiver_number: string
 	}
+	ordered_date: string
+	delivery_cost: number
+	cost: number
+	delivery_type: number
+}
+
+export interface IBuyPendings {
+	order: number
+	address: number
+	delivery: number
+}
+
+export interface IOrder {
+	id: number
+	address: {
+		id: number
+		province: string
+		city: string
+		street_address: string
+		postal_code: string
+		receiver_name: string
+		receiver_family: string
+		receiver_number: string
+	}
+	items: [
+		{
+			form: {}
+			count: number
+			product: {
+				id: number
+				name: string
+				price: string
+				image: string
+			}
+		},
+	]
 	ordered_date: string
 	delivery_cost: number
 	cost: number
