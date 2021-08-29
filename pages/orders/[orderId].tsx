@@ -6,8 +6,10 @@ import {useRouter} from "next/router"
 import {BsArrowRightShort} from "react-icons/bs"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"
+import {useGetOrder} from "../../API"
 import {ProfileNavbar} from "../../components"
 import WithNoUser from "../../components/HOC/withNoUser"
+import OrderDetailCard from "../../components/Profile/Orders/OrderDetailCard"
 import OrderDetailHeader from "../../components/Profile/Orders/OrderDetailHeader"
 import {selectCurrentUser} from "../../redux"
 
@@ -18,6 +20,10 @@ interface IPageComponent {
 
 const OrderId = ({currentUser}) => {
 	const router = useRouter()
+	const {data: order, isError} = useGetOrder({id: router.query.orderId})
+	console.log("order: ", order)
+
+	if (!order) return <h1></h1>
 
 	return (
 		<Flex
@@ -81,8 +87,28 @@ const OrderId = ({currentUser}) => {
 						</Link>
 					</Flex>
 					<Divider />
-					<OrderDetailHeader />
+					<OrderDetailHeader
+						address={order.address}
+						ordered_date={order.ordered_date}
+						cost={order.cost}
+						delivery_cost={order.delivery_cost}
+					/>
 					<Divider />
+					<Flex
+						p={{base: ".5rem", md: "1rem"}}
+						w='100%'
+						h='100%'
+						flexDir='column'
+						dir='rtl'>
+						{order.items.map(({count, form, product}, key) => (
+							<OrderDetailCard
+								product={product}
+								count={count}
+								key={key}
+								form={form}
+							/>
+						))}
+					</Flex>
 				</Flex>
 			</Flex>
 		</Flex>
