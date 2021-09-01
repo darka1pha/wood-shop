@@ -151,7 +151,7 @@ const Password = ({setAlert, setCurrentUser}) => {
 								رمز عبور خود را فراموش کرده اید؟
 							</Text>
 							<Text
-								color='#348541'
+								color='btnBg'
 								fontFamily="VazirBold"
                 fontSize={11}
 								cursor='pointer'
@@ -165,17 +165,17 @@ const Password = ({setAlert, setCurrentUser}) => {
 								fontFamily='Vazir'
 								fontSize='16px'
 								mb='.5rem'
-								bgColor='#348541'
 								color='white'
+								bgColor='btnBg'
 								_hover={{
-									bgColor: "#2f783a",
+									bgColor: "btnHover",
 								}}
 								_focus={{
 									outline: 0,
-									bgColor: "#348541",
+									bgColor: "btnBg",
 								}}
 								_active={{
-									bgColor: "#286632",
+									bgColor: "btnActive",
 								}}
 								onClick={() =>
 									signinPasswordMutation.mutate({

@@ -1,4 +1,4 @@
-import {Flex, Input, Button} from "@chakra-ui/react"
+import {Flex, Input, Button, Spinner} from "@chakra-ui/react"
 import {useRouter} from "next/router"
 import React, {useState} from "react"
 import {useMutation} from "react-query"
@@ -11,6 +11,7 @@ import withUser from "../../../components/HOC/withUser"
 
 const Index = ({setAlert}) => {
 	const router = useRouter()
+	const [isLoading, setIsLoading] = useState(false)
 
 	const [phonenumber, setPhonenumber] = useState("")
 
@@ -18,11 +19,12 @@ const Index = ({setAlert}) => {
 		(data: IMainSignup) => useMainSignin(data),
 		{
 			onSuccess: () => {
+				setIsLoading(false)
 				localStorage.setItem("phone_number", "+98" + phonenumber)
 				router.push("/auth/signin/verify")
 			},
 			onError: (err: IError) => {
-				console.log(err.response.data.error.code)
+				setIsLoading(false)
 				if (err.response.data.error.code === 491) {
 					setAlert({content: "شمار وارد شده اشتباه است", type: "error"})
 				} else if (err.response.data.error.code === 494) {
@@ -122,7 +124,7 @@ const Index = ({setAlert}) => {
 								_placeholder={{
 									fontSize: "12px",
 								}}
-								placeholder='بدون صفر'
+								placeholder='9123456789'
 								type='number'
 								h='35px'
 								value={phonenumber}
@@ -132,7 +134,7 @@ const Index = ({setAlert}) => {
 						</Flex>
 						<Flex w='100%' dir='rtl' flexDir='column'>
 							<Text
-								color='#348541'
+								color='btnBg'
 								variant='heading8'
 								cursor='pointer'
 								onClick={() => router.push("/auth/signin/password")}>
@@ -144,24 +146,25 @@ const Index = ({setAlert}) => {
 								fontFamily='Vazir'
 								fontSize='14px'
 								mb='.5rem'
-								bgColor='#348541'
 								color='white'
+								bgColor='btnBg'
 								_hover={{
-									bgColor: "#2f783a",
+									bgColor: "btnHover",
 								}}
 								_focus={{
 									outline: 0,
-									bgColor: "#348541",
+									bgColor: "btnBg",
 								}}
 								_active={{
-									bgColor: "#286632",
+									bgColor: "btnActive",
 								}}
-								onClick={() =>
+								onClick={() => {
+									setIsLoading(true)
 									mainSigninMutation.mutate({
 										phone_number: "+98" + phonenumber,
 									})
-								}>
-								ارسال کد پیامکی
+								}}>
+								{isLoading ? <Spinner color='#fff' /> : "ارسال کد پیامکی"}
 							</Button>
 							<Button
 								fontFamily='Vazir'

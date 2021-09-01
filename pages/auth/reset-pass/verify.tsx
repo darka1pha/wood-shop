@@ -154,12 +154,12 @@ const Verify = ({ setCurrentUser, setAlert }) => {
               mb=".5rem"
               onClick={onResendCode}
               bgColor="#348541"
+              _hover={{ bgColor: "#3a9448" }}
               color="white"
               fontFamily="Vazir"
               fontSize="12px"
               border="none"
               disabled={!isEnable}
-              _hover={{ bgColor: "#3a9448" }}
               transition="400ms ease-in-out"
               h="2.5rem">
               {timer > 0 ? timer + "\t" + "ارسال مجدد در" : "ارسال مجدد"}
