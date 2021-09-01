@@ -10,7 +10,7 @@ interface IContainerItem {
 }
 
 const ContainerItem = ({ image_url, title, id }: IContainerItem) => {
-	const img = "https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dGFibGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+	// const img = "https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dGFibGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
 	return (
 		<Flex
 			pos="relative"
@@ -40,7 +40,7 @@ const ContainerItem = ({ image_url, title, id }: IContainerItem) => {
 			<Flex
 				h="100%"
 				w="100%"
-				bgImage={`url(${img})`}
+				bgImage={`url(${image_url})`}
 				bgSize="cover"
 				bgRepeat="no-repeat"
 				bgPos="center"

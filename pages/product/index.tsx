@@ -1,5 +1,14 @@
 import {Flex} from "@chakra-ui/layout"
-import {ColorPalette, Comment, DeliveryTime, Error, NewComment, ProductDiscription, ProductForm, Text} from "../../components"
+import {
+	ColorPalette,
+	Comment,
+	DeliveryTime,
+	Error,
+	NewComment,
+	ProductDiscription,
+	ProductForm,
+	Text,
+} from "../../components"
 import Icon from "@chakra-ui/icon"
 import {Button} from "@chakra-ui/button"
 import {FiShoppingCart} from "react-icons/fi"
@@ -143,7 +152,11 @@ const index = ({setAlert}) => {
 		})
 	}
 
-	const {data: product, error: error2} = useGetProductInfo(
+	const {
+		data: product,
+		error: pError,
+		isError: isError2,
+	} = useGetProductInfo(
 		Number(
 			router.query.id ? router.query.id : window.location.search.split("=")[1],
 		),
@@ -154,7 +167,8 @@ const index = ({setAlert}) => {
 		fetchNextPage,
 		isFetchingNextPage,
 		isSuccess,
-		error: error1,
+		isError: isError1,
+		error: cError,
 	} = useGetComments(
 		Number(
 			router.query.id
@@ -179,7 +193,6 @@ const index = ({setAlert}) => {
 	}
 
 	useEffect(() => {
-		console.log("PRODUCT: ", product)
 		const trackScrolling = () => {
 			if (containerRef) {
 				if (isBottom(containerRef)) {
@@ -198,8 +211,17 @@ const index = ({setAlert}) => {
 		fetchNextPage()
 	}
 
-	if (!product || !comments) return <h1>loading</h1>
-	if (error1 || error2) return <Error />
+	if (isError1 || isError2) {
+		pError.response.status === 404
+			? router.push("/404")
+			: pError.response.status === 500
+			? router.push("/500")
+			: router.push("/")
+	}
+
+	if (!product || !comments) {
+		return <h1>loading</h1>
+	}
 
 	return (
 		<Flex

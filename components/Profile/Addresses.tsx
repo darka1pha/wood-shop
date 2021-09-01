@@ -435,6 +435,15 @@ const Addresses = () => {
 					</ModalBody>
 					<ModalFooter dir='rtl'>
 						<Button
+							disabled={
+								tempAddress.unit === "" ||
+								tempAddress.tag === "" ||
+								tempAddress.receiver_number === "" ||
+								tempAddress.receiver_name === "" ||
+								tempAddress.receiver_family === "" ||
+								tempAddress.address === "" ||
+								tempAddress.city === ""
+							}
 							fontFamily='Vazir'
 							fontSize='12px'
 							color='white'

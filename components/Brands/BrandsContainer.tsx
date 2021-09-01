@@ -64,17 +64,17 @@ const BrandsContainer = () => {
 				</CheckboxGroup>
 				<Button
 					fontFamily='Vazir'
-					bgColor='#EF394E'
+					bgColor='btnBg'
 					color='white'
 					_hover={{
-						bgColor: "#EF394E",
+						bgColor: "btnHover",
 					}}
 					_focus={{
 						outline: 0,
-						bgColor: "#EF394E",
+						bgColor: "btnBg",
 					}}
 					_active={{
-						bgColor: "#E3122A",
+						bgColor: "btnActive",
 					}}
 					display='flex'
 					h='35px'

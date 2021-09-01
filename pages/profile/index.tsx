@@ -18,32 +18,37 @@ interface IPageComponent {
 
 const Profile = ({currentUser}) => {
 	const router = useRouter()
-	const [currentQuery, setCurrentQuery] = useState(null)
-	const [currentPage, setCurrentPage] = useState({
-		Component:
-			currentQuery === "addresses" ||
-			window.location.search.split("=")[1] === "addresses" ? (
-				<Addresses />
-			) : router.query.page === "orders" ||
-			  window.location.search.split("=")[1] === "orders" ? (
-				<Orders />
-			) : router.query.page === "profileinfo" ||
-			  window.location.search.split("=")[1] === "profileinfo" ? (
-				<ProfileInfo />
-			) : router.query.page === "favorites" ||
-			  window.location.search.split("=")[1] === "favorites" ? (
-				<UserFavorites />
-			) : (
-				<ProfileInfo />
-			),
-		title: "ProfileInfo",
-	})
+	const [currentPage, setCurrentPage] = useState(null)
 
 	useEffect(() => {
-		setCurrentQuery(router.query.page)
-	}, [router.query.page])
+		setCurrentPage({
+			Component:
+				router.query.page === "addresses" ? (
+					<Addresses />
+				) : router.query.page === "orders" ? (
+					<Orders />
+				) : router.query.page === "profileinfo" ? (
+					<ProfileInfo />
+				) : router.query.page === "favorites" ? (
+					<UserFavorites />
+				) : (
+					<ProfileInfo />
+				),
+			title:
+				router.query.page === "addresses"
+					? "addresses"
+					: router.query.page === "orders"
+					? "orders"
+					: router.query.page === "profileinfo"
+					? "profileinfo"
+					: router.query.page === "favorites"
+					? "favorites"
+					: "profileinfo",
+		})
+	}, [router.query])
 
-	if (!currentUser) return <UserInfoSkeleton />
+	if (!currentUser || !router.query.page || currentPage === null)
+		return <UserInfoSkeleton />
 
 	return (
 		<Flex

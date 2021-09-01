@@ -82,9 +82,11 @@ const ProductCard = dynamic(
 const index = ({currentCategory, setCategory}) => {
 	const router = useRouter()
 	const [order, setOrder]: any = useState(router.query.order)
+	const [activeIndex, setActiveIndex] = useState(undefined)
 	const containerRef = useRef(null)
 	const {
 		data: categories,
+		error: cError,
 		isLoading: isCategoryLoading,
 		isError: categoriesError,
 	} = useGetCategories()
@@ -95,17 +97,32 @@ const index = ({currentCategory, setCategory}) => {
 		hasNextPage,
 		isLoading: isProductsLoading,
 		isError: productsError,
+		error: pError,
 	} = useGetCategoryProducts({id: Number(router.query.id), ordering: order})
 
 	useEffect(() => {
 		setCategory({id: Number(router.query.id), name: router.query.category})
-		console.log("Products", products)
-	}, [router.query.category, router.query.id, products])
+		// categories?.findIndex(({title}) => title === router.query.category) !== -1
+		// 	? setActiveIndex(
+		// 			categories?.findIndex(({title}) => title === router.query.category),
+		// 	  )
+		// 	: categories?.forEach(({category_set}, index: number) => {
+		// 			if (
+		// 				category_set.findIndex(
+		// 					(cat) => cat.title === router.query.category,
+		// 				) !== -1
+		// 			) {
+		// 				setActiveIndex(index)
+		// 			}
+		// 	  })
+		// console.log("Active Index: ", activeIndex)
+	}, [router.query.category, router.query.id, products, categories])
 
+	if (categoriesError || productsError) {
+		router.push("/404")
+	}
 	if (!categories || !products || isCategoryLoading || isProductsLoading)
 		return <CategorySkeleton showCategory={true} />
-
-	if (categoriesError || productsError) return <Error />
 
 	return (
 		<Flex
@@ -205,10 +222,20 @@ const index = ({currentCategory, setCategory}) => {
 			</Flex>
 			<Flex w='25%' display={{base: "none", md: "block"}}>
 				<CategoryMenu
-					activeIndex={categories?.findIndex(
-						({title}) => title === router.query.category,
-					)}
-					items={categories}
+					activeIndex={
+						categories.results.findIndex(
+							({title}) => title === router.query.category,
+						) !== -1
+							? categories.results.findIndex(
+									({title}) => title === router.query.category,
+							  )
+							: categories.results.forEach(({category_set}, index: number) => {
+									return category_set.findIndex((cat) =>
+										cat.title === router.query.category ? index : null,
+									)
+							  })
+					}
+					items={categories.results}
 				/>
 				<BrandsContainer />
 			</Flex>

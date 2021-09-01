@@ -67,7 +67,7 @@ const ProfileNavbar = ({
 					iconSize='1.5rem'
 					Component={{
 						Component: <ProfileInfo />,
-						title: "ProfileInfo",
+						title: "profileinfo",
 					}}
 					active={router.query.page === "profileinfo" ? true : false}
 				/>

@@ -18,6 +18,7 @@ export interface IError {
 			}
 			remain_time: number
 		}
+		status: number
 	}
 }
 

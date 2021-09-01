@@ -86,45 +86,49 @@ const OrderTabs = () => {
 				</TabList>
 				<TabPanels>
 					<TabPanel>
-						{pendings.pages.map(({results}, index) => (
-							<React.Fragment key={index}>
-								{results.map(
-									(
-										{
-											cost,
-											items,
-											id,
-											delivery_cost,
-											ordered_date,
-											address,
-											delivery_type,
-										},
-										key,
-									) => (
-										<>
-											<OrderCard
-												openModal={onOpen}
-												isPending={true}
-												cost={cost}
-												items={items}
-												id={id}
-												delivery_cost={delivery_cost}
-												ordered_date={ordered_date}
-												key={key}
-											/>
-											<EditModal
-												delivery_type={delivery_type}
-												address={address}
-												orderId={id}
-												key={key}
-												isOpen={isOpen}
-												onClose={onClose}
-											/>
-										</>
-									),
-								)}
-							</React.Fragment>
-						))}
+						{pendings.pages[0].results.length !== 0 ? (
+							pendings.pages.map(({results}, index) => (
+								<React.Fragment key={index}>
+									{results.map(
+										(
+											{
+												cost,
+												items,
+												id,
+												delivery_cost,
+												ordered_date,
+												address,
+												delivery_type,
+											},
+											key,
+										) => (
+											<>
+												<OrderCard
+													openModal={onOpen}
+													isPending={true}
+													cost={cost}
+													items={items}
+													id={id}
+													delivery_cost={delivery_cost}
+													ordered_date={ordered_date}
+													key={key}
+												/>
+												<EditModal
+													delivery_type={delivery_type}
+													address={address}
+													orderId={id}
+													key={key}
+													isOpen={isOpen}
+													onClose={onClose}
+												/>
+											</>
+										),
+									)}
+								</React.Fragment>
+							))
+						) : (
+							<NoOrder />
+						)}
 					</TabPanel>
 					<TabPanel>
 						{compeletes.pages[0].results.length !== 0 ? (
@@ -149,22 +153,26 @@ const OrderTabs = () => {
 						)}
 					</TabPanel>
 					<TabPanel>
-						{progresses.pages.map(({results}, index) => (
-							<React.Fragment key={index}>
-								{results.map(
-									({cost, items, id, delivery_cost, ordered_date}, key) => (
-										<OrderCard
-											cost={cost}
-											items={items}
-											id={id}
-											delivery_cost={delivery_cost}
-											ordered_date={ordered_date}
-											key={key}
-										/>
-									),
-								)}
-							</React.Fragment>
-						))}
+						{progresses.pages[0].results.length !== 0 ? (
+							progresses.pages.map(({results}, index) => (
+								<React.Fragment key={index}>
+									{results.map(
+										({cost, items, id, delivery_cost, ordered_date}, key) => (
+											<OrderCard
+												cost={cost}
+												items={items}
+												id={id}
+												delivery_cost={delivery_cost}
+												ordered_date={ordered_date}
+												key={key}
+											/>
+										),
+									)}
+								</React.Fragment>
+							))
+						) : (
+							<NoOrder />
+						)}
 					</TabPanel>
 				</TabPanels>
 			</Tabs>

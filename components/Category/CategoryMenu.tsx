@@ -23,8 +23,8 @@ interface ICatItem {
 	defaultIndex?: boolean
 	itemsBorder?: string
 	activeIndex?: number
-	w?: string,
-	borderRadius?:string;
+	w?: string
+	borderRadius?: string
 }
 
 const CategoryMenu = ({
@@ -36,11 +36,11 @@ const CategoryMenu = ({
 	defaultIndex = true,
 	itemsBorder,
 	activeIndex,
-	borderRadius="0",
+	borderRadius = "0",
 	w,
 }: ICatItem) => {
 	if (!items) return <CategoryMenuSkeleton />
-
+	console.log("AcIndex: ", activeIndex)
 	return (
 		<Accordion
 			borderRadius='.5rem'
@@ -51,7 +51,7 @@ const CategoryMenu = ({
 			allowToggle>
 			{items.map(({title, id, category_set}, key) => (
 				<CategoryItem
-				borderRadius={borderRadius}
+					borderRadius={borderRadius}
 					items={category_set}
 					categoryTitle={title}
 					background={background}

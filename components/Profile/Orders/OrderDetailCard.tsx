@@ -11,15 +11,12 @@ const OrderDetailCard = ({count, product, form}: ICart) => {
 		<Flex
 			m='.5rem 0'
 			h={{base: "100px", md: "120px"}}
-			border='1px solid #bfbfbf'
+			boxShadow='md'
 			borderRadius='.5rem'
 			overflow='hidden'>
 			<Image h={{base: "100px", md: "120px"}} src={image_url} />
-			<Flex
-				w={{base: "100px", md: "120px"}}
-				h='auto'
-				justifyContent='space-between'>
-				<Flex bgColor="red"  mr='.5rem' flexDir='column'>
+			<Flex w='100%' p='.5rem 1rem' justifyContent='space-between'>
+				<Flex mr='.5rem' flexDir='column'>
 					<Text fontSize={{base: "12px", md: "16px"}} variant='heading6'>
 						{name}
 					</Text>
@@ -43,27 +40,44 @@ const OrderDetailCard = ({count, product, form}: ICart) => {
 								</Flex>
 							))}
 				</Flex>
-				<Flex h='45px' alignItems='center'>
+				<Flex
+					flexDir='column'
+					h='100%'
+					justifyContent='center'
+					alignItems='center'>
 					<Text
+						fontSize={{base: "12px", md: "14px"}}
+						color='black'
+						variant='normalExt'>
+						قیمت واحد
+					</Text>
+					<Text
+						mt='.5rem'
 						fontSize={{base: "12px", md: "14px"}}
 						color='black'
 						variant='normalExt'>
 						{`${price.toLocaleString()} ریال`}
 					</Text>
 				</Flex>
-				<Flex h={{base: "35px", md: "40px"}} alignItems='center'>
-					<Flex
-						border='1px solid #e6e6e6'
-						h={{base: "35px", md: "40px"}}
-						borderRadius='1.5rem'
-						alignItems='center'>
-						<Text
-							color='black'
-							variant='normalMedium'
-							fontSize={{base: "12px", md: "16px"}}>
-							{count.toString()}
-						</Text>
-					</Flex>
+				<Flex
+					border='1px solid #e6e6e6'
+					flexDir='column'
+					p="1rem"
+					borderRadius='1.5rem'
+					alignItems='center'
+					justifyContent='center'>
+					<Text
+						fontSize={{base: "12px", md: "14px"}}
+						color='black'
+						variant='normalExt'>
+						تعداد
+					</Text>
+					<Text
+						color='black'
+						variant='normalMedium'
+						fontSize={{base: "12px", md: "16px"}}>
+						{count.toString()}
+					</Text>
 				</Flex>
 			</Flex>
 		</Flex>

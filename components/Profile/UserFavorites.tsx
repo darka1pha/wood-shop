@@ -10,6 +10,7 @@ import dynamic from "next/dynamic"
 import FavoritesSkeleton from "../Skeleton/FavoritesSkeleton"
 import Head from "next/head"
 import Error from "../Error"
+import NoFavorite from "./NoFavorite"
 
 const FavoriteCard = dynamic(
 	() => {
@@ -105,7 +106,7 @@ const UserFavorites = () => {
 				<Text variant='heading5'>علاقه مندی ها</Text>
 			</Flex>
 			<Flex justifyContent='center' ref={containerRef} flexWrap='wrap' w='100%'>
-				{isSuccess &&
+				{isSuccess && favorites.pages[0].results.length !== 0 ? (
 					favorites?.pages.map((group, index) => (
 						<React.Fragment key={index}>
 							{group?.results.map(
@@ -120,7 +121,10 @@ const UserFavorites = () => {
 								),
 							)}
 						</React.Fragment>
-					))}
+					))
+				) : (
+					<NoFavorite />
+				)}
 			</Flex>
 			<motion.div
 				style={{

@@ -19,6 +19,7 @@ import {
 	IGetPendingOrders,
 	IBuyPendings,
 	IOrder,
+	IError,
 } from "./interfaces"
 import {apiPathes} from "."
 import Cookies from "js-cookie"
@@ -425,7 +426,7 @@ export const useGetCategoryProducts = ({id, ordering}: IGetCatProducts) =>
 	)
 
 export const useGetProductInfo = (id: number) =>
-	useQuery<IFullProducts>(
+	useQuery<IFullProducts, IError>(
 		[`Product-${id}`],
 		async () => {
 			const {data} = await axios.get(MAIN + PRODUCT_DETAILS + id, {
@@ -706,12 +707,14 @@ export const useGetCartCount = () =>
 	useQuery(
 		["cartCounts"],
 		async () => {
-			const {data} = await axios.get(MAIN + CART_COUNT, {
-				headers: {
-					Authorization: `Bearer ${Cookies.get("accessToken")}`,
-				},
-			})
-			return data.result
+			const {data} = Cookies.get("accessToken")
+				? await axios.get(MAIN + CART_COUNT, {
+						headers: {
+							Authorization: `Bearer ${Cookies.get("accessToken")}`,
+						},
+				  })
+				: {data: null}
+			return Cookies.get("accessToken") ? data.result : null
 		},
 		{refetchOnWindowFocus: false},
 	)
