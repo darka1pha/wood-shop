@@ -1,6 +1,7 @@
 import {Button} from "@chakra-ui/button"
 import {Input} from "@chakra-ui/input"
 import {Flex} from "@chakra-ui/layout"
+import {Spinner} from "@chakra-ui/react"
 import {useRouter} from "next/router"
 import React, {useState} from "react"
 import {useMutation} from "react-query"
@@ -9,21 +10,24 @@ import {useResetPassword} from "../../../API"
 import {IError, IMainSignup} from "../../../API/interfaces"
 import {Text} from "../../../components"
 import withUser from "../../../components/HOC/withUser"
-import {ISetAlert, setAlert} from "../../../redux"
+import {ISetAlert, setAlert, setLoading} from "../../../redux"
 
 const Index = ({setAlert}) => {
 	const router = useRouter()
 
 	const [phonenumber, setPhonenumber] = useState("")
+	const [isLoading, setIsLoading] = useState(false)
 
 	const resetMutation = useMutation(
 		(data: IMainSignup) => useResetPassword(data),
 		{
 			onSuccess: () => {
-				localStorage.setItem("phone_number", "+98" + phonenumber)
+				setIsLoading(false)
+				localStorage.setItem("pnReset", "+98" + phonenumber)
 				router.push("/auth/reset-pass/verify")
 			},
 			onError: (err: IError) => {
+				setIsLoading(false)
 				console.log(err.response.data.error.code)
 				if (err.response.data.error.code === 491) {
 					setAlert({content: "شمار وارد شده اشتباه است", type: "error"})
@@ -119,7 +123,7 @@ const Index = ({setAlert}) => {
 								_placeholder={{
 									fontSize: "12px",
 								}}
-								placeholder='بدون صفر'
+								placeholder='9123456789'
 								type='number'
 								h='35px'
 								value={phonenumber}
@@ -129,6 +133,7 @@ const Index = ({setAlert}) => {
 						</Flex>
 						<Flex w='100%' dir='rtl' flexDir='column' m='1rem 0 0 0'>
 							<Button
+								disabled={phonenumber.length < 10}
 								fontFamily='Vazir'
 								fontSize='14px'
 								mb='.5rem'
@@ -144,12 +149,13 @@ const Index = ({setAlert}) => {
 								_active={{
 									bgColor: "btnActive",
 								}}
-								onClick={() =>
+								onClick={() => {
+									setIsLoading(true)
 									resetMutation.mutate({
 										phone_number: "+98" + phonenumber,
 									})
-								}>
-								ارسال کد پیامکی
+								}}>
+								{isLoading ? <Spinner color='#fff' /> : "ارسال کد پیامکی"}
 							</Button>
 							<Button
 								fontFamily='Vazir'

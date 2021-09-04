@@ -20,7 +20,7 @@ const Index = ({setAlert}) => {
 		{
 			onSuccess: () => {
 				setIsLoading(false)
-				localStorage.setItem("phone_number", "+98" + phonenumber)
+				localStorage.setItem("pnSignin", "+98" + phonenumber)
 				router.push("/auth/signin/verify")
 			},
 			onError: (err: IError) => {

@@ -2,7 +2,7 @@ import {useEffect, useState} from "react"
 import {motion} from "framer-motion"
 import {Box} from "@chakra-ui/layout"
 import {useGetCategories} from "../../API"
-import {Icon, Flex} from "@chakra-ui/react"
+import {Icon, Flex, Skeleton} from "@chakra-ui/react"
 import Text from "../Text"
 import {FiShoppingBag} from "react-icons/fi"
 import dynamic from "next/dynamic"
@@ -21,7 +21,7 @@ const Menu = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [prevScrollPos, setPrevScrollPos] = useState(0)
 	const [visible, setVisible] = useState(true)
-	const {data: categories} = useGetCategories()
+	const {data: categories, isError} = useGetCategories()
 	const router = useRouter()
 
 	const handleScroll = () => {
@@ -63,11 +63,20 @@ const Menu = () => {
 
 	useEffect(() => {
 		window.addEventListener("scroll", handleScroll)
-		// setCategories(queryClient.getQueryData([`categories`]))
 		return () => {
 			window.removeEventListener("scroll", handleScroll)
 		}
 	}, [prevScrollPos, visible, handleScroll, isMenuOpen])
+
+	if (isError) return null
+
+	if (!categories)
+		return (
+			<Skeleton pos='absolute' top='85px'>
+				<Flex h='60px' w='100vw' zIndex='100'></Flex>
+			</Skeleton>
+		)
+
 	return (
 		<Box
 			display={
@@ -77,7 +86,7 @@ const Menu = () => {
 			}>
 			<motion.div
 				layout
-				initial="hidden"
+				initial='hidden'
 				animate={{
 					height: visible ? "60px" : "0",
 					top: visible ? "85px" : "-10px",

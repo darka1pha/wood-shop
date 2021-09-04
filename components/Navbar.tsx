@@ -18,6 +18,7 @@ import {
 	Collapse,
 	ScaleFade,
 	SlideFade,
+	Skeleton,
 } from "@chakra-ui/react"
 import {FiUser, FiShoppingCart, FiSearch} from "react-icons/fi"
 import {FaTimes} from "react-icons/fa"
@@ -44,20 +45,12 @@ const NewNavbar = ({user, setAlert}) => {
 	const {data: countData, isError: countDataError} = useGetCartCount()
 
 	let condition = false
-
-	// const [isOpen, setIsOpen] = useState(false)
 	const [isSearchActive, setIsSearchActive] = useState(false)
 	const [isSearchOpen, setIsSearchOpen] = useState(false)
 	const [searchValue, setSearchValue] = useState("")
 
 	const {isOpen, onOpen, onClose} = useDisclosure()
 	const btnRef = React.useRef()
-
-	const onCartClicked = () => {
-		if (!user) {
-			setAlert({content: "وارد شوید یا ثبت نام کنید!", type: "warning"})
-		} else router.push("/cart")
-	}
 
 	const onSearchCliked = () => {
 		if (!isSearchOpen) {
@@ -121,23 +114,6 @@ const NewNavbar = ({user, setAlert}) => {
 		}
 	}, [btnSearchRef])
 
-	const variants = {
-		visible: {
-			opacity: 1,
-			transition: {
-				ease: "easeInOut",
-				duration: 0.4,
-			},
-		},
-		hidden: {
-			type: "spring",
-			opacity: 0,
-			transition: {
-				duration: 0.4,
-			},
-		},
-	}
-
 	const SearchVariants = {
 		active: {
 			width: "100%",
@@ -164,8 +140,16 @@ const NewNavbar = ({user, setAlert}) => {
 			},
 		},
 	}
+	
+	if (countDataError || categoryError) return null
 
-	if (countDataError || categoryError) return <Error />
+	if (!categories)
+		return (
+			<Skeleton>
+				<Flex h='85px' w='100%' zIndex='100'></Flex>
+			</Skeleton>
+		)
+
 
 	return (
 		<>
@@ -284,12 +268,10 @@ const NewNavbar = ({user, setAlert}) => {
 								_focus={{
 									outline: "none",
 								}}
-								// onClick={onCartClicked}
 							/>
 						</a>
 					</Link>
-					<Link
-						href={{pathname: "/profile", query: {page: "profileinfo"}}}>
+					<Link href={{pathname: "/profile", query: {page: "profileinfo"}}}>
 						<a>
 							<Icon
 								cursor='pointer'
@@ -318,46 +300,43 @@ const NewNavbar = ({user, setAlert}) => {
 						bgColor='btnBg'>
 						{countData?.count}
 					</Flex>
-					<Button
-						display={{base: "none", md: "flex"}}
-						rightIcon={<Icon as={FiUser} fontSize={22} />}
-						color='primary'
-						bg='transparent'
-						border='2px solid #0072A3'
-						_focus={{
-							outline: 0,
-						}}
-						_hover={{
-							bg: "transparent",
-							outline: 0,
-						}}
-						_active={{
-							bg: "transparent",
-							outline: 0,
-						}}
-						// onClick={() => {
-						// 	user
-						// 		? router.push({
-						// 				pathname: "/profile",
-						// 				query: {page: "profileinfo"},
-						// 		  })
-						// 		: router.push("/auth/signin")
-						// 	isOpen ? setIsOpen(false) : null
-						// }}
-					>
-						{user ? (
-							<Text fontFamily='VazirLight' fontSize='12' mr='2'>
-								<Link
-									href={{pathname: "/profile", query: {page: "profileinfo"}}}>
-									{user.first_name + " " + user.last_name}
-								</Link>
-							</Text>
-						) : (
-							<Text fontFamily='VazirLight' fontSize='12' mr='2'>
-								<Link href={{pathname: "/auth/signin"}}>حساب کاربری</Link>
-							</Text>
-						)}
-					</Button>
+					<Link href={{pathname: "/auth/signin"}}>
+						<a>
+							<Button
+								display={{base: "none", md: "flex"}}
+								rightIcon={<Icon as={FiUser} fontSize={22} />}
+								color='primary'
+								bg='transparent'
+								border='2px solid #0072A3'
+								_focus={{
+									outline: 0,
+								}}
+								_hover={{
+									bg: "transparent",
+									outline: 0,
+								}}
+								_active={{
+									bg: "transparent",
+									outline: 0,
+								}}>
+								{user ? (
+									<Text fontFamily='VazirLight' fontSize='12' mr='2'>
+										<Link
+											href={{
+												pathname: "/profile",
+												query: {page: "profileinfo"},
+											}}>
+											{user.first_name + " " + user.last_name}
+										</Link>
+									</Text>
+								) : (
+									<Text fontFamily='VazirLight' fontSize='12' mr='2'>
+										<Link href={{pathname: "/auth/signin"}}>حساب کاربری</Link>
+									</Text>
+								)}
+							</Button>
+						</a>
+					</Link>
 				</Flex>
 			</Flex>
 			<Drawer

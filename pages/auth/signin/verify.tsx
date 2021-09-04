@@ -17,7 +17,11 @@ import {connect} from "react-redux"
 const Verify = ({setCurrentUser, setAlert}) => {
 	const router = useRouter()
 	const [pin, setPin] = useState("")
-	const [timer, setTimer] = useState(60)
+	const [timer, setTimer] = useState(
+		localStorage.getItem(router.pathname)
+			? Number(localStorage.getItem(router.pathname))
+			: 60,
+	)
 	const [isEnable, setIsEnable] = useState(false)
 
 	const resendMutation = useMutation(
@@ -25,6 +29,9 @@ const Verify = ({setCurrentUser, setAlert}) => {
 		{
 			onSuccess: () => {
 				setAlert({content: "کد جدید ارسال شد", type: "success"})
+				localStorage.removeItem("pnSignin")
+				setIsEnable(false)
+				setTimer(60)
 			},
 			onError: () => {
 				setAlert({content: "مشکلی رخ داده است دوباره تلاش کنید", type: "error"})
@@ -34,6 +41,7 @@ const Verify = ({setCurrentUser, setAlert}) => {
 
 	useEffect(() => {
 		let interval: any = null
+		localStorage.setItem(router.pathname, timer.toString())
 		if (timer > 0) {
 			interval = setInterval(() => {
 				setTimer(timer - 1)
@@ -43,20 +51,18 @@ const Verify = ({setCurrentUser, setAlert}) => {
 		}
 		return () => {
 			clearInterval(interval)
+			localStorage.removeItem(router.pathname)
 		}
 	}, [timer])
 
 	const onResendCode = () => {
-		resendMutation.mutate({phone_number: localStorage.getItem("phone_number")})
-		setIsEnable(false)
-		setTimer(60)
+		resendMutation.mutate({phone_number: localStorage.getItem("pnSignin")})
 	}
 
 	const signinVerifyMutation = useMutation(
 		(data: IVerifySignup) => useVerifySignin(data),
 		{
 			onSuccess: (data) => {
-				// setCurrentUser(data.user);
 				setCurrentUser(data.user)
 				Cookies.set("refreshToken", data.token.refresh, {
 					sameSite: "strict",
@@ -83,6 +89,8 @@ const Verify = ({setCurrentUser, setAlert}) => {
 	const onPinComplete = (val: string) => {
 		signinVerifyMutation.mutate({token: val})
 	}
+
+	if (!localStorage.getItem("pnSignin")) router.push("/auth/signin")
 
 	return (
 		<Flex
@@ -141,13 +149,22 @@ const Verify = ({setCurrentUser, setAlert}) => {
 							mt='.5rem'
 							mb='.5rem'
 							onClick={onResendCode}
-							bgColor='#348541'
+							bgColor='btnBg'
+							_hover={{
+								bgColor: "btnHover",
+							}}
+							_focus={{
+								outline: 0,
+								bgColor: "btnBg",
+							}}
+							_active={{
+								bgColor: "btnActive",
+							}}
 							color='white'
 							fontFamily='Vazir'
 							fontSize='12px'
 							border='none'
 							disabled={!isEnable}
-							_hover={{bgColor: "#3a9448"}}
 							transition='400ms ease-in-out'
 							h='2.5rem'>
 							{timer > 0 ? timer + "\t" + "ارسال مجدد در" : "ارسال مجدد"}

@@ -49,11 +49,10 @@ export default function Home() {
 
 	useEffect(() => {
 		setCategories(queryClient.getQueryData([`categories`]))
-		console.log(
-			"prefetchData: ",
-			prefetchFiltered({filterOption: "score"}),
-		)
+		console.log("prefetchData: ", prefetchFiltered({filterOption: "score"}))
 	}, [queryClient.getQueryData([`categories`])])
+
+	if (error1 || error2 || error3) return <Error />
 
 	if (
 		!newest ||
@@ -64,8 +63,6 @@ export default function Home() {
 		isNewestLoading
 	)
 		return <LandingSkeleton />
-
-	if (error1 || error2 || error3) return <Error />
 
 	return (
 		<Flex

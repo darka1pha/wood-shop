@@ -63,13 +63,14 @@ const {
 	PROGRESS,
 	BUY_PENDINGS,
 	GET_ORDER,
+	GET_NEW_TOKEN,
 } = apiPathes
 
 export const getToken = async () => {
 	if (Cookies.get("accessToken")) {
 		return true
 	} else if (!Cookies.get("accessToken") && Cookies.get("refreshToken")) {
-		const {data} = await axios.post(apiPathes.MAIN, {
+		const {data} = await axios.post(MAIN + AUTH + GET_NEW_TOKEN, {
 			refresh: Cookies.get("refreshToken"),
 		})
 		Cookies.set("accessToken", data.access, {
@@ -96,7 +97,6 @@ export const useResetPassword = async (props: IMainSignup) => {
 }
 
 export const useVerifyResetPassword = async (props: IVerifyResetPassword) => {
-	console.log("Data: ", props, localStorage.getItem("phone_number"))
 	const {token, confirm_password, new_password} = props
 	const {data} = await axios.patch(MAIN + AUTH + RESET_VERIFY, {
 		phone_number: localStorage.getItem("phone_number"),
@@ -119,15 +119,6 @@ export const useVerifySignup = async (props: IVerifySignup) => {
 
 export const useMainSignin = async (props: IMainSignup) => {
 	const {phone_number} = props
-	console.log(
-		"Data: ",
-		{
-			phone_number,
-		},
-		"\n",
-		"API: ",
-		MAIN + AUTH + SIGN_IN_PHONENUMBER,
-	)
 	const {data} = await axios.post(MAIN + AUTH + SIGN_IN_PHONENUMBER, {
 		phone_number,
 	})
@@ -150,6 +141,7 @@ export const useSigninPassword = async (props: ISigninPassword) => {
 	const {data} = await axios.post(MAIN + AUTH + SIGN_IN_PASSWORD, {
 		password: password,
 		phone_number: phone_number,
+		withCredentials: true,
 	})
 	return data
 }
@@ -163,7 +155,6 @@ export const profileUpdate = async (data: {
 }) => {
 	const {last_name, first_name, password, phone_number, national_id} = data
 	const token = Cookies.get("accessToken")
-	// console.log("DATA: ", { ...data });
 	const res = await axios.patch(
 		MAIN + AUTH + UPDATE_PROFILE,
 		{
@@ -189,7 +180,6 @@ export const profileUpdatePassword = async (data: {
 }) => {
 	const {confirm_password, new_password, password} = data
 	const token = Cookies.get("accessToken")
-	console.log("DATA: ", {...data})
 	const res = await axios.patch(
 		MAIN + AUTH + UPDATE_PASSWORD,
 		{
@@ -242,21 +232,15 @@ export const useGetCategories = () =>
 	)
 
 export const useDeleteBookmark = async (id: number) => {
-	try {
-		const {data} = await axios.delete(MAIN + DELETE_BOOKMARK + id, {
-			headers: {
-				Authorization: `Bearer ${Cookies.get("accessToken")}`,
-			},
-		})
-		console.log(data)
-		return data
-	} catch (error) {
-		console.log(error.response)
-	}
+	const {data} = await axios.delete(MAIN + DELETE_BOOKMARK + id, {
+		headers: {
+			Authorization: `Bearer ${Cookies.get("accessToken")}`,
+		},
+	})
+	return data
 }
 
 export const useAddBookmark = async (id: number) => {
-	console.log("id of product: ", id)
 	const {data} = await axios.post(
 		MAIN + DELETE_BOOKMARK,
 		{
@@ -820,3 +804,6 @@ export const useGetOrder = ({id}) =>
 			refetchOnWindowFocus: false,
 		},
 	)
+
+const x = []
+x.lastIndexOf
