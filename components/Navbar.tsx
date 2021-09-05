@@ -140,7 +140,7 @@ const Navbar = ({user, setAlert}) => {
 			},
 		},
 	}
-	
+
 	if (countDataError || categoryError) return null
 
 	if (!categories)
@@ -149,7 +149,6 @@ const Navbar = ({user, setAlert}) => {
 				<Flex h='85px' w='100%' zIndex='100'></Flex>
 			</Skeleton>
 		)
-
 
 	return (
 		<>
@@ -300,7 +299,12 @@ const Navbar = ({user, setAlert}) => {
 						bgColor='btnBg'>
 						{countData?.count}
 					</Flex>
-					<Link href={{pathname: "/auth/signin"}}>
+					<Link
+						href={
+							user
+								? {pathname: "/profile", query: {page: "profileinfo"}}
+								: {pathname: "/auth/signin"}
+						}>
 						<a>
 							<Button
 								display={{base: "none", md: "flex"}}
@@ -321,17 +325,11 @@ const Navbar = ({user, setAlert}) => {
 								}}>
 								{user ? (
 									<Text fontFamily='VazirLight' fontSize='12' mr='2'>
-										<Link
-											href={{
-												pathname: "/profile",
-												query: {page: "profileinfo"},
-											}}>
-											{user.first_name + " " + user.last_name}
-										</Link>
+										{user.first_name + " " + user.last_name}
 									</Text>
 								) : (
 									<Text fontFamily='VazirLight' fontSize='12' mr='2'>
-										<Link href={{pathname: "/auth/signin"}}>حساب کاربری</Link>
+										حساب کاربری
 									</Text>
 								)}
 							</Button>

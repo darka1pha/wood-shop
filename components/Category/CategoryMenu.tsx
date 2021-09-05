@@ -39,8 +39,8 @@ const CategoryMenu = ({
 	borderRadius = "0",
 	w,
 }: ICatItem) => {
+	console.log("AcIndex: ", items)
 	if (!items) return <CategoryMenuSkeleton />
-	console.log("AcIndex: ", activeIndex)
 	return (
 		<Accordion
 			borderRadius='.5rem'
