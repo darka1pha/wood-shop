@@ -138,11 +138,14 @@ export const useVerifySignin = async (props: IVerifySignup) => {
 export const useSigninPassword = async (props: ISigninPassword) => {
 	const {password, phone_number} = props
 	console.log("data : ", props)
-	const {data} = await axios.post(MAIN + AUTH + SIGN_IN_PASSWORD, {
-		password: password,
-		phone_number: phone_number,
-		withCredentials: true,
-	})
+	const {data} = await axios.post(
+		MAIN + AUTH + SIGN_IN_PASSWORD,
+		{
+			password: password,
+			phone_number: phone_number,
+		},
+		{withCredentials: true},
+	)
 	return data
 }
 

@@ -119,10 +119,8 @@ const Index = ({setAlert}) => {
 								شماره تلفن
 							</Text>
 							<Input
-								fontFamily='Vazir'
-								_placeholder={{
-									fontSize: "12px",
-								}}
+								fontFamily='VazirM'
+								fontSize='14px'
 								placeholder='9123456789'
 								type='number'
 								h='35px'

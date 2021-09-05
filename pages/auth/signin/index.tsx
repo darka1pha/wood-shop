@@ -121,9 +121,7 @@ const Index = ({setAlert}) => {
 							</Text>
 							<Input
 								fontFamily='Vazir'
-								_placeholder={{
-									fontSize: "12px",
-								}}
+								fontSize='14px'
 								placeholder='9123456789'
 								type='number'
 								h='35px'

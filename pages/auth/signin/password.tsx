@@ -5,7 +5,8 @@ import {
 	InputLeftAddon,
 	Icon,
 	Button,
-  Text
+	Text,
+	Spinner,
 } from "@chakra-ui/react"
 import {useRouter} from "next/router"
 import {useState} from "react"
@@ -23,11 +24,13 @@ const Password = ({setAlert, setCurrentUser}) => {
 	const router = useRouter()
 	const [phonenumber, setPhonenumber] = useState("")
 	const [password, setPassword] = useState("")
+	const [isLoading, setIsLoading] = useState(false)
 
 	const signinPasswordMutation = useMutation(
 		(data: ISigninPassword) => useSigninPassword(data),
 		{
 			onSuccess: (data) => {
+				setIsLoading(false)
 				setCurrentUser(data.user)
 				Cookies.set("refreshToken", data.token.refresh, {
 					sameSite: "strict",
@@ -48,7 +51,7 @@ const Password = ({setAlert, setCurrentUser}) => {
 				router.push("/")
 			},
 			onError: (err: IError) => {
-				console.log("error", err.response)
+				setIsLoading(false)
 				if (err.response.data.error.code === 491) {
 					setAlert({
 						content: "فرمت شماره تلفن یا رمز عبور اشتباه است",
@@ -114,10 +117,18 @@ const Password = ({setAlert, setCurrentUser}) => {
 						m='1rem'
 						as='form'>
 						<Flex w='100%' dir='rtl' flexDir='column' mb='1rem' mt='1rem'>
-							<Text mb='.2rem' mr='.5rem' color='black' fontSize={12} fontFamily="Vazir">
+							<Text
+								mb='.2rem'
+								mr='.5rem'
+								color='black'
+								fontSize={12}
+								fontFamily='Vazir'>
 								شماره تلفن
 							</Text>
 							<Input
+								fontSize='14px'
+								fontFamily='Vazir'
+								placeholder='9123456789'
 								value={phonenumber}
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 									setPhonenumber(e.target.value)
@@ -127,7 +138,12 @@ const Password = ({setAlert, setCurrentUser}) => {
 							/>
 						</Flex>
 						<Flex w='100%' dir='rtl' flexDir='column'>
-							<Text mb='.2rem' mr='.5rem' color='black' fontSize={12} fontFamily="Vazir">
+							<Text
+								mb='.2rem'
+								mr='.5rem'
+								color='black'
+								fontSize={12}
+								fontFamily='Vazir'>
 								رمز عبور
 							</Text>
 							<InputGroup dir='ltr'>
@@ -151,8 +167,8 @@ const Password = ({setAlert, setCurrentUser}) => {
 							</InputGroup>
 							<Text
 								color='#383838'
-								fontFamily="VazirBold"
-                fontSize={11}
+								fontFamily='VazirBold'
+								fontSize={11}
 								cursor='pointer'
 								mt='.5rem'
 								onClick={() => router.push("/auth/reset-pass")}>
@@ -160,8 +176,8 @@ const Password = ({setAlert, setCurrentUser}) => {
 							</Text>
 							<Text
 								color='btnBg'
-								fontFamily="VazirBold"
-                fontSize={11}
+								fontFamily='VazirBold'
+								fontSize={11}
 								cursor='pointer'
 								mt='.5rem'
 								onClick={() => router.push("/auth/signin")}>
@@ -185,13 +201,14 @@ const Password = ({setAlert, setCurrentUser}) => {
 								_active={{
 									bgColor: "btnActive",
 								}}
-								onClick={() =>
+								onClick={() => {
+									setIsLoading(true)
 									signinPasswordMutation.mutate({
 										phone_number: "+98" + phonenumber,
 										password: password,
 									})
-								}>
-								ورود
+								}}>
+								{isLoading ? <Spinner color='#fff' /> : "ورود"}
 							</Button>
 							<Button
 								fontFamily='Vazir'
