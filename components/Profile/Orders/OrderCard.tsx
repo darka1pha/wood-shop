@@ -100,8 +100,8 @@ const OrderCard = ({
 					<Text fontSize={14}>محصولات</Text>
 				</Flex>
 				<Flex m='1rem' flexWrap='wrap'>
-					{items?.map(({image, name}) => (
-						<Tooltip label={name}>
+					{items?.map(({image, name}, key) => (
+						<Tooltip key={key} label={name}>
 							<Image src={image_url} h='80px' w='auto' />
 						</Tooltip>
 					))}

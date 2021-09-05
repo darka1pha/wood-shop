@@ -24,7 +24,7 @@ const OrderDetailCard = ({count, product, form}: ICart) => {
 						Object.keys(form)
 							.slice(0, 4)
 							.map((key) => (
-								<Flex>
+								<Flex key={key}>
 									<Text
 										fontSize={{base: "10px", md: "12px"}}
 										color='#717171'
@@ -62,7 +62,7 @@ const OrderDetailCard = ({count, product, form}: ICart) => {
 				<Flex
 					border='1px solid #e6e6e6'
 					flexDir='column'
-					p="1rem"
+					p='1rem'
 					borderRadius='1.5rem'
 					alignItems='center'
 					justifyContent='center'>

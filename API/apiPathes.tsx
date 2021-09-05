@@ -1,6 +1,6 @@
 export const apiPathes = {
-	// MAIN: "http://192.168.1.114:8003/api/v0/",
-	MAIN: "http://185.176.34.207:8003/api/v0/",
+	MAIN: "http://192.168.1.114:8003/api/v0/",
+	// MAIN: "http://185.176.34.207:8003/api/v0/",
 	// MAIN: "http://192.168.1.178:8000/api/v0/",
 	AUTH: "accounts/",
 	RESET_VERIFY: "reset/verify",

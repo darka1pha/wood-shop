@@ -135,14 +135,14 @@ const OrderTabs = () => {
 							compeletes.pages.map(({results}, index) => (
 								<React.Fragment key={index}>
 									{results.map(
-										({cost, items, id, delivery_cost, ordered_date}, key) => (
+										({cost, items, id, delivery_cost, ordered_date}) => (
 											<OrderCard
 												cost={cost}
 												items={items}
 												id={id}
 												delivery_cost={delivery_cost}
 												ordered_date={ordered_date}
-												key={key}
+												key={id}
 											/>
 										),
 									)}
@@ -157,14 +157,14 @@ const OrderTabs = () => {
 							progresses.pages.map(({results}, index) => (
 								<React.Fragment key={index}>
 									{results.map(
-										({cost, items, id, delivery_cost, ordered_date}, key) => (
+										({cost, items, id, delivery_cost, ordered_date}) => (
 											<OrderCard
 												cost={cost}
 												items={items}
 												id={id}
 												delivery_cost={delivery_cost}
 												ordered_date={ordered_date}
-												key={key}
+												key={id}
 											/>
 										),
 									)}

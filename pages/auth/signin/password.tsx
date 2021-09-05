@@ -29,7 +29,7 @@ const Password = ({setAlert, setCurrentUser}) => {
 		{
 			onSuccess: (data) => {
 				setCurrentUser(data.user)
-				Cookies.set("refresh", data.token.refresh, {
+				Cookies.set("refreshToken", data.token.refresh, {
 					sameSite: "strict",
 					expires: 24,
 				})
@@ -37,7 +37,7 @@ const Password = ({setAlert, setCurrentUser}) => {
 					sameSite: "strict",
 					expires: 24,
 				})
-				Cookies.set("access", data.token.access, {
+				Cookies.set("accessToken", data.token.access, {
 					sameSite: "strict",
 					expires: 24,
 				})

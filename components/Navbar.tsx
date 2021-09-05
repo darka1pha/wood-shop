@@ -36,7 +36,7 @@ import {KeyboardEventHandler} from "react"
 import Error from "./Error"
 import Link from "next/link"
 
-const NewNavbar = ({user, setAlert}) => {
+const Navbar = ({user, setAlert}) => {
 	const router = useRouter()
 	const btnSearchRef = useRef(null)
 	const searchRefMd = useRef(null)
@@ -485,4 +485,4 @@ const mapDispatchToProps = (dispatch) => ({
 	setAlert: ({content, type}) => dispatch(setAlert({content, type})),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewNavbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

@@ -7,7 +7,7 @@ interface IPaymentAddress {
 	value?: string
 	city?: string
 	state?: string
-	isChecked?: boolean
+	checked?: boolean
 }
 
 const PaymentAddress = ({
@@ -15,12 +15,12 @@ const PaymentAddress = ({
 	value,
 	city,
 	state,
-	isChecked,
+	checked,
 }: IPaymentAddress) => {
 	return (
 		<Flex justifyContent='flex-end' m='1rem' fontFamily='Vazir'>
 			<Radio
-				isChecked={isChecked}
+				isChecked={checked}
 				cursor='pointer'
 				display='flex'
 				flexDir='row-reverse'
@@ -33,12 +33,12 @@ const PaymentAddress = ({
 					outline: 0,
 				}}>
 				<Text
-					color={isChecked ? "#0E668B" : "black"}
+					color={checked ? "#0E668B" : "black"}
 					cursor='pointer'
 					mr='.5rem'
 					fontFamily='Vazir'
 					fontSize='12px'
-					fontWeight={isChecked ? "700" : "500"}
+					fontWeight={checked ? "700" : "500"}
 					transition='ease-in-out all 300ms'>
 					{state + " -  " + city + " , " + address}
 				</Text>

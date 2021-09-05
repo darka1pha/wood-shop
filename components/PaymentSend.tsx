@@ -3,7 +3,7 @@ import {Radio} from "@chakra-ui/radio"
 import {Text} from "@chakra-ui/react"
 
 interface IPaymentAddress {
-	isChecked: boolean
+	checked: boolean
 	id: number
 	title: string
 	range_start: number
@@ -12,7 +12,7 @@ interface IPaymentAddress {
 }
 
 const PaymentSend = ({
-	isChecked,
+	checked,
 	title,
 	range_start,
 	range_end,
@@ -22,7 +22,7 @@ const PaymentSend = ({
 	return (
 		<Flex
 			alignItems='flex-start'
-			border={isChecked ? "2px solid #0E668B" : "none"}
+			border={checked ? "2px solid #0E668B" : "none"}
 			justifyContent='flex-end'
 			p='.5rem 1rem'
 			borderRadius='.5rem'
@@ -30,7 +30,7 @@ const PaymentSend = ({
 			fontFamily='Vazir'
 			transition='ease-in-out all 200ms'>
 			<Radio
-				isChecked={isChecked}
+				isChecked={checked}
 				transition='ease-in-out all 300ms'
 				cursor='pointer'
 				display='flex'

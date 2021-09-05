@@ -145,11 +145,11 @@ const Menu = () => {
 							direction: "rtl",
 							boxShadow: "0 8px 32px 0 rgba(104, 98, 98, 0.37)",
 						}}>
-						{categories?.map(({title, id, category_set}, key: number) => (
+						{categories?.map(({title, id, category_set}) => (
 							<MenuItem
 								id={id}
 								text={title}
-								key={key}
+								key={id}
 								category_set={category_set}
 							/>
 						))}

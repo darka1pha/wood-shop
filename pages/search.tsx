@@ -87,7 +87,7 @@ const Search = () => {
 					{products?.pages.map((group, index) => (
 						<Fragment key={index}>
 							{group?.results.map(
-								({id, name, image, price, bookmarked, off_id}, key: number) => (
+								({id, name, image, price, bookmarked, off_id}) => (
 									<ProductCard
 										off_id={off_id}
 										bookmarked={bookmarked}
@@ -96,7 +96,7 @@ const Search = () => {
 										background_image={image}
 										id={id}
 										margin='1rem auto'
-										key={key}
+										key={id}
 									/>
 								),
 							)}

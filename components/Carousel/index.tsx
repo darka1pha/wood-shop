@@ -63,23 +63,22 @@ const Carousel = ({data, title}: ICarousel) => {
 						spaceBetween={30}
 						className='mainSwiper'
 						pagination={true}>
-						{data?.map(
-							({name, id, image, price, bookmarked, off_id}, key: number) => (
-								<>
-									<SwiperSlide key={key}>
-										<ProductCard
-											off_id={off_id}
-											bookmarked={bookmarked}
-											price={price}
-											name={name}
-											id={id}
-											margin='.8rem'
-											background_image={image}
-										/>
-									</SwiperSlide>
-								</>
-							),
-						)}
+						{data?.map(({name, id, image, price, bookmarked, off_id}) => (
+							<>
+								<SwiperSlide key={id}>
+									<ProductCard
+										key={id}
+										off_id={off_id}
+										bookmarked={bookmarked}
+										price={price}
+										name={name}
+										id={id}
+										margin='.8rem'
+										background_image={image}
+									/>
+								</SwiperSlide>
+							</>
+						))}
 					</Swiper>
 				</Box>
 			</Flex>

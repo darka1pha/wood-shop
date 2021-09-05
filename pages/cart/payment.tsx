@@ -226,7 +226,8 @@ const payment = ({setAlert}) => {
 							value={selectedSendMethod}>
 							{deliveryStats.map(({id, range_end, range_start, title}) => (
 								<PaymentSend
-									isChecked={Number(selectedSendMethod) === id}
+									key={id}
+									checked={Number(selectedSendMethod) === id}
 									id={id}
 									range_end={range_end}
 									range_start={range_start}
@@ -241,14 +242,14 @@ const payment = ({setAlert}) => {
 					<RadioGroup
 						onChange={onSelectedAddressChange}
 						value={selectedAddress}>
-						{addresses?.map(({street_address, city, province, id}, key) => (
+						{addresses?.map(({street_address, city, province, id}) => (
 							<PaymentAddress
-								isChecked={Number(selectedAddress) === id}
+								checked={Number(selectedAddress) === id}
 								address={street_address}
 								state={province}
 								city={city}
 								value={id}
-								key={key}
+								key={id}
 							/>
 						))}
 					</RadioGroup>

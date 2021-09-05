@@ -63,9 +63,9 @@ const MenuItem = ({text, id, setCurrentCategory, category_set}: MenuItem) => {
 				</Text>
 			</Button>
 			<Flex flexDir='column'>
-				{category_set.map(({title, id}, key) => (
+				{category_set.map(({title, id}) => (
 					<Button
-						key={key}
+						key={id}
 						p='0 1rem'
 						color='white'
 						dir='rtl'

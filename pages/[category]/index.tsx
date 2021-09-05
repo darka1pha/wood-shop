@@ -223,13 +223,13 @@ const index = ({currentCategory, setCategory}) => {
 			<Flex w='25%' display={{base: "none", md: "block"}}>
 				<CategoryMenu
 					activeIndex={
-						categories.results.findIndex(
+						categories.results?.findIndex(
 							({title}) => title === router.query.category,
 						) !== -1
-							? categories.results.findIndex(
+							? categories.results?.findIndex(
 									({title}) => title === router.query.category,
 							  )
-							: categories.results.forEach(({category_set}, index: number) => {
+							: categories.results?.forEach(({category_set}, index: number) => {
 									return category_set.findIndex((cat) =>
 										cat.title === router.query.category ? index : null,
 									)

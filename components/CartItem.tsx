@@ -89,7 +89,7 @@ const CartItem = ({count, product, id, setLoading, form}: ICart) => {
 						Object.keys(form)
 							.slice(0, 4)
 							.map((key) => (
-								<Flex>
+								<Flex key={key}>
 									<Text
 										fontSize={{base: "10px", md: "12px"}}
 										color='#717171'

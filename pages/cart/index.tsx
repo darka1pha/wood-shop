@@ -154,13 +154,13 @@ const index = () => {
 						products?.pages.map((group, index) => (
 							<Fragment key={index}>
 								{group?.results.map(
-									({count, id, product, form}, key: number) => (
+									({count, id, product, form}) => (
 										<CartItem
 											form={form}
 											count={count}
 											id={id}
 											product={product}
-											key={key}
+											key={id}
 										/>
 									),
 								)}

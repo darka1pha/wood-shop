@@ -49,7 +49,7 @@ const CategoryMenu = ({
 			defaultIndex={defaultIndex ? [activeIndex] : null}
 			m={containerMargin}
 			allowToggle>
-			{items.map(({title, id, category_set}, key) => (
+			{items.map(({title, id, category_set}) => (
 				<CategoryItem
 					borderRadius={borderRadius}
 					items={category_set}
@@ -58,7 +58,7 @@ const CategoryMenu = ({
 					color={color}
 					margin={itemsMargin}
 					border={itemsBorder}
-					key={key}
+					key={id}
 					categoryId={id}
 				/>
 			))}

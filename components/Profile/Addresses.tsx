@@ -219,23 +219,20 @@ const Addresses = () => {
 				addresses?.pages?.map((group, index) => (
 					<Fragment key={index}>
 						{group?.results.map(
-							(
-								{
-									id,
-									city,
-									postal_code,
-									province,
-									receiver_family,
-									receiver_name,
-									receiver_number,
-									street_address,
-								}: IRecivedAddress,
-								key: number,
-							) => (
+							({
+								id,
+								city,
+								postal_code,
+								province,
+								receiver_family,
+								receiver_name,
+								receiver_number,
+								street_address,
+							}: IRecivedAddress) => (
 								<AddressItem
 									address={street_address}
 									id={id}
-									key={key}
+									key={id}
 									name={receiver_name + " " + receiver_family}
 									postal_code={postal_code}
 									phone_number={receiver_number}

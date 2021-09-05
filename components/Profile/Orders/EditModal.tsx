@@ -110,7 +110,7 @@ const EditModal = ({
 							value={selectedSendMethod}>
 							{deliveries.map(({id, range_end, range_start, title}) => (
 								<PaymentSend
-									isChecked={Number(selectedSendMethod) === id}
+									checked={Number(selectedSendMethod) === id}
 									id={id}
 									range_end={range_end}
 									range_start={range_start}
@@ -128,7 +128,7 @@ const EditModal = ({
 							value={selectedAddress}>
 							{addresses.map(({street_address, city, province, id}, key) => (
 								<PaymentAddress
-									isChecked={Number(selectedAddress) === id}
+									checked={Number(selectedAddress) === id}
 									address={street_address}
 									state={province}
 									city={city}

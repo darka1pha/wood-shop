@@ -88,7 +88,7 @@ const CategoryItem = ({
           name="همه"
           activeId={currentCategory.id}
         />
-        {items.map(({ id, title }, key) => (
+        {items.map(({ id, title }) => (
           <PanelItem
             categoryTitle={title}
             onClick={() => {
@@ -104,7 +104,7 @@ const CategoryItem = ({
             }}
             color={color}
             id={id}
-            key={key}
+            key={id}
             name={title}
             activeId={currentCategory.id}
           />
