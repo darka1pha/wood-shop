@@ -36,15 +36,7 @@ const Password = ({setAlert, setCurrentUser}) => {
 					sameSite: "strict",
 					expires: 24,
 				})
-				Cookies.set("refreshS", data.token.refresh_s, {
-					sameSite: "strict",
-					expires: 24,
-				})
 				Cookies.set("accessToken", data.token.access, {
-					sameSite: "strict",
-					expires: 24,
-				})
-				Cookies.set("access_s", data.token.access_s, {
 					sameSite: "strict",
 					expires: 24,
 				})

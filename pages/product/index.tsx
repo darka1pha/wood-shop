@@ -212,6 +212,7 @@ const index = ({setAlert}) => {
 	}
 
 	if (isError1 || isError2) {
+		console.log("Errrrrr: ", pError)
 		pError.response.status === 404
 			? router.push("/404")
 			: pError.response.status === 500

@@ -10,6 +10,7 @@ import {useRouter} from "next/router"
 import {MouseEventHandler} from "react"
 import Link from "next/link"
 import {Text} from "@chakra-ui/react"
+import Cookies from "js-cookie"
 
 interface CarouselItem {
 	background_image?: string
@@ -62,10 +63,14 @@ const ProductCard = ({
 
 	const onBookmarkClicked: MouseEventHandler<SVGElement> = (e) => {
 		e.stopPropagation()
-		if (!isLiked) {
-			bookmarkMutation.mutate(id)
+		if (Cookies.get("accessToken")) {
+			if (!isLiked) {
+				bookmarkMutation.mutate(id)
+			} else {
+				deleteBookmarkMutation.mutate(id)
+			}
 		} else {
-			deleteBookmarkMutation.mutate(id)
+			setAlert({content: "وارد حساب کاربری خود شوید", type: "warning"})
 		}
 	}
 

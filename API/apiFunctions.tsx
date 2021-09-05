@@ -89,7 +89,6 @@ export const useMainSignup = async (props: IMainSignup) => {
 
 export const useResetPassword = async (props: IMainSignup) => {
 	const {phone_number} = props
-	console.log("DTAT: ", props)
 	const {data} = await axios.post(MAIN + AUTH + RESET, {
 		phone_number,
 	})
@@ -157,6 +156,7 @@ export const profileUpdate = async (data: {
 	national_id?: string
 }) => {
 	const {last_name, first_name, password, phone_number, national_id} = data
+	await getToken()
 	const token = Cookies.get("accessToken")
 	const res = await axios.patch(
 		MAIN + AUTH + UPDATE_PROFILE,
@@ -182,6 +182,7 @@ export const profileUpdatePassword = async (data: {
 	new_password?: string
 }) => {
 	const {confirm_password, new_password, password} = data
+	await getToken()
 	const token = Cookies.get("accessToken")
 	const res = await axios.patch(
 		MAIN + AUTH + UPDATE_PASSWORD,
@@ -204,6 +205,7 @@ export const useGetFavorites = () =>
 		["userFavorites"],
 		async ({pageParam = 1}) => {
 			if (typeof pageParam === typeof 1) {
+				await getToken()
 				const {data} = await axios.get(
 					MAIN + BOOKMARKS + "?page=" + pageParam,
 					{
@@ -235,6 +237,7 @@ export const useGetCategories = () =>
 	)
 
 export const useDeleteBookmark = async (id: number) => {
+	await getToken()
 	const {data} = await axios.delete(MAIN + DELETE_BOOKMARK + id, {
 		headers: {
 			Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -244,6 +247,7 @@ export const useDeleteBookmark = async (id: number) => {
 }
 
 export const useAddBookmark = async (id: number) => {
+	await getToken()
 	const {data} = await axios.post(
 		MAIN + DELETE_BOOKMARK,
 		{
@@ -262,6 +266,7 @@ export const useGetPaymentAddresses = () =>
 	useQuery(
 		["profileAddresses"],
 		async () => {
+			await getToken()
 			const {data} = await axios.get(MAIN + ADDRESSES + "?page_size=100", {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -279,7 +284,7 @@ export const useGetAddresses = () =>
 	useInfiniteQuery(
 		["userAddresses"],
 		async ({pageParam = 1}) => {
-			console.log("GetAdresses")
+			await getToken()
 			if (typeof pageParam === typeof 1) {
 				const {data} = await axios.get(
 					MAIN + ADDRESSES + "?page=" + pageParam,
@@ -308,58 +313,43 @@ export const useAddAddress = async ({
 	receiver_number,
 	street_address,
 }: IRecivedAddress) => {
-	console.log("Data to Post : ", {
-		city,
-		postal_code,
-		province,
-		receiver_family,
-		receiver_name,
-		receiver_number,
-		street_address,
-	})
-	try {
-		const {data} = await axios.post(
-			MAIN + ADDRESSES,
-			{
-				city,
-				postal_code,
-				province,
-				receiver_family,
-				receiver_name,
-				receiver_number,
-				street_address,
-			},
-			{
-				headers: {
-					Authorization: `Bearer ${Cookies.get("accessToken")}`,
-				},
-			},
-		)
-		return data
-	} catch (error) {
-		return error
-	}
-}
-
-export const useDeleteAddress = async (id: number) => {
-	console.log("Address Id: ", id)
-	try {
-		const {data} = await axios.delete(MAIN + DELETE_ADDRESS + id, {
+	await getToken()
+	const {data} = await axios.post(
+		MAIN + ADDRESSES,
+		{
+			city,
+			postal_code,
+			province,
+			receiver_family,
+			receiver_name,
+			receiver_number,
+			street_address,
+		},
+		{
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
-		})
-		console.log(data)
-		return data
-	} catch (error) {
-		console.log(error.response)
-	}
+		},
+	)
+	return data
+}
+
+export const useDeleteAddress = async (id: number) => {
+	await getToken()
+	const {data} = await axios.delete(MAIN + DELETE_ADDRESS + id, {
+		headers: {
+			Authorization: `Bearer ${Cookies.get("accessToken")}`,
+		},
+	})
+	console.log(data)
+	return data
 }
 
 export const useGetProvinces = () =>
 	useQuery(
 		["provinces"],
 		async () => {
+			await getToken()
 			const {data} = await axios.get(MAIN + GET_PROVINCE, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -373,6 +363,7 @@ export const useGetProvinces = () =>
 	)
 
 export const useGetCities = async (id: number) => {
+	await getToken()
 	const {data} = await axios.get(MAIN + GET_PROVINCE + id + "/cities", {
 		headers: {
 			Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -385,13 +376,7 @@ export const useGetCategoryProducts = ({id, ordering}: IGetCatProducts) =>
 	useInfiniteQuery(
 		[`Products${id}`, id, ordering],
 		async ({pageParam = 1}) => {
-			console.log(
-				"Address To Req: ",
-				MAIN +
-					GET_CATEGORY_PRODUCTS +
-					id +
-					`/products?ordering=${ordering}&page=${pageParam}`,
-			)
+			await getToken()
 			const {data}: any = await axios.get(
 				MAIN +
 					GET_CATEGORY_PRODUCTS +
@@ -416,11 +401,7 @@ export const useGetProductInfo = (id: number) =>
 	useQuery<IFullProducts, IError>(
 		[`Product-${id}`],
 		async () => {
-			const {data} = await axios.get(MAIN + PRODUCT_DETAILS + id, {
-				headers: {
-					Authorization: `Bearer ${Cookies.get("accessToken")}`,
-				},
-			})
+			const {data} = await axios.get(MAIN + PRODUCT_DETAILS + id)
 			return data.result
 		},
 		{
@@ -436,14 +417,7 @@ export const useSendNewComment = async ({
 	quality_value,
 	text,
 }: IComment) => {
-	console.log("Comment to Post: ", {
-		design_value,
-		feature_value,
-		money_value,
-		product,
-		quality_value,
-		text,
-	})
+	await getToken()
 	const {data} = await axios.post(
 		MAIN + NEW_COMMENT,
 		{
@@ -470,11 +444,6 @@ export const useGetComments = (id: number) =>
 			if (typeof pageParam === typeof 1) {
 				const {data} = await axios.get(
 					MAIN + GET_COMMENTS + id + "?page=" + pageParam,
-					{
-						headers: {
-							Authorization: `Bearer ${Cookies.get("accessToken")}`,
-						},
-					},
 				)
 				return await data
 			}
@@ -490,19 +459,23 @@ export const useSearch = (key: string | string[]) =>
 	useInfiniteQuery(
 		[`search-${key}`, key],
 		async ({pageParam = 1}): Promise<IPaginatedData<IProducts>> => {
-			console.log(
-				"API to REQ: ",
-				MAIN + SEARCH + "?query=" + key + "&page=" + pageParam,
-			)
-			const {data} = await axios.get(
-				MAIN + SEARCH + "?query=" + key + "&page=" + pageParam,
-				{
-					headers: {
-						Authorization: `Bearer ${Cookies.get("accessToken")}`,
+			const haveToken = await getToken()
+			if (haveToken) {
+				const {data} = await axios.get(
+					MAIN + SEARCH + "?query=" + key + "&page=" + pageParam,
+					{
+						headers: {
+							Authorization: `Bearer ${Cookies.get("accessToken")}`,
+						},
 					},
-				},
-			)
-			return await data
+				)
+				return await data
+			} else {
+				const {data} = await axios.get(
+					MAIN + SEARCH + "?query=" + key + "&page=" + pageParam,
+				)
+				return await data
+			}
 		},
 		{
 			getNextPageParam: (lastPage) =>
@@ -512,31 +485,28 @@ export const useSearch = (key: string | string[]) =>
 	)
 
 export const useAddToCart = async ({count, product, form}: IAddToCart) => {
-	console.log("DATA TO POST: ", {product, count, form})
-	try {
-		const {data} = await axios.post(
-			MAIN + ADD_PRODUCT_TO_CART,
-			{
-				product,
-				count,
-				form,
+	await getToken()
+	const {data} = await axios.post(
+		MAIN + ADD_PRODUCT_TO_CART,
+		{
+			product,
+			count,
+			form,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
-			{
-				headers: {
-					Authorization: `Bearer ${Cookies.get("accessToken")}`,
-				},
-			},
-		)
-		return data
-	} catch (error) {
-		return error
-	}
+		},
+	)
+	return data
 }
 
 export const useGetCart = () =>
 	useInfiniteQuery(
 		["cart"],
 		async ({pageParam = 1}): Promise<IPaginatedData<ICart>> => {
+			await getToken()
 			if (typeof pageParam === typeof 1) {
 				const {data} = await axios.get(MAIN + GET_CART + "?page=" + pageParam, {
 					headers: {
@@ -554,6 +524,7 @@ export const useGetCart = () =>
 	)
 
 export const useUpdateCart = async ({cart_id, count}: IUpdateCart) => {
+	await getToken()
 	const {data} = await axios.patch(
 		MAIN + ADD_PRODUCT_TO_CART + cart_id,
 		{
@@ -569,6 +540,7 @@ export const useUpdateCart = async ({cart_id, count}: IUpdateCart) => {
 }
 
 export const useDeleteCart = async ({cart_id}: IUpdateCart) => {
+	await getToken()
 	const {data} = await axios.delete(MAIN + ADD_PRODUCT_TO_CART + cart_id, {
 		headers: {
 			Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -581,6 +553,7 @@ export const useGetCartInfo = () =>
 	useQuery(
 		["cartInfo"],
 		async () => {
+			await getToken()
 			const {data} = await axios.get(MAIN + GET_CART_INFO, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -595,16 +568,23 @@ export const useGetFiltredData = ({filterOption}) =>
 	useQuery(
 		[`filteredData-${filterOption}`],
 		async () => {
-			// console.log("Address: ", MAIN + FILTER + `?${filterOption}&page_size=100`)
-			const {data} = await axios.get(
-				MAIN + FILTER + `?${filterOption}&page_size=100`,
-				{
-					headers: {
-						Authorization: `Bearer ${Cookies.get("accessToken")}`,
+			const haveToken = await getToken()
+			if (haveToken) {
+				const {data} = await axios.get(
+					MAIN + FILTER + `?${filterOption}&page_size=100`,
+					{
+						headers: {
+							Authorization: `Bearer ${Cookies.get("accessToken")}`,
+						},
 					},
-				},
-			)
-			return data.results
+				)
+				return data.results
+			} else {
+				const {data} = await axios.get(
+					MAIN + FILTER + `?${filterOption}&page_size=100`,
+				)
+				return data.results
+			}
 		},
 		{refetchOnWindowFocus: false},
 	)
@@ -613,11 +593,7 @@ export const useGetBanners = () =>
 	useQuery<Array<IBanners>>(
 		["banners"],
 		async () => {
-			const {data} = await axios.get(MAIN + BANNERS, {
-				headers: {
-					Authorization: `Bearer ${Cookies.get("accessToken")}`,
-				},
-			})
+			const {data} = await axios.get(MAIN + BANNERS)
 			return data.results
 		},
 		{refetchOnWindowFocus: false},
@@ -627,16 +603,23 @@ export const useGetBannerProducts = (id: string | string[]) =>
 	useInfiniteQuery(
 		[`Banners`],
 		async ({pageParam = 1}) => {
-			console.log("Address To Req: ", MAIN + BANNERS + id)
-			const {data}: any = await axios.get(
-				MAIN + BANNERS + id + `?page=${pageParam}`,
-				{
-					headers: {
-						Authorization: `Bearer ${Cookies.get("accessToken")}`,
+			const haveToken = await getToken()
+			if (haveToken) {
+				const {data}: any = await axios.get(
+					MAIN + BANNERS + id + `?page=${pageParam}`,
+					{
+						headers: {
+							Authorization: `Bearer ${Cookies.get("accessToken")}`,
+						},
 					},
-				},
-			)
-			return data
+				)
+				return data
+			} else {
+				const {data}: any = await axios.get(
+					MAIN + BANNERS + id + `?page=${pageParam}`,
+				)
+				return data
+			}
 		},
 		{
 			getNextPageParam: (lastPage) =>
@@ -646,6 +629,7 @@ export const useGetBannerProducts = (id: string | string[]) =>
 	)
 
 export const useSetScore = async ({value, product}: ISetScore) => {
+	await getToken()
 	const {data} = await axios.post(
 		MAIN + SCORE,
 		{
@@ -662,6 +646,7 @@ export const useSetScore = async ({value, product}: ISetScore) => {
 }
 
 export const useUpdateScore = async ({value, product}: ISetScore) => {
+	await getToken()
 	const {data} = await axios.patch(
 		MAIN + SCORE + product,
 		{
@@ -680,6 +665,7 @@ export const useGetDeliveryStats = () =>
 	useQuery<Array<IDeliveryStats>>(
 		["deliveryStats"],
 		async () => {
+			await getToken()
 			const {data} = await axios.get(MAIN + DELIVERY_STATUS, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -694,6 +680,7 @@ export const useGetCartCount = () =>
 	useQuery(
 		["cartCounts"],
 		async () => {
+			await getToken()
 			const {data} = Cookies.get("accessToken")
 				? await axios.get(MAIN + CART_COUNT, {
 						headers: {
@@ -707,7 +694,7 @@ export const useGetCartCount = () =>
 	)
 
 export const usePayment = async ({delivery_type, address}) => {
-	console.log({delivery_type, address})
+	await getToken()
 	const {data} = await axios.post(
 		MAIN + PAYMENT,
 		{delivery_type, address},
@@ -724,6 +711,7 @@ export const useGetCompeleteOrders = () =>
 	useInfiniteQuery(
 		[`compelete`],
 		async ({pageParam = 1}): Promise<IPaginatedData<IGetOrders>> => {
+			await getToken()
 			const {data} = await axios.get(MAIN + COMPELETE + `?page=${pageParam}`, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -742,6 +730,7 @@ export const useGetPendingOrders = () =>
 	useInfiniteQuery(
 		[`pending`],
 		async ({pageParam = 1}): Promise<IPaginatedData<IGetPendingOrders>> => {
+			await getToken()
 			const {data} = await axios.get(MAIN + PENDING + `?page=${pageParam}`, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -760,6 +749,7 @@ export const useGetProgressOrders = () =>
 	useInfiniteQuery(
 		[`progress`],
 		async ({pageParam = 1}): Promise<IPaginatedData<IGetOrders>> => {
+			await getToken()
 			const {data} = await axios.get(MAIN + PROGRESS + `?page=${pageParam}`, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -779,6 +769,7 @@ export const useBuyPendings = async ({
 	address,
 	delivery,
 }: IBuyPendings) => {
+	await getToken()
 	const {data} = await axios.post(
 		MAIN + BUY_PENDINGS,
 		{order, address, delivery_type: delivery},
@@ -795,7 +786,7 @@ export const useGetOrder = ({id}) =>
 	useQuery<IOrder>(
 		[`Order-${id}`],
 		async () => {
-			console.log("ID: ", id)
+			await getToken()
 			const {data} = await axios.get(MAIN + GET_ORDER + id, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -807,6 +798,3 @@ export const useGetOrder = ({id}) =>
 			refetchOnWindowFocus: false,
 		},
 	)
-
-const x = []
-x.lastIndexOf

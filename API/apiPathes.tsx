@@ -28,7 +28,7 @@ export const apiPathes = {
 	ADD_PRODUCT_TO_CART: "shop/cart/",
 	GET_CART: "shop/cart",
 	GET_CART_INFO: "shop/cart/info",
-	FILTER: "shop/filter",
+	FILTER: "shop/filter/",
 	PAYMENT: "payment/request/",
 	BANNERS: "shop/banners/",
 	SCORE: "shop/score/",

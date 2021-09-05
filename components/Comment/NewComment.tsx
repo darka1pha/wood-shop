@@ -12,6 +12,7 @@ import {useSendNewComment} from "../../API"
 import {connect} from "react-redux"
 import {ISetAlert, setAlert} from "../../redux"
 import {IComment, IError} from "../../API/interfaces"
+import Cookies from "js-cookie"
 
 interface INewComment {
 	setAlert: ({}: ISetAlert) => void
@@ -81,19 +82,22 @@ const NewComment = ({setAlert, productId}: INewComment) => {
 	}, [posValues, negValues, comment.text])
 
 	const sendComment = async () => {
-		if (
-			money_value === 0 ||
-			feature_value === 0 ||
-			quality_value === 0 ||
-			design_value === 0
-		) {
-			setAlert({content: "لطفا امتیازات کالا را وارد کنید", type: "error"})
-		} else if (text.length === 0) {
-			setAlert({content: "پیام نمیتواند خالی باشد", type: "error"})
+		if (Cookies.get("refreshToken")) {
+			if (
+				money_value === 0 ||
+				feature_value === 0 ||
+				quality_value === 0 ||
+				design_value === 0
+			) {
+				setAlert({content: "لطفا امتیازات کالا را وارد کنید", type: "error"})
+			} else if (text.length === 0) {
+				setAlert({content: "پیام نمیتواند خالی باشد", type: "error"})
+			} else {
+				commentMutation.mutateAsync(comment)
+			}
 		} else {
-			commentMutation.mutateAsync(comment)
+			setAlert({content: "وارد حساب کاربری خود شوید", type: "warning"})
 		}
-		console.log("Comment: ", comment)
 	}
 
 	const ratingTitles = [
