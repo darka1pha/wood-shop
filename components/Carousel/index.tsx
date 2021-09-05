@@ -64,10 +64,8 @@ const Carousel = ({data, title}: ICarousel) => {
 						className='mainSwiper'
 						pagination={true}>
 						{data?.map(({name, id, image, price, bookmarked, off_id}) => (
-							<>
 								<SwiperSlide key={id}>
 									<ProductCard
-										key={id}
 										off_id={off_id}
 										bookmarked={bookmarked}
 										price={price}
@@ -77,7 +75,6 @@ const Carousel = ({data, title}: ICarousel) => {
 										background_image={image}
 									/>
 								</SwiperSlide>
-							</>
 						))}
 					</Swiper>
 				</Box>
