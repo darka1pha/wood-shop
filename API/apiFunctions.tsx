@@ -70,9 +70,13 @@ export const getToken = async () => {
 	if (Cookies.get("accessToken")) {
 		return true
 	} else if (!Cookies.get("accessToken") && Cookies.get("refreshToken")) {
-		const {data} = await axios.post(MAIN + AUTH + GET_NEW_TOKEN, {
-			refresh: Cookies.get("refreshToken"),
-		})
+		const {data} = await axios.post(
+			MAIN + AUTH + GET_NEW_TOKEN,
+			{
+				refresh: Cookies.get("refreshToken"),
+			},
+			{withCredentials: true},
+		)
 		Cookies.set("accessToken", data.access, {
 			sameSite: "strict",
 			expires: 1 / 24,
@@ -83,60 +87,82 @@ export const getToken = async () => {
 
 export const useMainSignup = async (props: IMainSignup) => {
 	const {phone_number} = props
-	const {data} = await axios.post(MAIN + AUTH + SIGN_UP, {phone_number})
+	const {data} = await axios.post(
+		MAIN + AUTH + SIGN_UP,
+		{phone_number},
+		{withCredentials: true},
+	)
 	return data
 }
 
 export const useResetPassword = async (props: IMainSignup) => {
 	const {phone_number} = props
-	const {data} = await axios.post(MAIN + AUTH + RESET, {
-		phone_number,
-	})
+	const {data} = await axios.post(
+		MAIN + AUTH + RESET,
+		{
+			phone_number,
+		},
+		{withCredentials: true},
+	)
 	return data
 }
 
 export const useVerifyResetPassword = async (props: IVerifyResetPassword) => {
 	const {token, confirm_password, new_password} = props
-	const {data} = await axios.patch(MAIN + AUTH + RESET_VERIFY, {
-		phone_number: localStorage.getItem("phone_number"),
-		new_password,
-		confirm_password,
-		token,
-	})
+	const {data} = await axios.patch(
+		MAIN + AUTH + RESET_VERIFY,
+		{
+			phone_number: localStorage.getItem("phone_number"),
+			new_password,
+			confirm_password,
+			token,
+		},
+		{withCredentials: true},
+	)
 	return data
 }
 
 export const useVerifySignup = async (props: IVerifySignup) => {
 	const {token} = props
-	console.log("Path: ", MAIN + AUTH + SIGN_UP_VERIFY)
-	const {data} = await axios.post(MAIN + AUTH + SIGN_UP_VERIFY, {
-		token: token,
-		phone_number: localStorage.getItem("phone_number"),
-	})
+	const {data} = await axios.post(
+		MAIN + AUTH + SIGN_UP_VERIFY,
+		{
+			token: token,
+			phone_number: localStorage.getItem("phone_number"),
+		},
+		{withCredentials: true},
+	)
 	return data
 }
 
 export const useMainSignin = async (props: IMainSignup) => {
 	const {phone_number} = props
-	const {data} = await axios.post(MAIN + AUTH + SIGN_IN_PHONENUMBER, {
-		phone_number,
-	})
+	const {data} = await axios.post(
+		MAIN + AUTH + SIGN_IN_PHONENUMBER,
+		{
+			phone_number,
+		},
+		{withCredentials: true},
+	)
 	return data
 }
 
 export const useVerifySignin = async (props: IVerifySignup) => {
 	const {token} = props
-	const response = await axios.post(MAIN + AUTH + SIGN_IN_VERIFY, {
-		token: token,
-		phone_number: localStorage.getItem("phone_number"),
-	})
+	const response = await axios.post(
+		MAIN + AUTH + SIGN_IN_VERIFY,
+		{
+			token: token,
+			phone_number: localStorage.getItem("phone_number"),
+		},
+		{withCredentials: true},
+	)
 	localStorage.setItem("APIRes", JSON.stringify(response))
 	return response.data
 }
 
 export const useSigninPassword = async (props: ISigninPassword) => {
 	const {password, phone_number} = props
-	console.log("data : ", props)
 	const {data} = await axios.post(
 		MAIN + AUTH + SIGN_IN_PASSWORD,
 		{
@@ -171,6 +197,7 @@ export const profileUpdate = async (data: {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return res
@@ -195,6 +222,7 @@ export const profileUpdatePassword = async (data: {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return res
@@ -212,6 +240,7 @@ export const useGetFavorites = () =>
 						headers: {
 							Authorization: `Bearer ${Cookies.get("accessToken")}`,
 						},
+						withCredentials: true,
 					},
 				)
 				return data
@@ -228,7 +257,10 @@ export const useGetCategories = () =>
 	useQuery(
 		["categories"],
 		async () => {
-			const {data} = await axios.get(MAIN + CATEGORIES_FULL + "?page_size=100")
+			const {data} = await axios.get(
+				MAIN + CATEGORIES_FULL + "?page_size=100",
+				{withCredentials: true},
+			)
 			return data.results
 		},
 		{
@@ -242,6 +274,7 @@ export const useDeleteBookmark = async (id: number) => {
 		headers: {
 			Authorization: `Bearer ${Cookies.get("accessToken")}`,
 		},
+		withCredentials: true,
 	})
 	return data
 }
@@ -257,6 +290,7 @@ export const useAddBookmark = async (id: number) => {
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return data
@@ -271,8 +305,8 @@ export const useGetPaymentAddresses = () =>
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
 				},
+				withCredentials: true,
 			})
-			console.log(data.results)
 			return await data.results
 		},
 		{
@@ -292,6 +326,7 @@ export const useGetAddresses = () =>
 						headers: {
 							Authorization: `Bearer ${Cookies.get("accessToken")}`,
 						},
+						withCredentials: true,
 					},
 				)
 				return await data
@@ -329,6 +364,7 @@ export const useAddAddress = async ({
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return data
@@ -340,8 +376,8 @@ export const useDeleteAddress = async (id: number) => {
 		headers: {
 			Authorization: `Bearer ${Cookies.get("accessToken")}`,
 		},
+		withCredentials: true,
 	})
-	console.log(data)
 	return data
 }
 
@@ -354,6 +390,7 @@ export const useGetProvinces = () =>
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
 				},
+				withCredentials: true,
 			})
 			return await data.results
 		},
@@ -368,6 +405,7 @@ export const useGetCities = async (id: number) => {
 		headers: {
 			Authorization: `Bearer ${Cookies.get("accessToken")}`,
 		},
+		withCredentials: true,
 	})
 	return await data.results
 }
@@ -376,19 +414,30 @@ export const useGetCategoryProducts = ({id, ordering}: IGetCatProducts) =>
 	useInfiniteQuery(
 		[`Products${id}`, id, ordering],
 		async ({pageParam = 1}) => {
-			await getToken()
-			const {data}: any = await axios.get(
-				MAIN +
-					GET_CATEGORY_PRODUCTS +
-					id +
-					`/products?ordering=${ordering}&page=${pageParam}`,
-				{
-					headers: {
-						Authorization: `Bearer ${Cookies.get("accessToken")}`,
+			const haveToken = await getToken()
+			if (haveToken) {
+				const {data}: any = await axios.get(
+					MAIN +
+						GET_CATEGORY_PRODUCTS +
+						id +
+						`/products?ordering=${ordering}&page=${pageParam}`,
+					{
+						headers: {
+							Authorization: `Bearer ${Cookies.get("accessToken")}`,
+						},
+						withCredentials: true,
 					},
-				},
-			)
-			return data
+				)
+				return data
+			} else {
+				const {data}: any = await axios.get(
+					MAIN +
+						GET_CATEGORY_PRODUCTS +
+						id +
+						`/products?ordering=${ordering}&page=${pageParam}`,
+				)
+				return data
+			}
 		},
 		{
 			getNextPageParam: (lastPage) =>
@@ -401,7 +450,9 @@ export const useGetProductInfo = (id: number) =>
 	useQuery<IFullProducts, IError>(
 		[`Product-${id}`],
 		async () => {
-			const {data} = await axios.get(MAIN + PRODUCT_DETAILS + id)
+			const {data} = await axios.get(MAIN + PRODUCT_DETAILS + id, {
+				withCredentials: true,
+			})
 			return data.result
 		},
 		{
@@ -432,6 +483,7 @@ export const useSendNewComment = async ({
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return await data
@@ -467,6 +519,7 @@ export const useSearch = (key: string | string[]) =>
 						headers: {
 							Authorization: `Bearer ${Cookies.get("accessToken")}`,
 						},
+						withCredentials: true,
 					},
 				)
 				return await data
@@ -497,6 +550,7 @@ export const useAddToCart = async ({count, product, form}: IAddToCart) => {
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return data
@@ -512,6 +566,7 @@ export const useGetCart = () =>
 					headers: {
 						Authorization: `Bearer ${Cookies.get("accessToken")}`,
 					},
+					withCredentials: true,
 				})
 				return await data
 			}
@@ -534,6 +589,7 @@ export const useUpdateCart = async ({cart_id, count}: IUpdateCart) => {
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return data
@@ -545,6 +601,7 @@ export const useDeleteCart = async ({cart_id}: IUpdateCart) => {
 		headers: {
 			Authorization: `Bearer ${Cookies.get("accessToken")}`,
 		},
+		withCredentials: true,
 	})
 	return data
 }
@@ -558,6 +615,7 @@ export const useGetCartInfo = () =>
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
 				},
+				withCredentials: true,
 			})
 			return data.total
 		},
@@ -576,6 +634,7 @@ export const useGetFiltredData = ({filterOption}) =>
 						headers: {
 							Authorization: `Bearer ${Cookies.get("accessToken")}`,
 						},
+						withCredentials: true,
 					},
 				)
 				return data.results
@@ -593,7 +652,7 @@ export const useGetBanners = () =>
 	useQuery<Array<IBanners>>(
 		["banners"],
 		async () => {
-			const {data} = await axios.get(MAIN + BANNERS)
+			const {data} = await axios.get(MAIN + BANNERS, {withCredentials: true})
 			return data.results
 		},
 		{refetchOnWindowFocus: false},
@@ -611,6 +670,7 @@ export const useGetBannerProducts = (id: string | string[]) =>
 						headers: {
 							Authorization: `Bearer ${Cookies.get("accessToken")}`,
 						},
+						withCredentials: true,
 					},
 				)
 				return data
@@ -640,6 +700,7 @@ export const useSetScore = async ({value, product}: ISetScore) => {
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return data
@@ -656,6 +717,7 @@ export const useUpdateScore = async ({value, product}: ISetScore) => {
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return data
@@ -670,6 +732,7 @@ export const useGetDeliveryStats = () =>
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
 				},
+				withCredentials: true,
 			})
 			return data.results
 		},
@@ -686,6 +749,7 @@ export const useGetCartCount = () =>
 						headers: {
 							Authorization: `Bearer ${Cookies.get("accessToken")}`,
 						},
+						withCredentials: true,
 				  })
 				: {data: null}
 			return Cookies.get("accessToken") ? data.result : null
@@ -702,6 +766,7 @@ export const usePayment = async ({delivery_type, address}) => {
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return data
@@ -716,6 +781,7 @@ export const useGetCompeleteOrders = () =>
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
 				},
+				withCredentials: true,
 			})
 			return data
 		},
@@ -735,6 +801,7 @@ export const useGetPendingOrders = () =>
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
 				},
+				withCredentials: true,
 			})
 			return data
 		},
@@ -754,6 +821,7 @@ export const useGetProgressOrders = () =>
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
 				},
+				withCredentials: true,
 			})
 			return data
 		},
@@ -777,6 +845,7 @@ export const useBuyPendings = async ({
 			headers: {
 				Authorization: `Bearer ${Cookies.get("accessToken")}`,
 			},
+			withCredentials: true,
 		},
 	)
 	return data
@@ -791,6 +860,7 @@ export const useGetOrder = ({id}) =>
 				headers: {
 					Authorization: `Bearer ${Cookies.get("accessToken")}`,
 				},
+				withCredentials: true,
 			})
 			return data.result
 		},

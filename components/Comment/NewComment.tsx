@@ -61,26 +61,6 @@ const NewComment = ({setAlert, productId}: INewComment) => {
 		setComment({...comment, [e.target.name]: e.target.value})
 	}
 
-	useEffect(() => {
-		console.log("Comment Data: ", comment.text)
-
-		// Positive Values
-		if (posValues[posValues.length - 1] && posValues.length < 5) {
-			setPosValues({type: "add"})
-		} else if (posValues.length > 1 && !posValues[posValues.length - 2]) {
-			setPosValues({type: "remove"})
-		}
-
-		console.log(posValues)
-
-		// Negative Values
-		if (negValues[negValues.length - 1] && negValues.length < 5) {
-			setNegValues({type: "add"})
-		} else if (negValues.length > 1 && !negValues[negValues.length - 2]) {
-			setNegValues({type: "remove"})
-		}
-	}, [posValues, negValues, comment.text])
-
 	const sendComment = async () => {
 		if (Cookies.get("refreshToken")) {
 			if (
