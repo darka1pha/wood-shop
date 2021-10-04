@@ -12,7 +12,7 @@ import {useRouter} from "next/router"
 import {useState} from "react"
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai"
 import {useMutation} from "react-query"
-import {connect} from "react-redux"
+import {connect, useDispatch} from "react-redux"
 import {useSigninPassword} from "../../../API"
 import {IError, ISigninPassword} from "../../../API/interfaces"
 import {ISetAlert, IUser, setAlert, setCurrentUser} from "../../../redux"
@@ -20,6 +20,14 @@ import Cookies from "js-cookie"
 import withUser from "../../../components/HOC/withUser"
 
 const Password = ({setAlert, setCurrentUser}) => {
+	const update = () => {
+		return {type: "up"}
+	}
+
+	const dispatch = useDispatch()
+
+	dispatch(update)
+
 	const [show, setShow] = useState(false)
 	const router = useRouter()
 	const [phonenumber, setPhonenumber] = useState("")
