@@ -1,7 +1,9 @@
 export const apiPathes = {
 	// MAIN: "http://192.168.1.114:8003/api/v0/",
 	// MAIN: "http://185.176.34.207:8003/api/v0/",
-	MAIN: "http://192.168.1.107:80/api/v0/",
+	// MAIN: "http://192.168.1.107:8000/api/v0/",
+	// MAIN: "http://127.0.0.1:8000/api/v0/",
+	MAIN: "https://ba34-95-38-142-83.ngrok.io/api/v0/",
 	AUTH: "accounts/",
 	RESET_VERIFY: "reset/verify",
 	RESET: "reset/",

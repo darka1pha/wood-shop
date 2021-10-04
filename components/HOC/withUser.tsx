@@ -1,33 +1,30 @@
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { createSelector } from "reselect";
-import Profile from "../../pages/profile";
+import {useRouter} from "next/router"
+import {useSelector} from "react-redux"
+import {createSelector} from "reselect"
+import Profile from "../../pages/profile"
 
 const selectCurrentUser = createSelector(
-  (state: any) => state.user,
-  (user: any) => user.currentUser
-);
+	(state: any) => state.user,
+	(user: any) => user.currentUser,
+)
 
 const withUser = (WrappedComponent) => {
-  return (props) => {
-    if (typeof window !== "undefined") {
-      const Router = useRouter();
-      const CurrentUser = useSelector(selectCurrentUser);
+	return (props) => {
+		if (typeof window !== "undefined") {
+			const Router = useRouter()
+			const CurrentUser = useSelector(selectCurrentUser)
+			if (CurrentUser) {
+				Router.replace({pathname: "/profile", query: {page: "profileinfo"}})
+				return null
+			}
+			return <WrappedComponent {...props} />
+		}
 
-      if (CurrentUser) {
-        Router.replace("/profile");
-        return null;
-      }
+		return null
+	}
+}
 
-
-      return <WrappedComponent {...props} />;
-    }
-
-    return null;
-  };
-};
-
-export default withUser;
+export default withUser
 
 // const WithUser = (WrapComponent) => {
 //   const PrivateComponent = ({ ...otherProps }) => {

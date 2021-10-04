@@ -39,6 +39,7 @@ import {
 import Rating from "../../components/ProductRating/ProductRating"
 import dynamic from "next/dynamic"
 import ProductCarousel from "../../components/ProductCarousel"
+import Cookies from "js-cookie"
 
 // const ProductDiscription = dynamic(
 // 	() => {
@@ -141,15 +142,19 @@ const index = ({setAlert}) => {
 	})
 
 	const onAddToCart = async () => {
-		addToCartMutation.mutateAsync({
-			count: 1,
-			product: Number(
-				router.query.id
-					? router.query.id
-					: window.location.search.split("=")[1],
-			),
-			form: product.form,
-		})
+		if (Cookies.get("refreshToken")) {
+			addToCartMutation.mutateAsync({
+				count: 1,
+				product: Number(
+					router.query.id
+						? router.query.id
+						: window.location.search.split("=")[1],
+				),
+				form: product.form,
+			})
+		} else {
+			setAlert({content: "وارد حساب کاربری خود شوید", type: "warning"})
+		}
 	}
 
 	const {
@@ -182,13 +187,17 @@ const index = ({setAlert}) => {
 	}
 
 	const onRatingChange = (res) => {
-		console.log({product: Number(router.query.id), value: res})
-		if (product.score_value) {
-			console.log("Update Score")
-			updateScoreMutation.mutate({product: Number(router.query.id), value: res})
+		if (Cookies.get("refreshToken")) {
+			if (product.score_value) {
+				updateScoreMutation.mutate({
+					product: Number(router.query.id),
+					value: res,
+				})
+			} else {
+				setScoreMutation.mutate({product: Number(router.query.id), value: res})
+			}
 		} else {
-			console.log("Set Score")
-			setScoreMutation.mutate({product: Number(router.query.id), value: res})
+			setAlert({content: "وارد حساب کاربری خود شوید", type: "Error"})
 		}
 	}
 

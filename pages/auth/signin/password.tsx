@@ -64,6 +64,28 @@ const Password = ({setAlert, setCurrentUser}) => {
 		},
 	)
 
+	const onEnterPressed = (e: React.KeyboardEvent) => {
+		if (e.key === "Enter") {
+			e.preventDefault()
+			if (phonenumber.length === 10 && password.length >= 8) {
+				signinPasswordMutation.mutate({
+					phone_number: "+98" + phonenumber,
+					password: password,
+				})
+			} else if (password.length <= 8) {
+				setAlert({
+					content: "شماره باید 10 کاراکتر باشد",
+					type: "error",
+				})
+			} else {
+				setAlert({
+					content: "شماره باید 10 کاراکتر باشد",
+					type: "error",
+				})
+			}
+		}
+	}
+
 	return (
 		<Flex
 			minH='100vh'
@@ -127,6 +149,7 @@ const Password = ({setAlert, setCurrentUser}) => {
 								}
 								type='number'
 								h='35px'
+								onKeyDown={onEnterPressed}
 							/>
 						</Flex>
 						<Flex w='100%' dir='rtl' flexDir='column'>
@@ -152,6 +175,7 @@ const Password = ({setAlert, setCurrentUser}) => {
 									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 										setPassword(e.target.value)
 									}
+									onKeyDown={onEnterPressed}
 									type={show ? "text" : "password"}
 									dir='rtl'
 									h='35px'
